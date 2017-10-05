@@ -8,5 +8,17 @@
 }
 
 .refresh-button {
-  margin-top: 3%
+  margin-left: 1%;
+  margin-top: 1%;
+  margin-bottom: 3%
+}
+
+.example-container {
+  height: 100%;
+  width: 100%;
+  position: absolute
+}
+
+.example-sidenav {
+  padding: 20px;
 }

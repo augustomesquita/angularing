@@ -1,25 +1,25 @@
 <!--The whole content below can be removed with the new code.-->
+<md-sidenav-container class="example-container">
+  <md-sidenav #sidenav class="example-sidenav">
+    <button md-button>MAIN</button>
+  </md-sidenav>
 
+  <div class="example-sidenav-content">
 
-  <md-toolbar color="primary">
+    <md-toolbar color="primary">
+      <button md-button (click)="sidenav.open()"><md-icon>menu</md-icon></button>
+      <span class="space-toolbar"></span>
+      <span>{{title}} | {{currentDatePretty}}</span>
+    </md-toolbar>
 
-    <span>{{title}} | {{currentDatePretty}}</span>
-    <span class="space-toolbar"></span>
+      <md-card class="card-users" *ngFor="let user of users">
+        <md-card-header>
+          <md-card-title>{{ user.first_name }}</md-card-title>
+        </md-card-header>
+      </md-card>
 
-    <button md-button [mdMenuTriggerFor]="appMenu"><md-icon>menu</md-icon></button>
+    <button mdTooltipPosition="right" mdTooltip="Click me to update user list." right class="refresh-button" color="warn" md-fab (click)="getUsers()"><md-icon>autorenew</md-icon></button>
 
-  </md-toolbar>
+  </div>
 
-  <md-menu #appMenu="mdMenu">
-    <button md-menu-item> Settings </button>
-    <button md-menu-item> Help </button>
-  </md-menu>
-
-  <md-card class="card-users" *ngFor="let user of users">
-    <md-card-header>
-      <md-card-title>{{ user.first_name }}</md-card-title>
-    </md-card-header>
-  </md-card>
-
-  <button class="refresh-button" color="warn" md-fab (click)="getUsers()"><md-icon>autorenew</md-icon></button>
-
+</md-sidenav-container>
