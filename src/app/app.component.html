@@ -1,0 +1,25 @@
+<!--The whole content below can be removed with the new code.-->
+
+
+  <md-toolbar color="primary">
+
+    <span>{{title}} | {{currentDatePretty}}</span>
+    <span class="space-toolbar"></span>
+
+    <button md-button [mdMenuTriggerFor]="appMenu"><md-icon>menu</md-icon></button>
+
+  </md-toolbar>
+
+  <md-menu #appMenu="mdMenu">
+    <button md-menu-item> Settings </button>
+    <button md-menu-item> Help </button>
+  </md-menu>
+
+  <md-card class="card-users" *ngFor="let user of users">
+    <md-card-header>
+      <md-card-title>{{ user.first_name }}</md-card-title>
+    </md-card-header>
+  </md-card>
+
+  <button class="refresh-button" color="warn" md-fab (click)="getUsers()"><md-icon>autorenew</md-icon></button>
+
