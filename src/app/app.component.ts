@@ -39,4 +39,9 @@ export class AppComponent {
     };
     return styles;
   }
+
+  recebeValorModificado(event: Object) {
+    console.log(event)
+  }
+
 }
