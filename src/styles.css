@@ -1,5 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
-body {
-    background:#FAFAFA;
+@import '~bootstrap/dist/css/bootstrap.min.css';
+.background-blue {
+    background-color: blue
+}
+
+.background-orange {
+    background-color: orange
+}
+
+.background-red {
+    background-color: rgb(197, 60, 60)
 }

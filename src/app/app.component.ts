@@ -1,64 +1,42 @@
-import { Component, OnInit } from '@angular/core';
-import { Http } from '@angular/http'
-import { User } from './shared/models/user';
-import { Observable } from 'rxjs/';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-root',
+  selector: 'asq-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent {
 
-  title = 'AngularJsonApp'
-  users: User[]
-  page: number
-  currentDate: Date
-  currentDatePretty: string
+  private textoParaSerMostrado: string
+  private textoParaSerSalvo: string
+  private isMouseOver: boolean
+  private twoWayText: string
 
-  constructor(private http: Http) {
-    this.page = 1
-    this.updateEverySecond()
+  constructor() {
+    this.isMouseOver = false
+    this.twoWayText = 'two-way-data-binding'
   }
 
-  ngOnInit() {
-    // GET Users
-    this.updateEverySecond().subscribe(
-      data => this.getDate()
-    )
-    this.getUsers()
+  mostrarTexto(textoParaSerMostrado: string) {
+    this.textoParaSerMostrado = textoParaSerMostrado
   }
 
-  getUsers() {
-    this.http.get('https://reqres.in/api/users?page=' + this.page)
-      .subscribe(data => {
-        this.updateUsers(data)
-      });
+  salvarTexto(textoParaSerSalvo: string) {
+    this.textoParaSerSalvo = textoParaSerSalvo
   }
 
-  getDate() {
-    this.currentDate = new Date()
-    this.currentDatePretty = this.forceTwoDigits(this.currentDate.getHours()) + ':' 
-    + this.forceTwoDigits(this.currentDate.getMinutes()) + ':' 
-    + this.forceTwoDigits(this.currentDate.getSeconds())
+  mouseOverOut(): void {
+    this.isMouseOver = !this.isMouseOver
   }
 
-  updateEverySecond() {
-    return Observable.interval(1000)
+  setStyles(): Object {
+    const styles = {
+      'font-style': this.isMouseOver ? 'italic' : 'normal',
+      'font-weight': this.isMouseOver ? 'bold' : null,
+      'font-size': this.isMouseOver ? 'large' : null,
+      'cursor': this.isMouseOver ? 'pointer' : null,
+    };
+    return styles;
   }
-
-  updateUsers(data) {
-    console.log(data.json())
-    this.users = data.json().data
-    this.page++
-    if (this.page > data.json().total_pages) {
-      this.page = 1
-    }
-  }
-
-  forceTwoDigits(value: number): string {
-    return ('0' + value).slice(-2)
-  }
-
 }

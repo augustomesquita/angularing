@@ -1,12 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatTooltipModule, MatSidenavModule, MdButtonModule, 
-  MdCardModule, MdMenuModule, MdToolbarModule, MdIconModule } from '@angular/material';
 
+import { AppComponent } from './app.component';
+import { } from 'bootstrap';
 
 @NgModule({
   declarations: [
@@ -14,16 +11,7 @@ import { MatTooltipModule, MatSidenavModule, MdButtonModule,
   ],
   imports: [
     BrowserModule,
-    HttpModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    MdButtonModule,
-    MdMenuModule,
-    MdCardModule,
-    MdToolbarModule,
-    MdIconModule,
-    MatSidenavModule,
-    MatTooltipModule
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
