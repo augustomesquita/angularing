@@ -1,13 +1,42 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~bootstrap/dist/css/bootstrap.min.css';
+
+
+/* Cores de fundo */
 .background-blue {
-    background-color: blue
+    background-color:#286090
 }
 
 .background-orange {
-    background-color: orange
+    background-color: #ec971f
 }
 
 .background-red {
     background-color: rgb(197, 60, 60)
+}
+
+.background-green {
+    background-color: rgb(212, 248, 248)
+}
+
+
+/* Estilos de bordas */
+.border-blue {
+    border-color:#286090;
+    border-width: 2px
+}
+
+.border-orange {
+    border-color: #ec971f;
+    border-width: 2px
+}
+
+.border-red {
+    border-color: rgb(197, 60, 60);
+    border-width: 2px
+}
+
+.border-green {
+    border-color: rgb(60, 197, 101);
+    border-width: 2px
 }

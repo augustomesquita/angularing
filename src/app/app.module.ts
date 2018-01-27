@@ -9,7 +9,7 @@ import { ComponenteReusavelComponent } from './componente-reusavel/componente-re
 @NgModule({
   declarations: [
     AppComponent,
-    ComponenteReusavelComponent
+    ComponenteReusavelComponent,
   ],
   imports: [
     BrowserModule,
