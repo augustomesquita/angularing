@@ -4,7 +4,7 @@ import { } from '@angular/core/src/metadata/lifecycle_hooks';
 @Component({
   selector: 'app-componente-reusavel',
   templateUrl: './componente-reusavel.component.html',
-  styleUrls: ['./componente-reusavel.component.css']
+  styleUrls: ['./componente-reusavel.component.scss']
 })
 export class ComponenteReusavelComponent implements OnChanges {
 

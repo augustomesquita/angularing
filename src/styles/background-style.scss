@@ -1,0 +1,21 @@
+// Mixins formato SASS
+@mixin mix-background-color($color) {
+    background-color: $color;
+}
+
+// Estilos de background
+.background-blue {
+    @include mix-background-color(#286090)
+}
+
+.background-orange {
+    @include mix-background-color(#ec971f)
+}
+
+.background-red {
+    @include mix-background-color(rgb(197, 60, 60))
+}
+
+.background-green {
+    @include mix-background-color(rgb(212, 248, 248))
+}
