@@ -2,38 +2,38 @@
 
 # ----- WEB -----
 # compiled output
-/AngularingFront/dist
-/AngularingFront/tmp
+/frontend/dist
+/frontend/tmp
 
 # dependencies
-/AngularingFront/node_modules
-/AngularingFront/bower_components
+/frontend/node_modules
+/frontend/bower_components
 
 # IDEs and editors
-/AngularingFront/.idea
-/AngularingFront/.vscode
-/AngularingFront.project
-/AngularingFront.classpath
-/AngularingFront.c9/
-/AngularingFront*.launch
-/AngularingFront.settings/
+/frontend/.idea
+/frontend/.vscode
+/frontend/.project
+/frontend/.classpath
+/frontend/.c9/
+/frontend/*.launch
+/frontend/.settings/
 
 # misc
-/AngularingFront/.sass-cache
-/AngularingFront/connect.lock
-/AngularingFront/coverage/*
-/AngularingFront/libpeerconnection.log
-/AngularingFront/npm-debug.log
-/AngularingFront/testem.log
-/AngularingFront/typings
+/frontend/.sass-cache
+/frontend/connect.lock
+/frontend/coverage/*
+/frontend/libpeerconnection.log
+/frontend/npm-debug.log
+/frontend/testem.log
+/frontend/typings
 
 # e2e
-/AngularingFront/e2e/*.js
-/AngularingFront/e2e/*.map
+/frontend/e2e/*.js
+/frontend/e2e/*.map
 
 #System Files
-/AngularingFront/.DS_Store
-/AngularingFront/Thumbs.db
+/frontend/.DS_Store
+/frontend/Thumbs.db
 
 # ----- API -----
-/AngularingBackend/target/
+/backend/target/
