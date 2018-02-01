@@ -1,16 +1,14 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div [ngClass]="divClass()">
+<div [ngClass]="divClass()" class="mt-2">
   <select [(ngModel)]="slcColorPage" class="btn" [ngClass]="btnClass()">
     <option value="blue">TEMA AZUL</option>
     <option value="red" selected>TEMA VERMELHO</option>
     <option value="orange">TEMA LARANJA</option>
   </select>
 </div>
-<br/>
 
-<div class="well well-sm well-sm m-custom-well-sm" [ngClass]="borderClass()">
+<div class="card m-custom-well-sm p-3 mt-3" [ngClass]="borderClass()">
   <label for="iptText">Copiando / Salvando texto utilizando 'Event Binding'</label>
-  <br/>
   <input id="iptText" type="text" #iptText (input)="mostrarTexto(iptText.value)" (keyup.enter)="salvarTexto(iptText.value)"
     (blur)="salvarTexto(iptText.value)" value="" />
   <br/>
@@ -22,22 +20,23 @@
   </div>
 </div>
 
-<div class="well well-sm m-custom-well-sm" [ngClass]="borderClass()">
-  <div>
-    <label>Copiando texto utilizando 'Two-way Data Binding'</label>
-  </div>
-  <div>
-    <input type="text" [(ngModel)]="twoWayText" />
-    <br/>
-    <br/>
+<div class="card p-3 mt-3" [ngClass]="borderClass()">
+    <div>
+      <label>Copiando texto utilizando 'Two-way Data Binding'</label>
+    </div>
+    <div>
+      <input type="text" [(ngModel)]="twoWayText" />
+      <br/>
+      <br/>
 
-    <div>Texto copiado</div>
-    <textarea disabled [placeholder]="twoWayText"></textarea>
-  </div>
+      <div>Texto copiado</div>
+      <textarea disabled [placeholder]="twoWayText"></textarea>
+    </div>
 </div>
 
 <app-componente-reusavel [componenteReusavelSlcColorPage]="slcColorPage" [valor]="valorEnviado" (valorMudou)="recebeValorModificado($event)"></app-componente-reusavel>
-<div class="well well-sm m-custom-well-sm" [ngClass]="borderClass()">
+
+<div class="card p-3 mt-3" [ngClass]="borderClass()">
   <b>
     <i>
       *** Observe que ao mudar valor no componente reusável, pelo fato do mesmo refletir no valor da variável do componente pai,

@@ -1,26 +1,26 @@
 // Extend/Inheritance formato SASS 
 %border-shared {
-    border-width: 2px;
-    border-style: dotted;
+    border-width: 1px !important;
+    border-style: dotted !important;
 }
 
 // Estilos de bordas
 .border-blue {
-    border-color: #286090;
+    border-color: #286090 !important;
     @extend %border-shared;
 }
 
 .border-orange {
-    border-color: #ec971f;
+    border-color: #ec971f !important;
     @extend %border-shared;
 }
 
 .border-red {
-    border-color: rgb(197, 60, 60);
+    border-color: rgb(197, 60, 60) !important;
     @extend %border-shared;
 }
 
 .border-green {
-    border-color: rgb(60, 197, 101);
+    border-color: rgb(60, 197, 101) !important;
     @extend %border-shared;
 }
