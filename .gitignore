@@ -1,43 +1,39 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+# ----- WEB -----
 # compiled output
-/dist
-/tmp
-/out-tsc
+/AngularingFront/dist
+/AngularingFront/tmp
 
 # dependencies
-/node_modules
+/AngularingFront/node_modules
+/AngularingFront/bower_components
 
 # IDEs and editors
-/.idea
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
-
-# IDE - VSCode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+/AngularingFront/.idea
+/AngularingFront/.vscode
+/AngularingFront.project
+/AngularingFront.classpath
+/AngularingFront.c9/
+/AngularingFront*.launch
+/AngularingFront.settings/
 
 # misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-testem.log
-/typings
+/AngularingFront/.sass-cache
+/AngularingFront/connect.lock
+/AngularingFront/coverage/*
+/AngularingFront/libpeerconnection.log
+/AngularingFront/npm-debug.log
+/AngularingFront/testem.log
+/AngularingFront/typings
 
 # e2e
-/e2e/*.js
-/e2e/*.map
+/AngularingFront/e2e/*.js
+/AngularingFront/e2e/*.map
 
-# System Files
-.DS_Store
-Thumbs.db
-/nbproject/private/
+#System Files
+/AngularingFront/.DS_Store
+/AngularingFront/Thumbs.db
+
+# ----- API -----
+/AngularingBackend/target/
