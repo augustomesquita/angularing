@@ -14,12 +14,14 @@ export class AppComponent {
   private twoWayText: string
   private slcColorPage: string
   private valorEnviado: number
+  private navSelectedValue: string
 
   constructor() {
     this.isMouseOver = false
     this.twoWayText = 'two-way-data-binding'
     this.slcColorPage = 'red'
     this.valorEnviado = 50
+    this.navSelectedValue = 'home'
   }
 
   mostrarTexto(textoParaSerMostrado: string) {
@@ -85,6 +87,5 @@ export class AppComponent {
       'color': this.isMouseOver ? 'white' : 'black'
     }
   }
-
 
 }
