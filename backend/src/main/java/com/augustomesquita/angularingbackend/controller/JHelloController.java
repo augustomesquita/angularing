@@ -23,9 +23,8 @@ public class JHelloController {
 
     @RequestMapping("/")
     public Iterable<JUser> index() {
-        userRepository.save(new JUser("a", 1, "cvbcvb", "zxzxzx"));
-        Iterable<JUser> findAll = userRepository.findAll();
-        return findAll;
+        Iterable<JUser> findByName = userRepository.findByName("Augusto");
+        return findByName;
     }
 
 }

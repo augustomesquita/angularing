@@ -37,3 +37,4 @@
 
 # ----- API -----
 /backend/target/
+/frontend/nbproject/private/
