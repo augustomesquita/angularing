@@ -1,10 +1,10 @@
 <nav class="navbar navbar-dark navbar-expand-lg navbar-light bg-primary">
   <ul class="navbar-nav mr-auto">
     <li class="nav-item" [class.active]="navSelectedValue == 'home'">
-      <a class="nav-link" (click)="selectedHome()" href="#">HOME</a>
+      <a class="nav-link" (click)="selectedHome()" href="#"><svg-icon name="home-svg" [size]="32"></svg-icon></a>
     </li>
     <li class="nav-item" [class.active]="navSelectedValue == 'about'">
-      <a class="nav-link" (click)="selectedAbout()" href="#">SOBRE</a>
+      <a class="nav-link" (click)="selectedAbout()" href="#"><svg-icon name="info-svg" [size]="32"></svg-icon></a>
     </li>
   </ul>
 </nav>
