@@ -9,9 +9,11 @@ export class NavComponent implements OnInit {
 
   @Output() navSelected = new EventEmitter
   private navSelectedValue: string
+  private isMouseOnHomeValue: boolean
 
   constructor() {
     this.navSelectedValue = 'home'
+    this.isMouseOnHomeValue = false
   }
 
   ngOnInit() {
@@ -25,6 +27,17 @@ export class NavComponent implements OnInit {
   selectedAbout(): void {
     this.navSelectedValue = 'about'
     this.navSelected.emit(this.navSelectedValue)
+  }
+
+  setStyles(): Object {
+    const styles = {
+      'fill': this.isMouseOnHomeValue ? 'rgba(255, 255, 255, 0.75)' : 'rgba(255, 255, 255, 1)',
+    };
+    return styles;
+  }
+
+  isMouseOnHome() {
+    this.isMouseOnHomeValue = !this.isMouseOnHomeValue
   }
 
 }

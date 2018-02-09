@@ -2,10 +2,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 // Módulos de terceiros
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgxSvgIconModule } from 'ngx-svg-icon'
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
 // Módulos criados para o projeto
 import { AppComponent } from './app.component';
@@ -21,8 +22,9 @@ import { NavComponent } from './nav/nav.component';
   imports: [
     BrowserModule,
     FormsModule,
+    HttpClientModule,
     NgbModule.forRoot(),
-    NgxSvgIconModule.forRoot({ basePath: '/assets' })
+    AngularSvgIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]
