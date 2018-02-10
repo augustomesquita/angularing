@@ -7,26 +7,31 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class NavComponent implements OnInit {
 
-  @Output() navSelected = new EventEmitter
+  @Output() navItemSelected = new EventEmitter
+  @Output() themeColorChanged = new EventEmitter
+
+  private slcColorPage: string
   private navSelectedValue: string
   private isMouseOnHomeValue: boolean
 
   constructor() {
     this.navSelectedValue = 'home'
     this.isMouseOnHomeValue = false
+    localStorage.getItem('theme') ? this.slcColorPage = localStorage.getItem('theme') : this.slcColorPage = 'blue';
   }
 
   ngOnInit() {
+    this.themeColorChanged.emit(this.slcColorPage)
   }
 
-  selectedHome(): void {
-    this.navSelectedValue = 'home'
-    this.navSelected.emit(this.navSelectedValue)
+  itemSelected(item: string): void {
+    this.navSelectedValue = item
+    this.navItemSelected.emit(this.navSelectedValue)
   }
 
-  selectedAbout(): void {
-    this.navSelectedValue = 'about'
-    this.navSelected.emit(this.navSelectedValue)
+  themeColorSelected(): void {
+    localStorage.setItem('theme', this.slcColorPage);
+    this.themeColorChanged.emit(this.slcColorPage)
   }
 
   setStyles(): Object {
@@ -38,6 +43,22 @@ export class NavComponent implements OnInit {
 
   isMouseOnHome() {
     this.isMouseOnHomeValue = !this.isMouseOnHomeValue
+  }
+
+  divClass(): Object {
+    return {
+      'background-blue': this.slcColorPage === 'blue',
+      'background-orange': this.slcColorPage === 'orange',
+      'background-red': this.slcColorPage === 'red'
+    }
+  }
+
+  btnClass(): Object {
+    return {
+      'btn-primary': this.slcColorPage === 'blue',
+      'btn-warning': this.slcColorPage === 'orange',
+      'btn-danger': this.slcColorPage === 'red'
+    }
   }
 
 }

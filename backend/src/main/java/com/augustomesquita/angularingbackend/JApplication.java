@@ -5,7 +5,6 @@
  */
 package com.augustomesquita.angularingbackend;
 
-import com.augustomesquita.angularingbackend.flyway.JFlywayStarter;
 import java.util.Arrays;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -24,7 +23,6 @@ public class JApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(JApplication.class, args);
-        JFlywayStarter.starter();
     }
 
     @Bean

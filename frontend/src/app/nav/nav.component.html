@@ -1,10 +1,22 @@
-<nav class="navbar navbar-dark navbar-expand-lg navbar-light bg-primary">
+<nav class="navbar navbar-dark navbar-expand-lg navbar-light" [ngClass]="divClass()">
   <ul class="navbar-nav mr-auto">
     <li class="nav-item" [class.active]="navSelectedValue == 'home'">
-      <a class="nav-link" (click)="selectedHome()" href="#"><svg-icon src="/assets/home.svg"  style="fill: currentColor; width:32px;"></svg-icon></a>
+      <a class="nav-link" (click)="itemSelected('home')" href="#">
+        <svg-icon src="/assets/home.svg" style="fill: currentColor; width:32px;"></svg-icon>
+      </a>
     </li>
     <li class="nav-item" [class.active]="navSelectedValue == 'about'">
-      <a class="nav-link" (click)="selectedAbout()" href="#"><svg-icon src="/assets/home.svg" style="fill:currentColor; width:32px"></svg-icon></a>
+      <a class="nav-link" (click)="itemSelected('about')" href="#">
+        <svg-icon src="/assets/about.svg" style="fill:currentColor; width:32px"></svg-icon>
+      </a>
     </li>
   </ul>
 </nav>
+
+<div [ngClass]="divClass()">
+  <select (change)="themeColorSelected()" [(ngModel)]="slcColorPage" class="form-control btn" [ngClass]="btnClass()">
+    <option value="blue">TEMA AZUL</option>
+    <option value="red" selected>TEMA VERMELHO</option>
+    <option value="orange">TEMA LARANJA</option>
+  </select>
+</div>

@@ -10,14 +10,18 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 
 // Módulos criados para o projeto
 import { AppComponent } from './app.component';
-import { ComponenteReusavelComponent } from './componente-reusavel/componente-reusavel.component';
 import { NavComponent } from './nav/nav.component';
+import { AboutComponent } from './about/about.component';
+import { HomeComponent } from './home/home.component';
+import { ComponenteReusavelComponent } from './home/componente-reusavel/componente-reusavel.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ComponenteReusavelComponent,
-    NavComponent
+    NavComponent,
+    AboutComponent,
+    HomeComponent,
+    ComponenteReusavelComponent
   ],
   imports: [
     BrowserModule,
