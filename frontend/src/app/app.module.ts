@@ -14,6 +14,8 @@ import { NavComponent } from './nav/nav.component';
 import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
 import { ComponenteReusavelComponent } from './home/componente-reusavel/componente-reusavel.component';
+import { MouseOverHighlightDirective } from './shared/mouse-over-highlight/mouse-over-highlight.directive';
+
 
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ import { ComponenteReusavelComponent } from './home/componente-reusavel/componen
     NavComponent,
     AboutComponent,
     HomeComponent,
-    ComponenteReusavelComponent
+    ComponenteReusavelComponent,
+    MouseOverHighlightDirective,
   ],
   imports: [
     BrowserModule,

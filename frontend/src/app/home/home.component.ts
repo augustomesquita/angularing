@@ -57,12 +57,8 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  borderClass(): Object {
-    return {
-      'border-blue': this.slcColorPage === 'blue',
-      'border-orange': this.slcColorPage === 'orange',
-      'border-red': this.slcColorPage === 'red'
-    }
+  borderClass(): any {
+    return 'border-' + this.slcColorPage
   }
 
   divWithMouseEffectClass(): Object {
@@ -70,12 +66,6 @@ export class HomeComponent implements OnInit {
       'background-blue': this.slcColorPage === 'blue' && this.isMouseOver,
       'background-orange': this.slcColorPage === 'orange' && this.isMouseOver,
       'background-red': this.slcColorPage === 'red' && this.isMouseOver
-    }
-  }
-
-  divMouseStyle(): Object {
-    return {
-      'color': this.isMouseOver ? 'white' : 'black'
     }
   }
 

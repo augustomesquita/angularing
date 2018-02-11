@@ -5,7 +5,7 @@
   <br/>
   <br/>
 
-  <div [ngClass]="divWithMouseEffectClass()" [ngStyle]="divMouseStyle()" (mouseover)="mouseOverOut()" (mouseout)="mouseOverOut()">
+  <div [appMouseOverHighlight]='slcColorPage'> 
     Texto copiado: {{ textoParaSerMostrado }}
     <br/>Texto salvo quando pressionado enter ou retirado foco do input: {{ textoParaSerSalvo }}
   </div>
