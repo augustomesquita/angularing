@@ -1,4 +1,4 @@
-import { Directive, Input, OnInit, HostListener, HostBinding} from '@angular/core';
+import { Directive, Input, OnInit, HostListener, HostBinding } from '@angular/core';
 
 @Directive({
   selector: '[appMouseOverHighlight]'
@@ -6,10 +6,14 @@ import { Directive, Input, OnInit, HostListener, HostBinding} from '@angular/cor
 export class MouseOverHighlightDirective implements OnInit {
 
   @Input() appMouseOverHighlight: string
-  @HostBinding('class') hostClass: string;
-  @HostBinding('style.color') hostStyleColor: string;
+  @HostBinding('class') hostClass: string
+  @HostBinding('style.color') hostStyleColor: string
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (!this.appMouseOverHighlight) {
+      this.appMouseOverHighlight = 'blue'
+    }
+  }
 
   @HostListener('mouseenter') changeBackgroundToHightlightColor(): void {
     this.hostClass = 'background-' + this.appMouseOverHighlight
