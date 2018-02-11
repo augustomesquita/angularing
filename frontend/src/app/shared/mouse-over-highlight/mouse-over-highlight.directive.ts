@@ -10,9 +10,7 @@ export class MouseOverHighlightDirective implements OnInit {
   @HostBinding('style.color') hostStyleColor: string
 
   ngOnInit() {
-    if (!this.appMouseOverHighlight) {
-      this.appMouseOverHighlight = 'blue'
-    }
+    if (!this.appMouseOverHighlight) { this.appMouseOverHighlight = 'blue' }
   }
 
   @HostListener('mouseenter') changeBackgroundToHightlightColor(): void {
