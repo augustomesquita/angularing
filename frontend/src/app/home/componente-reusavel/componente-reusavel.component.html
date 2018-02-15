@@ -1,12 +1,16 @@
-<div class="card p-3 mt-3 m-custom-well-sm background-green" [ngClass]="borderClass()">
+<div class="card p-3 m-custom-well-sm background-gray" [ngClass]="borderClass()">
     <div>
-        <b>Componente reusável utilizando Input Property e Output Property (este último com auxílio do Event Emitter)</b>
+        <b>Input Property e Output Property (este último com auxílio do Event Emitter)</b>
         <br/>
-        <b>Para verificar o evento que está sendo emitido, abra o console e clique no botão de incremento ou decremento</b>
+        <span>Para verificar o evento que está sendo emitido, abra o console e clique no botão de incremento ou decremento</span>
     </div>
-    <div>
-        <button class="btn" [ngClass]="btnClass()" (click)="decrementa()">-</button>
+    <div class="text-center">
+        <button class="btn" [ngClass]="btnClass()" (click)="decrementa()">
+            <b>-</b>
+        </button>
         <input [value]="valor" readonly/>
-        <button class="btn" [ngClass]="btnClass()" (click)="incrementa()">+</button>
+        <button class="btn" [ngClass]="btnClass()" (click)="incrementa()">
+            <b>+</b>
+        </button>
     </div>
 </div>

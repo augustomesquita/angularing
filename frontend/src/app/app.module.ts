@@ -8,14 +8,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 
-// Módulos criados para o projeto
+// Elementos criados para o projeto
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
 import { ComponenteReusavelComponent } from './home/componente-reusavel/componente-reusavel.component';
 import { MouseOverHighlightDirective } from './shared/mouse-over-highlight/mouse-over-highlight.directive';
-
+import { MeuServicoService } from './service/meu-servico/meu-servico.service';
 
 @NgModule({
   declarations: [
@@ -33,7 +33,7 @@ import { MouseOverHighlightDirective } from './shared/mouse-over-highlight/mouse
     NgbModule.forRoot(),
     AngularSvgIconModule
   ],
-  providers: [],
+  providers: [MeuServicoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

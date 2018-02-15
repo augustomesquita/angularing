@@ -1,38 +1,61 @@
-<div class="card m-custom-well-sm p-3 mt-3" [ngClass]="borderClass()">
-  <label for="iptText">Copiando / Salvando texto utilizando 'Event Binding'</label>
+<div class="card m-custom-well-sm p-3 mt-3 col-sm-12" [ngClass]="borderClass()">
+  <label for="iptText">
+    <b>Copiando / Salvando texto utilizando 'Event Binding'</b>
+  </label>
   <input id="iptText" type="text" #iptText (input)="mostrarTexto(iptText.value)" (keyup.enter)="salvarTexto(iptText.value)"
     (blur)="salvarTexto(iptText.value)" value="" />
   <br/>
   <br/>
 
-  <div [appMouseOverHighlight]='slcColorPage'> 
+  <div [appMouseOverHighlight]='slcColorPage'>
     Texto copiado: {{ textoParaSerMostrado }}
     <br/>Texto salvo quando pressionado enter ou retirado foco do input: {{ textoParaSerSalvo }}
   </div>
 </div>
 
-<div class="card p-3 mt-3" [ngClass]="borderClass()">
-  <div>
-    <label>Copiando texto utilizando 'Two-way Data Binding'</label>
-  </div>
-  <div>
-    <input type="text" [(ngModel)]="twoWayText" />
-    <br/>
-    <br/>
+<div class="card col-12 mt-3 p-3" [ngClass]="borderClass()">
+  <div class="row align-items-center">
+    <div class="col">
+      <div>
+        <label>
+          <b>Copiando texto utilizando 'Two-way Data Binding'</b>
+        </label>
+      </div>
+      <div>
+        <div>Texto original</div>
+        <input type="text" [(ngModel)]="twoWayText" />
+        <br/>
+        <br/>
 
-    <div>Texto copiado</div>
-    <textarea disabled [placeholder]="twoWayText"></textarea>
+        <div>Texto copiado</div>
+        <textarea disabled [placeholder]="twoWayText"></textarea>
+      </div>
+    </div>
+    <app-componente-reusavel class="col" [componenteReusavelSlcColorPage]="slcColorPage" [valor]="valorEnviado" (valorMudou)="valorEnviado = $event.novoValor"></app-componente-reusavel>
+  </div>
+
+  <div class="col-12 mt-3">
+    <b>
+      <i>
+        *** Observe que ao mudar valor no componente reusável, pelo fato do mesmo refletir no valor da variável do componente pai,
+        e este valor da variável pai estar sendo ouvido pelo componente filho através de property input, ocorre um NgOnChange
+        no componente reusável. Para ver detalhes abra o log do console e modifique o valor.
+      </i>
+    </b>
   </div>
 </div>
 
-<app-componente-reusavel [componenteReusavelSlcColorPage]="slcColorPage" [valor]="valorEnviado" (valorMudou)="recebeValorModificado($event)"></app-componente-reusavel>
+<div class="card col-12 mt-3 p-3" [ngClass]="borderClass()">
+  <b>Utilizando Serviço através de Injeção de Dependências</b>
+  <br/>
 
-<div class="card p-3 mt-3" [ngClass]="borderClass()">
-  <b>
-    <i>
-      *** Observe que ao mudar valor no componente reusável, pelo fato do mesmo refletir no valor da variável do componente pai,
-      e este valor da variável pai estar sendo ouvido pelo componente filho através de property input, ocorre um NgOnChange
-      no componente reusável. Para ver detalhes abra o log do console e modifique o valor.
-    </i>
-  </b>
+  <form (ngSubmit)="addUsingService(iptNewString)">
+    <input type="text" #iptNewString placeholder="Digite algo aqui...">
+    <button type="submit" class="btn" [ngClass]="btnClass()">ADD</button>
+  </form>
+
+  <span *ngFor="let string of stringsFromService; index as i">
+    {{ i + 1 }} - {{ string }}
+  </span>
 </div>
+<br/>

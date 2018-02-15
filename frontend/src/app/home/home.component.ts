@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { MeuServicoService } from './../service/meu-servico/meu-servico.service';
 
 @Component({
   selector: 'app-home',
@@ -14,11 +15,13 @@ export class HomeComponent implements OnInit {
   private isMouseOver: boolean
   private twoWayText: string
   private valorEnviado: number
+  private stringsFromService: string[]
 
-  constructor() {
+  constructor(private meuServico: MeuServicoService) {
     this.isMouseOver = false
     this.twoWayText = 'two-way-data-binding'
     this.valorEnviado = 50
+    this.stringsFromService = meuServico.getAllStrings()
   }
 
   ngOnInit() { }
@@ -45,10 +48,6 @@ export class HomeComponent implements OnInit {
     return styles;
   }
 
-  recebeValorModificado(event: any) {
-    this.valorEnviado = event.novoValor
-  }
-
   btnClass(): Object {
     return {
       'btn-primary': this.slcColorPage === 'blue',
@@ -67,6 +66,11 @@ export class HomeComponent implements OnInit {
       'background-orange': this.slcColorPage === 'orange' && this.isMouseOver,
       'background-red': this.slcColorPage === 'red' && this.isMouseOver
     }
+  }
+
+  addUsingService(ipt:any): void {
+    this.meuServico.putString(ipt.value)
+    ipt.value = ''
   }
 
 }
