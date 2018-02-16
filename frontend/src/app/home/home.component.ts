@@ -16,12 +16,19 @@ export class HomeComponent implements OnInit {
   private twoWayText: string
   private valorEnviado: number
   private stringsFromService: string[]
+  private livro: LivroInterface
+
 
   constructor(private meuServico: MeuServicoService) {
     this.isMouseOver = false
     this.twoWayText = 'two-way-data-binding'
     this.valorEnviado = 50
     this.stringsFromService = meuServico.getAllStrings()
+    this.livro = {
+      titulo : 'Easy Angularing',
+      dataLancamento : 1518782264848,
+      preco: 30
+    }
   }
 
   ngOnInit() { }
@@ -68,9 +75,15 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  addUsingService(ipt:any): void {
+  addUsingService(ipt: any): void {
     this.meuServico.putString(ipt.value)
     ipt.value = ''
   }
 
+}
+
+interface LivroInterface {
+  titulo: string,
+  dataLancamento: number,
+  preco: number
 }

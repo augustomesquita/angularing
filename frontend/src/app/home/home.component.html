@@ -39,7 +39,7 @@
       <i>
         *** Observe que ao mudar valor no componente reusável, pelo fato do mesmo refletir no valor da variável do componente pai,
         e este valor da variável pai estar sendo ouvido pelo componente filho através de property input, ocorre um NgOnChange
-        no componente reusável. Para ver detalhes abra o log do console e modifique o valor.
+        no componente reusável. Para ver detalhes abra o LOG do console e realize a modificação do valor na interface.
       </i>
     </b>
   </div>
@@ -57,5 +57,31 @@
   <span *ngFor="let string of stringsFromService; index as i">
     {{ i + 1 }} - {{ string }}
   </span>
+</div>
+
+
+<div class="card col-12 mt-3 p-3" [ngClass]="borderClass()">
+  <b>Utilizando Pipes para transformar dados</b>
+  <br/>
+  <div class="row">
+    <div class="col-6 p-2" style="background-color: rgb(228, 228, 228)">
+      <div class="text-center">
+        <b>ORIGINAL</b>
+      </div>
+      <br/>
+      <p>Título: {{livro.titulo}}</p>
+      <p>Data: {{livro.dataLancamento}}</p>
+      <p>Preço: {{livro.preco}}</p>
+    </div>
+    <div class="col-6 p-2">
+      <div class="text-center">
+        <b>TRANSFORMADO</b>
+      </div>
+      <br/>
+      <p>Título: {{livro.titulo}}</p>
+      <p>Data: {{livro.dataLancamento | date:'dd/MM/yyyy hh:mm'}}</p>
+      <p>Preço: {{livro.preco | currency:'BRL':true}}</p>
+    </div>
+  </div>
 </div>
 <br/>

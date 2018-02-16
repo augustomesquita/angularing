@@ -1,8 +1,13 @@
 // Módulos do angular
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+
+// Registra local para Brasil
+import { registerLocaleData } from '@angular/common';
+import ptBr from '@angular/common/locales/pt';
+registerLocaleData(ptBr)
 
 // Módulos de terceiros
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -33,7 +38,7 @@ import { MeuServicoService } from './service/meu-servico/meu-servico.service';
     NgbModule.forRoot(),
     AngularSvgIconModule
   ],
-  providers: [MeuServicoService],
+  providers: [MeuServicoService, { provide: LOCALE_ID, useValue: 'pt' }], 
   bootstrap: [AppComponent]
 })
 export class AppModule { }
