@@ -21,6 +21,7 @@ import { HomeComponent } from './home/home.component';
 import { ComponenteReusavelComponent } from './home/componente-reusavel/componente-reusavel.component';
 import { MouseOverHighlightDirective } from './shared/mouse-over-highlight/mouse-over-highlight.directive';
 import { MeuServicoService } from './service/meu-servico/meu-servico.service';
+import { SettingsService } from './service/settings/settings.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,15 @@ import { MeuServicoService } from './service/meu-servico/meu-servico.service';
     NgbModule.forRoot(),
     AngularSvgIconModule
   ],
-  providers: [MeuServicoService, { provide: LOCALE_ID, useValue: 'pt' }], 
+  providers: [
+    MeuServicoService,
+    SettingsService,
+    { 
+      provide: LOCALE_ID, 
+      deps: [SettingsService],
+      useFactory: settingService => settingService.getLocale() 
+    }
+  ], 
   bootstrap: [AppComponent]
 })
 export class AppModule { }
