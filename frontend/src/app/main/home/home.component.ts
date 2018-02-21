@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { MeuServicoService } from './../service/meu-servico/meu-servico.service';
+import { MeuServicoService } from './../../service/meu-servico/meu-servico.service';
+
 
 @Component({
   selector: 'app-home',

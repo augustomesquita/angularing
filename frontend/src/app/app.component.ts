@@ -7,10 +7,5 @@ import { Component } from '@angular/core';
 })
 
 export class AppComponent {
-
-  private navSelectedValue: string
-  private slcColorPage;
-
-  constructor() { this.navSelectedValue = 'home' }
-
+  constructor() { }
 }

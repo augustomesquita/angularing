@@ -14,40 +14,46 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 
 // Elementos criados para o projeto
-import { AppComponent } from './app.component';
-import { NavComponent } from './nav/nav.component';
-import { AboutComponent } from './about/about.component';
-import { HomeComponent } from './home/home.component';
-import { ComponenteReusavelComponent } from './home/componente-reusavel/componente-reusavel.component';
+import { AppRouting } from './app.routing'
 import { MouseOverHighlightDirective } from './shared/mouse-over-highlight/mouse-over-highlight.directive';
 import { MeuServicoService } from './service/meu-servico/meu-servico.service';
 import { SettingsService } from './service/settings/settings.service';
+import { AppComponent } from './app.component';
+import { LoginComponent } from './login/login.component';
+import { MainComponent } from './main/main.component';
+import { ComponenteReusavelComponent } from './main/home/componente-reusavel/componente-reusavel.component';
+import { HomeComponent } from './main/home/home.component';
+import { AboutComponent } from './main/about/about.component';
+import { NavComponent } from './main/nav/nav.component';
 
 @NgModule({
   declarations: [
+    MouseOverHighlightDirective,
     AppComponent,
     NavComponent,
     AboutComponent,
     HomeComponent,
+    LoginComponent,
     ComponenteReusavelComponent,
-    MouseOverHighlightDirective,
+    MainComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     NgbModule.forRoot(),
-    AngularSvgIconModule
+    AngularSvgIconModule,
+    AppRouting
   ],
   providers: [
     MeuServicoService,
     SettingsService,
-    { 
-      provide: LOCALE_ID, 
+    {
+      provide: LOCALE_ID,
       deps: [SettingsService],
-      useFactory: settingService => settingService.getLocale() 
+      useFactory: settingService => settingService.getLocale()
     }
-  ], 
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
