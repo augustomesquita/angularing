@@ -18,9 +18,9 @@ import { AppRouting } from './app.routing'
 import { MouseOverHighlightDirective } from './shared/mouse-over-highlight/mouse-over-highlight.directive';
 import { MeuServicoService } from './service/meu-servico/meu-servico.service';
 import { SettingsService } from './service/settings/settings.service';
+import { LoginService } from './service/login/login.service';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { MainComponent } from './main/main.component';
 import { ComponenteReusavelComponent } from './main/home/componente-reusavel/componente-reusavel.component';
 import { HomeComponent } from './main/home/home.component';
 import { AboutComponent } from './main/about/about.component';
@@ -34,8 +34,7 @@ import { NavComponent } from './main/nav/nav.component';
     AboutComponent,
     HomeComponent,
     LoginComponent,
-    ComponenteReusavelComponent,
-    MainComponent
+    ComponenteReusavelComponent
   ],
   imports: [
     BrowserModule,
@@ -48,6 +47,7 @@ import { NavComponent } from './main/nav/nav.component';
   providers: [
     MeuServicoService,
     SettingsService,
+    LoginService,
     {
       provide: LOCALE_ID,
       deps: [SettingsService],

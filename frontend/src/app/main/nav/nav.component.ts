@@ -7,7 +7,6 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class NavComponent implements OnInit {
 
-  @Output() navItemSelected = new EventEmitter
   @Output() themeColorChanged = new EventEmitter
 
   private slcColorPage: string
@@ -15,18 +14,12 @@ export class NavComponent implements OnInit {
   private isMouseOnHomeValue: boolean
 
   constructor() {
-    this.navSelectedValue = 'home'
     this.isMouseOnHomeValue = false
     localStorage.getItem('theme') ? this.slcColorPage = localStorage.getItem('theme') : this.slcColorPage = 'blue';
   }
 
   ngOnInit() {
     this.themeColorChanged.emit(this.slcColorPage)
-  }
-
-  itemSelected(item: string): void {
-    this.navSelectedValue = item
-    this.navItemSelected.emit(this.navSelectedValue)
   }
 
   themeColorSelected(): void {
