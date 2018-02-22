@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { SettingsService } from './../../service/settings/settings.service';
 
 @Component({
   selector: 'app-nav',
@@ -13,9 +14,17 @@ export class NavComponent implements OnInit {
   private navSelectedValue: string
   private isMouseOnHomeValue: boolean
 
-  constructor() {
+  constructor(private settingService: SettingsService) {
     this.isMouseOnHomeValue = false
-    localStorage.getItem('theme') ? this.slcColorPage = localStorage.getItem('theme') : this.slcColorPage = 'blue';
+    
+    if (localStorage.getItem('theme')) {
+      this.slcColorPage = localStorage.getItem('theme')
+      this.settingService.setThemeColor(this.slcColorPage);
+    } else {
+      this.slcColorPage = 'blue'
+      localStorage.setItem('theme', this.slcColorPage);
+      this.settingService.setThemeColor(this.slcColorPage);
+    }
   }
 
   ngOnInit() {
@@ -24,7 +33,7 @@ export class NavComponent implements OnInit {
 
   themeColorSelected(): void {
     localStorage.setItem('theme', this.slcColorPage);
-    this.themeColorChanged.emit(this.slcColorPage)
+    this.settingService.setThemeColor(this.slcColorPage);
   }
 
   setStyles(): Object {

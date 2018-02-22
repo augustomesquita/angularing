@@ -1,2 +1,4 @@
 <app-nav *ngIf="mostrarNavBar" (navItemSelected)="navSelectedValue = $event" (themeColorChanged)="slcColorPage = $event"></app-nav>
-<router-outlet></router-outlet>
+<div class="container-fluid">
+    <router-outlet></router-outlet>
+</div>

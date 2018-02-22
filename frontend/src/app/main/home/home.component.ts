@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MeuServicoService } from './../../service/meu-servico/meu-servico.service';
-
+import { SettingsService } from './../../service/settings/settings.service';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +9,7 @@ import { MeuServicoService } from './../../service/meu-servico/meu-servico.servi
 })
 export class HomeComponent implements OnInit {
 
-  @Input() slcColorPage: string
+  private slcColorPage: string
 
   private textoParaSerMostrado: string
   private textoParaSerSalvo: string
@@ -20,11 +20,13 @@ export class HomeComponent implements OnInit {
   private livro: LivroInterface
 
 
-  constructor(private meuServico: MeuServicoService) {
+  constructor(private meuServico: MeuServicoService, private settingsService: SettingsService) {
+    this.slcColorPage = 'blue'
     this.isMouseOver = false
     this.twoWayText = 'two-way-data-binding'
     this.valorEnviado = 50
     this.stringsFromService = meuServico.getAllStrings()
+    this.settingsService.themeColorEmitter.subscribe(res => this.slcColorPage = res)
     this.livro = {
       titulo : 'Easy Angularing',
       dataLancamento : 1518782264848,
