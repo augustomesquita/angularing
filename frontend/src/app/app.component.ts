@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from 'app/service/login/login.service';
 
 @Component({
   selector: 'app-root',
@@ -9,11 +8,8 @@ import { LoginService } from 'app/service/login/login.service';
 
 export class AppComponent implements OnInit {
 
-  private mostrarNavBar: boolean = false
-
-  constructor(private loginService: LoginService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.loginService.mostrarNavBar.subscribe(res => this.mostrarNavBar = res)
   }
 }

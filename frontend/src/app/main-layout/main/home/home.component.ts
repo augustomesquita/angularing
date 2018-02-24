@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { MeuServicoService } from './../../service/meu-servico/meu-servico.service';
-import { SettingsService } from './../../service/settings/settings.service';
+import { MeuServicoService } from 'app/service/meu-servico/meu-servico.service';
+import { SettingsService } from 'app/service/settings/settings.service';
+
 
 @Component({
   selector: 'app-home',

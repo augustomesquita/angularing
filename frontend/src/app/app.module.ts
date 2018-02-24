@@ -20,11 +20,13 @@ import { MeuServicoService } from './service/meu-servico/meu-servico.service';
 import { SettingsService } from './service/settings/settings.service';
 import { LoginService } from './service/login/login.service';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { ComponenteReusavelComponent } from './main/home/componente-reusavel/componente-reusavel.component';
-import { HomeComponent } from './main/home/home.component';
-import { AboutComponent } from './main/about/about.component';
-import { NavComponent } from './main/nav/nav.component';
+import { LoginComponent } from './login-layout/login/login.component';
+import { ComponenteReusavelComponent } from './main-layout/main/home/componente-reusavel/componente-reusavel.component';
+import { HomeComponent } from './main-layout/main/home/home.component';
+import { AboutComponent } from './main-layout/main/about/about.component';
+import { NavComponent } from './main-layout/main/nav/nav.component';
+import { LoginLayoutComponent } from './login-layout/login-layout.component';
+import { MainLayoutComponent } from './main-layout/main-layout.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { NavComponent } from './main/nav/nav.component';
     AboutComponent,
     HomeComponent,
     LoginComponent,
-    ComponenteReusavelComponent
+    ComponenteReusavelComponent,
+    LoginLayoutComponent,
+    MainLayoutComponent
   ],
   imports: [
     BrowserModule,

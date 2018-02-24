@@ -4,8 +4,8 @@ import { Injectable, EventEmitter } from '@angular/core';
 export class SettingsService {
 
   themeColorEmitter = new EventEmitter
-  
-  private themeColor: string = 'blue'
+
+  private themeColor = 'blue'
 
   constructor() { }
 
