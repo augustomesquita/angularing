@@ -7,7 +7,7 @@ package com.augustomesquita.angularingbackend.controller;
 
 import com.augustomesquita.angularingbackend.teste.IUserRepository;
 import com.augustomesquita.angularingbackend.teste.JUser;
-import com.augustomesquita.angularingbackend.teste.ObservableElement;
+import com.augustomesquita.angularingbackend.teste.ObservableUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +28,10 @@ public class JHelloController {
         
         // Testando se o método update() de ObserverElement será chamado ao
         // realizar a modificação do valor para 2.
-        ObservableElement.getInstance().setMeuValor(2);
+        JUser user = new JUser("Augusto", 26, "asas", "asas");
+        user.setAge(27);
+        user.setName("Augustos");
+        
         return findByName;
     }
 

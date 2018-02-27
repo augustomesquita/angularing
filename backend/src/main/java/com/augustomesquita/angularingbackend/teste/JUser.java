@@ -27,12 +27,16 @@ public class JUser {
     private String login;
     private String password;
 
-    protected JUser() {
+    public JUser() {
     }
 
     public JUser(String name, Integer age, String login, String password) {
         this.name = name;
+        ObservableUser.getInstance().setUserName(this.name);
+        
         this.age = age;
+        ObservableUser.getInstance().setUserAge(this.age);
+        
         this.login = login;
         this.password = password;
     }
@@ -51,6 +55,7 @@ public class JUser {
 
     public void setName(String name) {
         this.name = name;
+        ObservableUser.getInstance().setUserName(this.name);
     }
 
     public Integer getAge() {
@@ -59,6 +64,7 @@ public class JUser {
 
     public void setAge(Integer age) {
         this.age = age;
+        ObservableUser.getInstance().setUserAge(this.age);
     }
 
     public String getLogin() {

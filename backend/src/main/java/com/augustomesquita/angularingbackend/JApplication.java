@@ -5,8 +5,9 @@
  */
 package com.augustomesquita.angularingbackend;
 
-import com.augustomesquita.angularingbackend.teste.ObservableElement;
-import com.augustomesquita.angularingbackend.teste.ObserverElement;
+import com.augustomesquita.angularingbackend.teste.JUser;
+import com.augustomesquita.angularingbackend.teste.ObservableUser;
+import com.augustomesquita.angularingbackend.teste.ObserverUser;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -20,15 +21,13 @@ import org.springframework.context.annotation.ComponentScan;
 public class JApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(JApplication.class, args);
+        SpringApplication.run(JApplication.class, args);     
         
         // Aplicando padrão Observer/Observable em conjunto com Singleton.
-        ObserverElement observerElement = new ObserverElement(ObservableElement.getInstance());
-        ObservableElement.getInstance().addObserver(observerElement);
+        ObserverUser observerUser = new ObserverUser(ObservableUser.getInstance());
+        ObservableUser.getInstance().addObserver(observerUser);
         
-        // Testando se o método update() de ObserverElement será chamado ao
-        // realizar a modificação do valor para 1.
-        ObservableElement.getInstance().setMeuValor(1);
-        
+        JUser user = new JUser();
+        user.setAge(27);
     }
 }
