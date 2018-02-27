@@ -23,7 +23,7 @@ public class JHelloController {
 
     @RequestMapping("/")
     public Iterable<JUser> index() {
-        Iterable<JUser> findByName = userRepository.findByName("Augusto");
+        Iterable<JUser> findByName = userRepository.findAll();
         return findByName;
     }
 
