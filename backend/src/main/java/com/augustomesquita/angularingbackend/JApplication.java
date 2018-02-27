@@ -22,9 +22,12 @@ public class JApplication {
     public static void main(String[] args) {
         SpringApplication.run(JApplication.class, args);
         
+        // Aplicando padrão Observer/Observable em conjunto com Singleton.
         ObserverElement observerElement = new ObserverElement(ObservableElement.getInstance());
         ObservableElement.getInstance().addObserver(observerElement);
         
+        // Testando se o método update() de ObserverElement será chamado ao
+        // realizar a modificação do valor para 1.
         ObservableElement.getInstance().setMeuValor(1);
         
     }
