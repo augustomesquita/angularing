@@ -5,6 +5,8 @@
  */
 package com.augustomesquita.angularingbackend;
 
+import com.augustomesquita.angularingbackend.teste.ObservableElement;
+import com.augustomesquita.angularingbackend.teste.ObserverElement;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -19,5 +21,11 @@ public class JApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(JApplication.class, args);
+        
+        ObserverElement observerElement = new ObserverElement(ObservableElement.getInstance());
+        ObservableElement.getInstance().addObserver(observerElement);
+        
+        ObservableElement.getInstance().setMeuValor(1);
+        
     }
 }
