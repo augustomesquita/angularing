@@ -5,7 +5,7 @@ export class MeuServicoService {
 
   private strings: string[]
 
-  constructor() { 
+  constructor() {
     this.strings = ['Angularing', 'Typescrip', 'Serviço']
   }
 

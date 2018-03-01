@@ -27,6 +27,8 @@ import { AboutComponent } from './main-layout/main/about/about.component';
 import { NavComponent } from './main-layout/main/nav/nav.component';
 import { LoginLayoutComponent } from './login-layout/login-layout.component';
 import { MainLayoutComponent } from './main-layout/main-layout.component';
+import { CursoComponent } from './main-layout/main/home/curso/curso.component';
+import { CursoService } from './service/curso/curso.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { MainLayoutComponent } from './main-layout/main-layout.component';
     LoginComponent,
     ComponenteReusavelComponent,
     LoginLayoutComponent,
-    MainLayoutComponent
+    MainLayoutComponent,
+    CursoComponent
   ],
   imports: [
     BrowserModule,
@@ -51,6 +54,7 @@ import { MainLayoutComponent } from './main-layout/main-layout.component';
   providers: [
     MeuServicoService,
     SettingsService,
+    CursoService,
     LoginService,
     {
       provide: LOCALE_ID,

@@ -6,6 +6,7 @@ import { AboutComponent } from './main-layout/main/about/about.component';
 import { HomeComponent } from './main-layout/main/home/home.component';
 import { MainLayoutComponent } from 'app/main-layout/main-layout.component';
 import { LoginLayoutComponent } from 'app/login-layout/login-layout.component';
+import { CursoComponent } from 'app/main-layout/main/home/curso/curso.component';
 
 const APP_ROUTES: Routes = [
     // A ORDEM IMPORTA NO MOMENTO DA VERIFICAÇÃO
@@ -18,8 +19,9 @@ const APP_ROUTES: Routes = [
     {
         path: '', component: MainLayoutComponent, // TERCEIRO
         children: [
-            {path: 'home', component: HomeComponent }, // QUARTO
-            {path: 'about', component: AboutComponent } // QUINTO
+            { path: 'home', component: HomeComponent }, // QUARTO
+            { path: 'curso/:id', component: CursoComponent }, // QUINTO
+            { path: 'about', component: AboutComponent } // SEXTO
         ]
     }
 ]
