@@ -13,6 +13,15 @@
   </div>
 </div>
 
+<div class="card col-12 mt-3 p-3" style="width: 20rem;" [ngClass]="borderClass()">
+  <img class="card-img-top" src="{{ user?.photoUrl }}" alt="Card image cap">
+  <div class="card-block">
+    <h4 class="card-title">{{ user?.name }}</h4>
+    <p class="card-text">{{ user?.email }}</p>
+    <button (click)="fazerLogout()" class="btn btn-primary">LOGOUT</button>
+  </div>
+</div>
+
 <div class="card col-12 mt-3 p-3" [ngClass]="borderClass()">
   <div class="row align-items-center">
     <div class="col">
@@ -80,7 +89,7 @@
       <br/>
       <p>Título: {{livro.titulo}}</p>
       <p>Data: {{livro.dataLancamento | date }}</p>
-      <p>Preço: {{livro.preco | currency:'BRL':true}}</p>
+      <p>Preço: {{livro.preco | currency:'BRL':'symbol-narrow'}}</p>
     </div>
   </div>
 </div>

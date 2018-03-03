@@ -1,14 +1,16 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { MeuServicoService } from 'app/service/meu-servico/meu-servico.service';
 import { SettingsService } from 'app/service/settings/settings.service';
-
+import { AuthService, SocialUser } from 'angular4-social-login';
+import { Subscription } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
   private slcColorPage: string
 
@@ -20,8 +22,14 @@ export class HomeComponent implements OnInit {
   private stringsFromService: string[]
   private livro: LivroInterface
 
+  // Facebook's login
+  private user: SocialUser;
+  private loggedIn: boolean;
+  private authStateSubscription: Subscription;
 
-  constructor(private meuServico: MeuServicoService, private settingsService: SettingsService) {
+  constructor(private meuServico: MeuServicoService, private settingsService: SettingsService, 
+    private authService: AuthService, private router: Router) {
+
     this.slcColorPage = 'blue'
     this.isMouseOver = false
     this.twoWayText = 'two-way-data-binding'
@@ -35,7 +43,28 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.authStateSubscription = this.accountValidator(this.authService);
+  }
+
+  ngOnDestroy() {
+    this.authStateSubscription.unsubscribe();
+  }
+
+  accountValidator(authService: AuthService) {
+    return authService.authState.subscribe((user) => {
+      if (!user) {
+        this.router.navigate(['/']);
+      } else {
+        this.user = user;
+        this.loggedIn = (user != null)
+      }
+    });
+  }
+
+  fazerLogout() {
+    this.authService.signOut();
+  }
 
   mostrarTexto(textoParaSerMostrado: string) {
     this.textoParaSerMostrado = textoParaSerMostrado

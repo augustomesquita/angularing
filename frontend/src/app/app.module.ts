@@ -12,13 +12,14 @@ registerLocaleData(ptBr)
 // Módulos de terceiros
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularSvgIconModule } from 'angular-svg-icon';
+import { SocialLoginModule, AuthServiceConfig } from 'angular4-social-login';
+import { FacebookLoginProvider } from 'angular4-social-login';
 
 // Elementos criados para o projeto
 import { AppRouting } from './app.routing'
 import { MouseOverHighlightDirective } from './shared/mouse-over-highlight/mouse-over-highlight.directive';
 import { MeuServicoService } from './service/meu-servico/meu-servico.service';
 import { SettingsService } from './service/settings/settings.service';
-import { LoginService } from './service/login/login.service';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login-layout/login/login.component';
 import { ComponenteReusavelComponent } from './main-layout/main/home/componente-reusavel/componente-reusavel.component';
@@ -29,6 +30,13 @@ import { LoginLayoutComponent } from './login-layout/login-layout.component';
 import { MainLayoutComponent } from './main-layout/main-layout.component';
 import { CursoComponent } from './main-layout/main/home/curso/curso.component';
 import { CursoService } from './service/curso/curso.service';
+
+const config = new AuthServiceConfig([
+  {
+    id: FacebookLoginProvider.PROVIDER_ID,
+    provider: new FacebookLoginProvider('1604161956329292')
+  }
+]);
 
 @NgModule({
   declarations: [
@@ -44,18 +52,18 @@ import { CursoService } from './service/curso/curso.service';
     CursoComponent
   ],
   imports: [
+    SocialLoginModule.initialize(config),
     BrowserModule,
     FormsModule,
     HttpClientModule,
     NgbModule.forRoot(),
     AngularSvgIconModule,
-    AppRouting
+    AppRouting,
   ],
   providers: [
     MeuServicoService,
     SettingsService,
     CursoService,
-    LoginService,
     {
       provide: LOCALE_ID,
       deps: [SettingsService],

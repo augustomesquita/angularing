@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ICurso } from 'app/shared/curso.interface';
 
 @Injectable()
 export class CursoService {
@@ -20,9 +21,4 @@ export class CursoService {
   getCurso(id: number): ICurso {
     return this.cursos.find(curso => curso.id == id);
   }
-}
-
-interface ICurso {
-  id: number,
-  name: string
 }

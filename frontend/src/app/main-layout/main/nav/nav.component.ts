@@ -9,7 +9,6 @@ import { SettingsService } from 'app/service/settings/settings.service';
 export class NavComponent implements OnInit {
 
   private slcColorPage: string
-  private navSelectedValue: string
   private isMouseOnHomeValue: boolean
 
   constructor(private settingService: SettingsService) {

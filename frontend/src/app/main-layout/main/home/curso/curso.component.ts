@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CursoService } from 'app/service/curso/curso.service';
+import { ICurso } from 'app/shared/curso.interface';
 
 @Component({
   selector: 'app-curso',
@@ -9,8 +10,8 @@ import { CursoService } from 'app/service/curso/curso.service';
 })
 export class CursoComponent implements OnInit {
 
-  id: number
-  curso: object
+  private id: number
+  private curso: ICurso
 
   constructor(
     private activatedRoute: ActivatedRoute,
