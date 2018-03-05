@@ -2,8 +2,14 @@
 
   <div class="col-10 col-sm-8 col-md-6 col-lg-4 mt-3">
     <form class="form-signin">
-      <h2 class="form-signin-heading">Login</h2>
-      <button class="btn btn-lg btn-outline-primary btn-block" (click)="fazerLogin()">LOGIN COM FACEBOOK</button>
+      <div class="col-12">
+        <h2 class="form-signin-heading">Bem vindo ao Angularing</h2><br/>
+        <button class="btn btn-lg btn-outline-primary btn-block" (click)="fazerLoginFacebook()">LOGIN COM FACEBOOK</button>
+        <button class="btn btn-lg btn-outline-danger btn-block" (click)="fazerLoginGoogle()">LOGIN COM GOOGLE</button>
+      </div>
+      <div class="col-12 text-right mt-2">
+        <span class="text-secondary"><i>by Augusto Mesquita</i></span>
+      </div>
     </form>
   </div>
 

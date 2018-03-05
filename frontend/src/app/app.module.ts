@@ -13,7 +13,7 @@ registerLocaleData(ptBr)
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { SocialLoginModule, AuthServiceConfig } from 'angular4-social-login';
-import { FacebookLoginProvider } from 'angular4-social-login';
+import { FacebookLoginProvider, GoogleLoginProvider } from 'angular4-social-login';
 
 // Elementos criados para o projeto
 import { AppRouting } from './app.routing'
@@ -35,8 +35,16 @@ const config = new AuthServiceConfig([
   {
     id: FacebookLoginProvider.PROVIDER_ID,
     provider: new FacebookLoginProvider('1604161956329292')
+  },
+  {
+    id: GoogleLoginProvider.PROVIDER_ID,
+    provider: new GoogleLoginProvider('331487605606-uelg4mi5n56qajtsk10i9hg6nf13cbln.apps.googleusercontent.com')
   }
 ]);
+
+export function provideConfig() {
+  return config;
+}
 
 @NgModule({
   declarations: [
@@ -52,7 +60,7 @@ const config = new AuthServiceConfig([
     CursoComponent
   ],
   imports: [
-    SocialLoginModule.initialize(config),
+    SocialLoginModule,
     BrowserModule,
     FormsModule,
     HttpClientModule,
@@ -68,6 +76,10 @@ const config = new AuthServiceConfig([
       provide: LOCALE_ID,
       deps: [SettingsService],
       useFactory: settingService => settingService.getLocale()
+    },
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig
     }
   ],
   bootstrap: [AppComponent]
