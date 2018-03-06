@@ -28,6 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   accountValidator(authService: AuthService) {
     return authService.authState.subscribe((user) => {
       if (user) {
+        console.log('USER TOKEN: ' + user.authToken)
         this.router.navigate(['/home']);
       }
     });
