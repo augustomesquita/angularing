@@ -5,29 +5,32 @@
  */
 package com.augustomesquita.angularingbackend;
 
-import com.augustomesquita.angularingbackend.teste.JUser;
-import com.augustomesquita.angularingbackend.teste.ObservableUser;
-import com.augustomesquita.angularingbackend.teste.ObserverUser;
+import java.time.LocalDateTime;
+import org.json.JSONObject;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
  * @author augusto
  */
 @SpringBootApplication
-@ComponentScan(basePackages = "com.augustomesquita.angularingbackend.controller")
+@ComponentScan()
+@RestController
 public class JApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(JApplication.class, args);     
-        
-        // Aplicando padrão Observer/Observable em conjunto com Singleton.
-        ObserverUser observerUser = new ObserverUser(ObservableUser.getInstance());
-        ObservableUser.getInstance().addObserver(observerUser);
-        
-        JUser user = new JUser();
-        user.setAge(27);
+        SpringApplication.run(JApplication.class, args);
+    }
+
+    @RequestMapping("/")
+    public String status() {
+        JSONObject response = new JSONObject();
+        response.put("status", "online")
+                .put("date_now", LocalDateTime.now().toString());
+        return response.toString();
     }
 }
