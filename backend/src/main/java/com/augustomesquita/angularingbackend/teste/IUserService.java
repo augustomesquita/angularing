@@ -5,14 +5,20 @@
  */
 package com.augustomesquita.angularingbackend.teste;
 
-import java.util.List;
-import org.springframework.data.repository.CrudRepository;
+import java.util.Optional;
 
 /**
  *
- * @author augusto
+ * @author augus
  */
-public interface IUserRepository extends CrudRepository<JUser, Long> {
+public interface IUserService {
 
-    JUser findByEmail(String email);
+    /**
+     * Busca e retorna um usuário dado um email.
+     *
+     * @param email
+     * @return Optional<JUser>
+     */
+    Optional<JUser> findByEmail(String email);
+
 }

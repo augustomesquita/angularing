@@ -23,30 +23,16 @@ public class JUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private int age;
-    private String login;
+    private String email;
     private String password;
+    private EProfile profile;
 
-    public JUser() {
-    }
-
-    public JUser(String name, Integer age, String login, String password) {
-        this.name = name;
-        ObservableUser.getInstance().setUserName(this.name);
-        
-        this.age = age;
-        ObservableUser.getInstance().setUserAge(this.age);
-        
-        this.login = login;
-        this.password = password;
+    public Long getId() {
+        return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getName() {
@@ -55,24 +41,14 @@ public class JUser {
 
     public void setName(String name) {
         this.name = name;
-        ObservableUser.getInstance().setUserName(this.name);
     }
 
-    public Integer getAge() {
-        return age;
+    public String getEmail() {
+        return email;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
-        ObservableUser.getInstance().setUserAge(this.age);
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -83,9 +59,12 @@ public class JUser {
         this.password = password;
     }
 
-    @Override
-    public String toString() {
-        return "JUser[id=" + getId() + ", name=" + name + ", age=" + age + ", login=" + login + ", password=" + password + ']';
+    public EProfile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(EProfile profile) {
+        this.profile = profile;
     }
 
 }
