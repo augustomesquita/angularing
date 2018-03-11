@@ -6,6 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -17,15 +18,37 @@ import org.springframework.stereotype.Component;
 @Component
 public class JJwtUtil {
 
-    static final String CLAIM_KEY_USERNAME = "sub";
-    static final String CLAIM_KEY_ROLE = "role";
-    static final String CLAIM_KEY_CREATED = "created";
+    private final String CLAIM_KEY_USERNAME = "sub";
+    private final String CLAIM_KEY_ROLE = "role";
+    private final String CLAIM_KEY_CREATED = "created";
+
+    public static final String AUTH_HEADER = "Authorization";
+    public static final String BEARER_PREFIX = "Bearer";
 
     @Value("${jwt.secret}")
     private String secret;
 
     @Value("${jwt.expiration}")
     private Long expiration;
+
+    /**
+     * Resgata token do header a partir do request, removendo o prefixo 'bearer'
+     * que vem junto ao token.
+     *
+     * @param request
+     * @return
+     */
+    public static String getTokenFromHeader(HttpServletRequest request) {
+        // Resgata token a partir do header 'Authorization'
+        String token = request.getHeader(AUTH_HEADER);
+        if (token != null
+                && token.startsWith(JJwtUtil.BEARER_PREFIX)
+                && token.split(JJwtUtil.BEARER_PREFIX).length > 1) {
+            // Remove bearer da string
+            token = token.split(JJwtUtil.BEARER_PREFIX)[1];
+        }
+        return token;
+    }
 
     /**
      * Retorna um novo token JWT com base nos dados do usuários.

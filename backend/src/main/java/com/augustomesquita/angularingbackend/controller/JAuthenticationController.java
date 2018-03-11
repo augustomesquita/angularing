@@ -1,5 +1,7 @@
 package com.augustomesquita.angularingbackend.controller;
 
+import com.augustomesquita.angularingbackend.service.IUserServiceJPA;
+import com.augustomesquita.angularingbackend.model.JUserJPA;
 import com.augustomesquita.angularingbackend.springsecurity.dto.JJwtAuthenticationDTO;
 import com.augustomesquita.angularingbackend.springsecurity.dto.JTokenDTO;
 import com.augustomesquita.angularingbackend.springsecurity.jwt.JJwtUtil;
@@ -10,12 +12,10 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.BindingResult;
@@ -36,11 +36,6 @@ public class JAuthenticationController {
 
     private static final Logger LOG
             = LoggerFactory.getLogger(JAuthenticationController.class);
-    private static final String AUTH_HEADER = "Authorization";
-    private static final String BEARER_PREFIX = "Bearer";
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     @Autowired
     private JJwtUtil jwtUtil;
@@ -48,15 +43,17 @@ public class JAuthenticationController {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private IUserServiceJPA userService;
+
     /**
      * Gera e retorna um novo token JWT
-     * 
+     *
      * @param authenticationDTO
      * @param result
-     * @return ResponseEntity<JResponseUtil<JTokenDTO>>
-     * @throws AuthenticationException 
+     * @return ResponseEntity<JResponseUtil<JTokenDTO>> @throw s
+     * AuthenticationException
      */
-    
     @PostMapping
     public ResponseEntity<JResponseUtil<JTokenDTO>> createTokenJwt(
             @Valid @RequestBody JJwtAuthenticationDTO authenticationDTO,
@@ -64,6 +61,7 @@ public class JAuthenticationController {
 
         JResponseUtil<JTokenDTO> response = new JResponseUtil<JTokenDTO>();
 
+        // Verifica se já ocorreu algum erro de chamada
         if (result.hasErrors()) {
             LOG.error("Erro validando lançamento: {}", result.getAllErrors());
             result.getAllErrors().forEach(error
@@ -71,55 +69,57 @@ public class JAuthenticationController {
             return ResponseEntity.badRequest().body(response);
         }
 
-        LOG.info("Gerando token JWT para o email{}.", authenticationDTO.getEmail());
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        authenticationDTO.getEmail(),
-                        authenticationDTO.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        // Verifica se as credênciais se referem a um usuário válido do sistema
+        Optional<JUserJPA> validUser = userService.findByEmailAndPassword(authenticationDTO.getEmail(), authenticationDTO.getPassword());
+        if (validUser.isPresent()) {
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(
-                authenticationDTO.getEmail());
-        
-        String token = jwtUtil.getToken(userDetails);
-        response.setData(new JTokenDTO(token));
-        
-        return ResponseEntity.ok(response);
+            // Caso as credênciais sejam de um usuário válido no sistema, 
+            // cria um usuário no formato do spring security (userDetail)
+            // passando seu username (que é nosso email no caso).
+            UserDetails userDetails = userDetailsService.loadUserByUsername(
+                    authenticationDTO.getEmail());
+
+            // Após isso, gera um token para o usuário que foi criado e
+            // retorna OK como resposta.
+            LOG.info("Gerando token JWT para o email {}.", userDetails.getUsername());
+            String token = jwtUtil.getToken(userDetails);
+            response.setData(new JTokenDTO(token));
+            return ResponseEntity.ok(response);
+
+        } else {
+            response.getErrors().add("Erro. Conta inválida.");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+        }
     }
-    
+
     @PostMapping(value = "/refresh")
     public ResponseEntity<JResponseUtil<JTokenDTO>> refreshTokenJwt(
             HttpServletRequest request) {
-        
+
         LOG.info("Gerando refresh para token JWT");
         JResponseUtil<JTokenDTO> response = new JResponseUtil<>();
-        Optional<String> token = Optional
-                .ofNullable(request.getHeader(AUTH_HEADER));
-        
-        if (token.isPresent() && token.get().startsWith(BEARER_PREFIX)) {
-            // Define 7 para pegar apenas o token, ou seja, ignorar a palavra
-            // 'Bearer' + 'espaço', iniciando exatamente no token.
-            token = Optional.of(token.get().substring(7));
-        }
-        
-        // Verifica se token não está presente ou se é inválido.
-        if (!token.isPresent()) {
+       
+        // Pega o token vindo do header.
+        String token = JJwtUtil.getTokenFromHeader(request);
+
+        // Verifica se token está vazio ou se é inválido.
+        if (token.isEmpty()) {
             response.getErrors().add("Token não informado.");
-        } else if (!jwtUtil.isTokenValid(token.get())) {
+        } else if (!jwtUtil.isTokenValid(token)) {
             response.getErrors().add("Token inválido ou expirado.");
         }
-        
+
         // Verifica se ocorreu algum erro
         if (!response.getErrors().isEmpty()) {
             return ResponseEntity.badRequest().body(response);
         }
-        
+
         // Realiza o refresh de fato
-        String refreshedToken = jwtUtil.refreshToken(token.get());
+        String refreshedToken = jwtUtil.refreshToken(token);
         response.setData(new JTokenDTO(refreshedToken));
-        
+
         // Envia novo token atualizado como resposta do tipo OK.
         return ResponseEntity.ok(response);
     }
-    
+
 }

@@ -1,4 +1,4 @@
-package com.augustomesquita.angularingbackend.jpa;
+package com.augustomesquita.angularingbackend.model;
 
 import com.augustomesquita.angularingbackend.enums.EProfile;
 import java.io.Serializable;
@@ -34,8 +34,8 @@ public class JUserJPA implements Serializable {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name = "profile")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "profile", nullable = false)
     private EProfile profile;
 
     public Long getId() {

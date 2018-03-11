@@ -38,7 +38,7 @@ public class JJwtUser implements UserDetails {
 
     @Override
     public String getUsername() {
-        return password;
+        return username;
     }
 
     @Override

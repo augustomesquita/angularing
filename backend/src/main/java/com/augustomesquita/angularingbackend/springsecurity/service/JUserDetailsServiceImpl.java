@@ -1,20 +1,21 @@
-package com.augustomesquita.angularingbackend.springsecurity.jwt;
+package com.augustomesquita.angularingbackend.springsecurity.service;
 
-import com.augustomesquita.angularingbackend.jpa.JUserJPA;
+import com.augustomesquita.angularingbackend.model.JUserJPA;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import com.augustomesquita.angularingbackend.jpa.IUserServiceJPA;
+import com.augustomesquita.angularingbackend.service.IUserServiceJPA;
+import com.augustomesquita.angularingbackend.springsecurity.jwt.JJwtUserFactory;
 
 /**
  *
  * @author Augusto Mesquita
  */
 @Service
-public class JJwtUserDetailsServiceImpl implements UserDetailsService {
+public class JUserDetailsServiceImpl implements UserDetailsService {
     
     @Autowired
     private IUserServiceJPA userService;

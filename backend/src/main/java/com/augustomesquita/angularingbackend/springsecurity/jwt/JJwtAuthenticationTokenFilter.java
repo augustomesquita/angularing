@@ -19,9 +19,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
  */
 public class JJwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
-    private static final String AUTH_HEADER = "Authorization";
-    private static final String BEARER_PREFIX = "Bearer";
-
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -33,13 +30,8 @@ public class JJwtAuthenticationTokenFilter extends OncePerRequestFilter {
             HttpServletResponse response, FilterChain chain) throws
             ServletException, IOException {
 
-        // Resgata token a partir do header 'Authorization'
-        String token = request.getHeader(AUTH_HEADER);
-        if (token != null && token.startsWith(BEARER_PREFIX)) {
-            // Define 7 para pegar apenas o token, ou seja, ignorar a palavra
-            // 'Bearer' + 'espaço', iniciando exatamente no token.
-            token = token.substring(7);
-        }
+        // Pega o token vindo do header.
+        String token = JJwtUtil.getTokenFromHeader(request);
 
         // A partir do token, tenta resgatar um username (que em nosso caso, 
         // representa o email do usuário).

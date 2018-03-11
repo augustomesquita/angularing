@@ -1,7 +1,7 @@
 package com.augustomesquita.angularingbackend.springsecurity.jwt;
 
 import com.augustomesquita.angularingbackend.enums.EProfile;
-import com.augustomesquita.angularingbackend.jpa.JUserJPA;
+import com.augustomesquita.angularingbackend.model.JUserJPA;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
