@@ -1,10 +1,10 @@
-package com.augustomesquita.angularingbackend.controller;
+package com.augustomesquita.angularingbackend.springsecurity.controller;
 
 import com.augustomesquita.angularingbackend.service.IUserServiceJPA;
 import com.augustomesquita.angularingbackend.model.JUserJPA;
-import com.augustomesquita.angularingbackend.springsecurity.dto.JJwtAuthenticationDTO;
+import com.augustomesquita.angularingbackend.springsecurity.dto.JAuthenticationDTO;
 import com.augustomesquita.angularingbackend.springsecurity.dto.JTokenDTO;
-import com.augustomesquita.angularingbackend.springsecurity.jwt.JJwtUtil;
+import com.augustomesquita.angularingbackend.springsecurity.utils.JJwtUtil;
 import com.augustomesquita.angularingbackend.utils.JResponseUtil;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
@@ -56,7 +56,7 @@ public class JAuthenticationController {
      */
     @PostMapping
     public ResponseEntity<JResponseUtil<JTokenDTO>> createTokenJwt(
-            @Valid @RequestBody JJwtAuthenticationDTO authenticationDTO,
+            @Valid @RequestBody JAuthenticationDTO authenticationDTO,
             BindingResult result) throws AuthenticationException {
 
         JResponseUtil<JTokenDTO> response = new JResponseUtil<JTokenDTO>();

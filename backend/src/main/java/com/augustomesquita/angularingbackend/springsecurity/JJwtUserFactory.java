@@ -1,4 +1,4 @@
-package com.augustomesquita.angularingbackend.springsecurity.jwt;
+package com.augustomesquita.angularingbackend.springsecurity;
 
 import com.augustomesquita.angularingbackend.enums.EProfile;
 import com.augustomesquita.angularingbackend.model.JUserJPA;

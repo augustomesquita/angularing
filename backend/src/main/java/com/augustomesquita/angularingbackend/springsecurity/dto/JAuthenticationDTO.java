@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  *
  * @author Augusto Mesquita
  */
-public class JJwtAuthenticationDTO {
+public class JAuthenticationDTO {
     
     private String email;
     private String password;

@@ -1,4 +1,4 @@
-package com.augustomesquita.angularingbackend.springsecurity.jwt;
+package com.augustomesquita.angularingbackend.springsecurity.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

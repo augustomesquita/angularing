@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.augustomesquita.angularingbackend.springsecurity;
+package com.augustomesquita.angularingbackend.springsecurity.config;
 
-import com.augustomesquita.angularingbackend.springsecurity.jwt.JJwtAuthenticationEntryPoint;
-import com.augustomesquita.angularingbackend.springsecurity.jwt.JJwtAuthenticationTokenFilter;
+import com.augustomesquita.angularingbackend.springsecurity.JJwtAuthenticationEntryPoint;
+import com.augustomesquita.angularingbackend.springsecurity.filter.JAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,8 +45,8 @@ public class JWebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public JJwtAuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
-        return new JJwtAuthenticationTokenFilter();
+    public JAuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
+        return new JAuthenticationTokenFilter();
     }
 
     @Override

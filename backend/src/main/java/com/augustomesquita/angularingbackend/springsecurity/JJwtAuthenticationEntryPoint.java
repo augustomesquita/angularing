@@ -1,4 +1,4 @@
-package com.augustomesquita.angularingbackend.springsecurity.jwt;
+package com.augustomesquita.angularingbackend.springsecurity;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

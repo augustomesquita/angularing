@@ -1,5 +1,6 @@
-package com.augustomesquita.angularingbackend.springsecurity.jwt;
+package com.augustomesquita.angularingbackend.springsecurity.filter;
 
+import com.augustomesquita.angularingbackend.springsecurity.utils.JJwtUtil;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -17,7 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
  *
  * @author Augusto Mesquita
  */
-public class JJwtAuthenticationTokenFilter extends OncePerRequestFilter {
+public class JAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Autowired
     private UserDetailsService userDetailsService;

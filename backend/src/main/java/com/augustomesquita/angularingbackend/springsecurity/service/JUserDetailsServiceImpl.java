@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import com.augustomesquita.angularingbackend.service.IUserServiceJPA;
-import com.augustomesquita.angularingbackend.springsecurity.jwt.JJwtUserFactory;
+import com.augustomesquita.angularingbackend.springsecurity.JJwtUserFactory;
 
 /**
  *
