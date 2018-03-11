@@ -36,7 +36,7 @@ public class JJwtAuthenticationTokenFilter extends OncePerRequestFilter {
         // Resgata token a partir do header 'Authorization'
         String token = request.getHeader(AUTH_HEADER);
         if (token != null && token.startsWith(BEARER_PREFIX)) {
-            // Define para pegar apenas o token, ou seja, ignorar a palavra
+            // Define 7 para pegar apenas o token, ou seja, ignorar a palavra
             // 'Bearer' + 'espaço', iniciando exatamente no token.
             token = token.substring(7);
         }

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Augusto Mesquita
  */
 @SpringBootApplication
-@ComponentScan()
+@ComponentScan("com.augustomesquita.angularingbackend")
 @RestController
 public class JApplication {
 
