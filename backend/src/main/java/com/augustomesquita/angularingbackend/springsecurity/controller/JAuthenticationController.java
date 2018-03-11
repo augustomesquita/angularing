@@ -1,7 +1,6 @@
 package com.augustomesquita.angularingbackend.springsecurity.controller;
 
-import com.augustomesquita.angularingbackend.service.IUserServiceJPA;
-import com.augustomesquita.angularingbackend.model.JUserJPA;
+import com.augustomesquita.angularingbackend.model.JUser;
 import com.augustomesquita.angularingbackend.springsecurity.dto.JAuthenticationDTO;
 import com.augustomesquita.angularingbackend.springsecurity.dto.JTokenDTO;
 import com.augustomesquita.angularingbackend.springsecurity.utils.JJwtUtil;
@@ -24,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.augustomesquita.angularingbackend.service.IUserService;
 
 /**
  *
@@ -44,7 +44,7 @@ public class JAuthenticationController {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    private IUserServiceJPA userService;
+    private IUserService userService;
 
     /**
      * Gera e retorna um novo token JWT
@@ -70,7 +70,7 @@ public class JAuthenticationController {
         }
 
         // Verifica se as credênciais se referem a um usuário válido do sistema
-        Optional<JUserJPA> validUser = userService.findByEmailAndPassword(authenticationDTO.getEmail(), authenticationDTO.getPassword());
+        Optional<JUser> validUser = userService.findByEmailAndPassword(authenticationDTO.getEmail(), authenticationDTO.getPassword());
         if (validUser.isPresent()) {
 
             // Caso as credênciais sejam de um usuário válido no sistema, 

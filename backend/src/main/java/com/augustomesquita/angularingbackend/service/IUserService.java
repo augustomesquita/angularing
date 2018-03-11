@@ -1,14 +1,14 @@
 package com.augustomesquita.angularingbackend.service;
 
-import com.augustomesquita.angularingbackend.model.JUserJPA;
-import com.augustomesquita.angularingbackend.model.JUserJPA;
+import com.augustomesquita.angularingbackend.model.JUser;
+import com.augustomesquita.angularingbackend.model.JUser;
 import java.util.Optional;
 
 /**
  *
  * @author Augusto Mesquita
  */
-public interface IUserServiceJPA {
+public interface IUserService {
 
     /**
      * Busca e retorna um usuário dado um email.
@@ -16,7 +16,7 @@ public interface IUserServiceJPA {
      * @param email
      * @return Optional<JUser>
      */
-    Optional<JUserJPA> findByEmail(String email);
+    Optional<JUser> findByEmail(String email);
     
     
      /**
@@ -25,6 +25,6 @@ public interface IUserServiceJPA {
      * @param email
      * @return Optional<JUser>
      */
-    Optional<JUserJPA> findByEmailAndPassword(String email, String password);
+    Optional<JUser> findByEmailAndPassword(String email, String password);
 
 }

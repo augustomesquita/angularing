@@ -1,7 +1,7 @@
 package com.augustomesquita.angularingbackend.springsecurity;
 
 import com.augustomesquita.angularingbackend.enums.EProfile;
-import com.augustomesquita.angularingbackend.model.JUserJPA;
+import com.augustomesquita.angularingbackend.model.JUser;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,7 +23,7 @@ public class JJwtUserFactory {
      * @param funcionario
      * @return JwtUser
      */
-    public static JJwtUser create(JUserJPA user) {
+    public static JJwtUser create(JUser user) {
         return new JJwtUser(user.getId(), user.getEmail(), user.getPassword(), mapToGrantedAuthorities(user.getProfile()));
     }
 

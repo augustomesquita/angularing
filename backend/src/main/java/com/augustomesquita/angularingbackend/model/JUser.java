@@ -17,7 +17,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "_user")
-public class JUserJPA implements Serializable {
+public class JUser implements Serializable {
 
     private static final long serialVersionUID = 306411570471828345L;
     
