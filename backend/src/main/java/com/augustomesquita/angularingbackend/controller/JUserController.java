@@ -1,40 +1,35 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.augustomesquita.angularingbackend.controller;
 
-import com.augustomesquita.angularingbackend.teste.IUserRepository;
-import com.augustomesquita.angularingbackend.teste.JUser;
-import com.augustomesquita.angularingbackend.utils.JRestClient;
-import java.util.Iterator;
-import org.json.JSONObject;
+import com.augustomesquita.angularingbackend.jpa.JUserJPA;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
+import com.augustomesquita.angularingbackend.jpa.IUserRepositoryJPA;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  *
- * @author augusto
+ * @author Augusto Mesquita
  */
 @RestController
 @RequestMapping("/users")
 public class JUserController {
 
     @Autowired
-    IUserRepository userRepository;
+    IUserRepositoryJPA userRepository;
 
-    @RequestMapping("")
-    public Iterable<JUser> users() {
-        Iterable<JUser> findAll = userRepository.findAll();
+    @GetMapping("")
+    public Iterable<JUserJPA> users() {
+        Iterable<JUserJPA> findAll = userRepository.findAll();
         return findAll;
-    } 
+    }
+
+    @GetMapping(value = "/apenas-admins")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public String adminRolePath(@PathVariable("name") String name) {
+        return "Olá " + name + ", você é admin no sistema.";
+    }
 
 }

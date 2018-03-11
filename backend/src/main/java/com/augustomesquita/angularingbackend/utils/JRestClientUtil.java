@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.augustomesquita.angularingbackend.utils;
 
 import org.springframework.http.HttpEntity;
@@ -14,15 +9,15 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  *
- * @author augus
+ * @author Augusto Mesquita
  */
-public class JRestClient {
+public class JRestClientUtil {
 
     private final RestTemplate rest;
     private final HttpHeaders headers;
     private HttpStatus status;
 
-    public JRestClient() {
+    public JRestClientUtil() {
         this.rest = new RestTemplate();
         this.headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");

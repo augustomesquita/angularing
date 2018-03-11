@@ -1,15 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.augustomesquita.angularingbackend.teste;
+package com.augustomesquita.angularingbackend.enums;
 
 import java.util.Arrays;
 
 /**
  *
- * @author augus
+ * @author Augusto Mesquita
  */
 public enum EProfile {
     ROLE_ADMIN(1),

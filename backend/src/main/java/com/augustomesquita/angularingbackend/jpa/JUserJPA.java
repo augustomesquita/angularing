@@ -1,11 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.augustomesquita.angularingbackend.teste;
+package com.augustomesquita.angularingbackend.jpa;
 
+import com.augustomesquita.angularingbackend.enums.EProfile;
+import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,18 +13,29 @@ import javax.persistence.Table;
 
 /**
  *
- * @author augusto
+ * @author Augusto Mesquita
  */
 @Entity
 @Table(name = "_user")
-public class JUser {
+public class JUserJPA implements Serializable {
 
+    private static final long serialVersionUID = 306411570471828345L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "email", nullable = false)
     private String email;
+
+    @Column(name = "password", nullable = false)
     private String password;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "profile")
     private EProfile profile;
 
     public Long getId() {

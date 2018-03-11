@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.augustomesquita.angularingbackend.teste;
+package com.augustomesquita.angularingbackend.enums;
 
+import com.augustomesquita.angularingbackend.enums.EProfile;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -14,7 +10,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author augus
+ * @author Augusto Mesquita
  */
 public class EProfileTest {
     
