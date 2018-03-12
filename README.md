@@ -2,7 +2,7 @@
 O objetivo do projeto é explorar a criação e funcionamento de uma SPA (Single Page Application) utilizando framework frontend(Angular 5) e backend (Spring Boot). 
 Ambos os projetos visam as melhores práticas para o uso de cada tecnologia. Entre as características de cada plataforma temos:
 
-##### Backend
+## Backend
 - Linguagem Java 8
 - Spring Boot Framework
 - Spring Security (segurança da aplicação)
@@ -16,7 +16,7 @@ Ambos os projetos visam as melhores práticas para o uso de cada tecnologia. Ent
 - Flyway integrado ao Spring (versionamento de banco de dados)
 - Utilização do Java Code Convention para codificação (http://www.oracle.com/technetwork/java/codeconvtoc-136057.html)
 
-##### Frontend
+## Frontend
 - Linguagem Vanilla JS (Javascript)
 - Angular 5 Framework 
 - Geração de projeto com [Angular CLI](https://github.com/angular/angular-cli) versão 1.6.5
