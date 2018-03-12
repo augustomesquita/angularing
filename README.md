@@ -23,5 +23,3 @@ Ambos os projetos visam as melhores práticas para o uso de cada tecnologia. Ent
 - Bootstrap 4
 - Integração com login do Facebook para autenticação com backend
 - Integração com login do Google para autenticação com backend
-
-O projeto também serve como um setup inicial de projetos que irão utilizar Angular e/ou que utilizarão Spring Boot no backend com autenticação stateless através de token usando o protocolo JWT.
