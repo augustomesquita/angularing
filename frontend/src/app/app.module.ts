@@ -17,10 +17,16 @@ import { SocialLoginModule, AuthServiceConfig } from 'angular4-social-login';
 import { FacebookLoginProvider, GoogleLoginProvider } from 'angular4-social-login';
 
 // Elementos criados para o projeto
-import { AppRouting } from './app.routing'
-import { MouseOverHighlightDirective } from './shared/mouse-over-highlight/mouse-over-highlight.directive';
+// Services
+import { AuthenticationService } from './service/authentication/authentication.service';
 import { MeuServicoService } from './service/meu-servico/meu-servico.service';
+import { CursoService } from './service/curso/curso.service';
 import { SettingsService } from './service/settings/settings.service';
+// Roteamento
+import { AppRouting } from './app.routing'
+// Diretivas
+import { MouseOverHighlightDirective } from './shared/mouse-over-highlight/mouse-over-highlight.directive';
+// Componentes
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login-layout/login/login.component';
 import { ComponenteReusavelComponent } from './main-layout/main/home/componente-reusavel/componente-reusavel.component';
@@ -30,7 +36,8 @@ import { NavComponent } from './main-layout/main/nav/nav.component';
 import { LoginLayoutComponent } from './login-layout/login-layout.component';
 import { MainLayoutComponent } from './main-layout/main-layout.component';
 import { CursoComponent } from './main-layout/main/home/curso/curso.component';
-import { CursoService } from './service/curso/curso.service';
+
+
 
 const config = new AuthServiceConfig([
   {
@@ -72,6 +79,7 @@ export function provideConfig() {
   ],
   providers: [
     HttpClientModule,
+    AuthenticationService,
     MeuServicoService,
     SettingsService,
     CursoService,

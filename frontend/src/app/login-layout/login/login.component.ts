@@ -1,3 +1,4 @@
+import { AuthenticationService } from './../../service/authentication/authentication.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Headers, Http, Response } from '@angular/http';
@@ -12,48 +13,24 @@ import { Observable } from 'rxjs/Observable';
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
-  private authStateSubscription: Subscription;
+  private authSub: Subscription;
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private http: Http) { }
+  constructor(private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
-    this.authStateSubscription = this.accountValidator(this.authService);
+    this.authSub = this.authenticationService.login();
   }
 
-  fazerLoginFacebook() {
-    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+  loginFacebook() {
+    this.authenticationService.doLoginFacebook();
   }
 
-  fazerLoginGoogle() {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
-  }
-
-  accountValidator(authService: AuthService): Subscription {
-    return authService.authState.subscribe((user) => {
-      if (user) {
-        this.sendCredential(user.email, user.email).subscribe(res => {
-          if (res.ok) {
-            console.log(res.json())
-            this.router.navigate(['/home']);
-          }
-        });
-      }
-    });
+  loginGoogle() {
+    this.authenticationService.doLoginGoogle();
   }
 
   ngOnDestroy() {
-    this.authStateSubscription.unsubscribe();
-  }
-
-  sendCredential(email: string, password: string): Observable<Response> {
-    const url = 'http://localhost:8080/auth';
-    const body = { email, password }
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-
-    return this.http.post(url, body, { headers: headers });
+    this.authSub.unsubscribe();
   }
 
 }

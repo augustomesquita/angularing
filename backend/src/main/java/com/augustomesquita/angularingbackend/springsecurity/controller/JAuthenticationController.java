@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.augustomesquita.angularingbackend.service.IUserService;
+import com.augustomesquita.angularingbackend.springsecurity.dto.JUserAndTokenDTO;
+import com.augustomesquita.angularingbackend.utils.JConvertToDtoUtil;
 
 /**
  *
@@ -55,11 +57,11 @@ public class JAuthenticationController {
      * AuthenticationException
      */
     @PostMapping
-    public ResponseEntity<JResponseUtil<JTokenDTO>> createTokenJwt(
+    public ResponseEntity<JResponseUtil<JUserAndTokenDTO>> createTokenJwt(
             @Valid @RequestBody JAuthenticationDTO authenticationDTO,
             BindingResult result) throws AuthenticationException {
 
-        JResponseUtil<JTokenDTO> response = new JResponseUtil<JTokenDTO>();
+        JResponseUtil<JUserAndTokenDTO> response = new JResponseUtil<JUserAndTokenDTO>();
 
         // Verifica se já ocorreu algum erro de chamada
         if (result.hasErrors()) {
@@ -83,7 +85,7 @@ public class JAuthenticationController {
             // retorna OK como resposta.
             LOG.info("Gerando token JWT para o email {}.", userDetails.getUsername());
             String token = jwtUtil.getToken(userDetails);
-            response.setData(new JTokenDTO(token));
+            response.setData(new JUserAndTokenDTO(token, JConvertToDtoUtil.convertUser(validUser.get())));
             return ResponseEntity.ok(response);
 
         } else {
