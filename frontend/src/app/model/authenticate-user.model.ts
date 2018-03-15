@@ -9,20 +9,4 @@ export class AuthenticateUser {
         this.token = token;
     }
 
-    public getUser(): User {
-        return this.user;
-    }
-
-    public setUser(user: User): void {
-        this.user = user;
-    }
-
-    public getToken(): string {
-        return this.token;
-    }
-
-    public setToken(token: string): void {
-        this.token = token;
-    }
-
 }

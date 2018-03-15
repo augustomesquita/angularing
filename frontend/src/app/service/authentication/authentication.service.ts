@@ -38,13 +38,11 @@ export class AuthenticationService {
       if (socialUser) {
         this.sendCredential(socialUser.email, socialUser.email).subscribe(res => {
           if (res.ok) {
-
-            let tokenReceived: string = res.json() && res.json().data.token;
-            if (tokenReceived) {
-              let userToken: string = tokenReceived;
-              let user: User = new User(res.json().data.user.name, res.json().data.user.email);
-              let authenticateUser: AuthenticateUser = new AuthenticateUser(user, userToken);
-              localStorage.setItem('loggedUser', JSON.stringify({ authenticateUser }));
+            debugger;
+            let userAuth: AuthenticateUser = res.json() && res.json().data;
+            if (userAuth.token) {
+              console.log(userAuth.user.name)
+              localStorage.setItem('loggedUser', JSON.stringify({ userAuth }));
             }
 
             this.router.navigate(['/home']);
