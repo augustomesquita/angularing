@@ -7,6 +7,7 @@ import { HomeComponent } from './main-layout/main/home/home.component';
 import { MainLayoutComponent } from 'app/main-layout/main-layout.component';
 import { LoginLayoutComponent } from 'app/login-layout/login-layout.component';
 import { CursoComponent } from 'app/main-layout/main/home/curso/curso.component';
+import { AuthGuardService } from './service/auth-guard/auth-guard.service';
 
 const APP_ROUTES: Routes = [
     // A ORDEM IMPORTA NO MOMENTO DA VERIFICAÇÃO
@@ -17,7 +18,7 @@ const APP_ROUTES: Routes = [
         children: [{ path: '', component: LoginComponent }] // SEGUNDO
     },
     {
-        path: '', component: MainLayoutComponent, // TERCEIRO
+        path: '', component: MainLayoutComponent, canActivate: [AuthGuardService],  // TERCEIRO
         children: [
             { path: 'home', component: HomeComponent }, // QUARTO
             { path: 'curso/:id', component: CursoComponent }, // QUINTO

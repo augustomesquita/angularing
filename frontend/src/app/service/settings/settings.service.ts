@@ -4,8 +4,11 @@ import { Injectable, EventEmitter } from '@angular/core';
 export class SettingsService {
 
   themeColorEmitter = new EventEmitter
-
   private themeColor = 'blue'
+  
+  // Constantes
+  public static LOGGED_USER: string = 'loggedUser';
+  public static API_URL: string = 'http://localhost:8080'
 
   constructor() { }
 

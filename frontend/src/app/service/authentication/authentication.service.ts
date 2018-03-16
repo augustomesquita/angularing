@@ -8,6 +8,7 @@ import { GoogleLoginProvider } from 'angular4-social-login';
 import { FacebookLoginProvider } from 'angular4-social-login';
 import { AuthenticateUser } from './../../model/authenticate-user.model';
 import { User } from './../../model/user.model';
+import { SettingsService } from './../settings/settings.service';
 
 @Injectable()
 export class AuthenticationService {
@@ -26,7 +27,7 @@ export class AuthenticationService {
   }
 
   sendCredential(email: string, password: string): Observable<Response> {
-    const url = 'http://localhost:8080/auth';
+    const url = SettingsService.API_URL + '/auth';
     const body = { email, password }
     const headers = new Headers({ 'Content-Type': 'application/json' });
 
@@ -35,14 +36,16 @@ export class AuthenticationService {
 
   login(): Subscription {
     return this.authService.authState.subscribe((socialUser) => {
-      if (socialUser) {
+      debugger
+      if (socialUser != null) {
         this.sendCredential(socialUser.email, socialUser.email).subscribe(res => {
+          debugger;
           if (res.ok) {
             debugger;
             let userAuth: AuthenticateUser = res.json() && res.json().data;
             if (userAuth.token) {
-              console.log(userAuth.user.name)
-              localStorage.setItem('loggedUser', JSON.stringify({ userAuth }));
+              console.log(userAuth)
+              localStorage.setItem(SettingsService.LOGGED_USER, JSON.stringify({ userAuth }));
             }
 
             this.router.navigate(['/home']);

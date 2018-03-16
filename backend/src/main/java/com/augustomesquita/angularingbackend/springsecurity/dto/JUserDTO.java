@@ -10,12 +10,15 @@ package com.augustomesquita.angularingbackend.springsecurity.dto;
  * @author augusto
  */
 public class JUserDTO {
+
     private String name;
     private String email;
-    
-    public JUserDTO(String name, String email) {
+    private String photoUrl;
+
+    public JUserDTO(String name, String email, String photoUrl) {
         this.name = name;
         this.email = email;
+        this.photoUrl = photoUrl;
     }
 
     public String getName() {
@@ -33,6 +36,13 @@ public class JUserDTO {
     public void setEmail(String email) {
         this.email = email;
     }
-    
-    
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
 }

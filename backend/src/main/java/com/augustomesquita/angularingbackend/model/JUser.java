@@ -37,6 +37,9 @@ public class JUser implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "profile", nullable = false)
     private EProfile profile;
+    
+    @Column(name = "photo_url", nullable = true)
+    private String photoUrl;
 
     public Long getId() {
         return id;
@@ -76,6 +79,14 @@ public class JUser implements Serializable {
 
     public void setProfile(EProfile profile) {
         this.profile = profile;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
 }

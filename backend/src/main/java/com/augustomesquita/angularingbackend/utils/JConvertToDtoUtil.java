@@ -8,15 +8,13 @@ import com.augustomesquita.angularingbackend.springsecurity.dto.JUserDTO;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author augusto
  */
 public class JConvertToDtoUtil {
-    
-    
+
     public static JUserDTO convertUser(JUser user) {
-        return new JUserDTO(user.getName(), user.getEmail());
+        return new JUserDTO(user.getName(), user.getEmail(), user.getPhotoUrl());
     }
 }

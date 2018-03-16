@@ -1,16 +1,18 @@
+import { AuthenticationService } from './../../../service/authentication/authentication.service';
 import { Router } from '@angular/router';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { MeuServicoService } from 'app/service/meu-servico/meu-servico.service';
 import { SettingsService } from 'app/service/settings/settings.service';
 import { AuthService, SocialUser } from 'angular4-social-login';
 import { Subscription } from 'rxjs/Rx';
+import { User } from './../../../model/user.model';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
 
   private slcColorPage: string
 
@@ -22,13 +24,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   private stringsFromService: string[]
   private livro: LivroInterface
 
-  // Facebook's login
-  private user: SocialUser;
+  private loggedUser: User;
   private loggedIn: boolean;
-  private authStateSubscription: Subscription;
 
-  constructor(private meuServico: MeuServicoService, private settingsService: SettingsService, 
-    private authService: AuthService, private router: Router) {
+  constructor(private meuServico: MeuServicoService, 
+    private settingsService: SettingsService, 
+    private router: Router,
+    private authService: AuthenticationService 
+  ) {
 
     this.slcColorPage = 'blue'
     this.isMouseOver = false
@@ -43,27 +46,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnInit() {
-    this.authStateSubscription = this.accountValidator(this.authService);
-  }
-
-  ngOnDestroy() {
-    this.authStateSubscription.unsubscribe();
-  }
-
-  accountValidator(authService: AuthService) {
-    return authService.authState.subscribe((user) => {
-      if (!user) {
-        this.router.navigate(['/']);
-      } else {
-        this.user = user;
-        this.loggedIn = (user != null)
-      }
-    });
+  ngOnInit(): void {
+    debugger;
+    this.loggedUser = JSON.parse(localStorage.getItem(SettingsService.LOGGED_USER));
+    console.log("loogerdUser: " + this.loggedUser)
   }
 
   fazerLogout() {
-    this.authService.signOut();
+    this.authService.logout();
   }
 
   mostrarTexto(textoParaSerMostrado: string) {

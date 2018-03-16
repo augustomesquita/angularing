@@ -4,5 +4,6 @@ create table _user (
 	email varchar(255),
 	password varchar(255),
         profile varchar(255),
+        photo_url varchar(255),
 	primary key(id)
 );

@@ -19,9 +19,11 @@ import { FacebookLoginProvider, GoogleLoginProvider } from 'angular4-social-logi
 // Elementos criados para o projeto
 // Services
 import { AuthenticationService } from './service/authentication/authentication.service';
+import { AuthGuardService } from './service/auth-guard/auth-guard.service';
+import { SettingsService } from './service/settings/settings.service';
 import { MeuServicoService } from './service/meu-servico/meu-servico.service';
 import { CursoService } from './service/curso/curso.service';
-import { SettingsService } from './service/settings/settings.service';
+
 // Roteamento
 import { AppRouting } from './app.routing'
 // Diretivas
@@ -80,6 +82,7 @@ export function provideConfig() {
   providers: [
     HttpClientModule,
     AuthenticationService,
+    AuthGuardService,
     MeuServicoService,
     SettingsService,
     CursoService,
