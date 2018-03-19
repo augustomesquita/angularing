@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Router } from '@angular/router';
-import { AuthService } from 'angular4-social-login';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Rx';
-import { GoogleLoginProvider } from 'angular4-social-login';
-import { FacebookLoginProvider } from 'angular4-social-login';
-import { AuthenticateUser } from './../../model/authenticate-user.model';
-import { User } from './../../model/user.model';
-import { SettingsService } from './../settings/settings.service';
+import { AuthService, GoogleLoginProvider, FacebookLoginProvider } from 'angular4-social-login';
+import { SettingsService } from 'app/control/settings/settings.service';
+import { AuthenticateUser } from 'app/model/entity/authenticate-user.model';
 
 @Injectable()
 export class AuthenticationService {

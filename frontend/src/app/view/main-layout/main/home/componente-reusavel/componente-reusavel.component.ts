@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
-import { } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'app-componente-reusavel',

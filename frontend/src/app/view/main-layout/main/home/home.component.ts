@@ -1,11 +1,11 @@
-import { AuthenticationService } from './../../../service/authentication/authentication.service';
-import { Router } from '@angular/router';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { MeuServicoService } from 'app/service/meu-servico/meu-servico.service';
-import { SettingsService } from 'app/service/settings/settings.service';
-import { AuthService, SocialUser } from 'angular4-social-login';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
-import { User } from './../../../model/user.model';
+import { AuthService, SocialUser } from 'angular4-social-login';
+import { User } from 'app/model/entity/user.model';
+import { MeuServicoService } from 'app/control/meu-servico/meu-servico.service';
+import { SettingsService } from 'app/control/settings/settings.service';
+import { AuthenticationService } from 'app/control/authentication/authentication.service';
 
 @Component({
   selector: 'app-home',

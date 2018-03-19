@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { SettingsService } from 'app/service/settings/settings.service';
+import { SettingsService } from 'app/control/settings/settings.service';
 
 @Component({
   selector: 'app-nav',
