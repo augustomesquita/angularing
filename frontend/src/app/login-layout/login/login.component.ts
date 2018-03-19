@@ -11,14 +11,13 @@ import { Observable } from 'rxjs/Observable';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
 
   private authSub: Subscription;
 
   constructor(private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
-    this.authSub = this.authenticationService.login();
   }
 
   loginFacebook() {
@@ -27,10 +26,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   loginGoogle() {
     this.authenticationService.doLoginGoogle();
-  }
-
-  ngOnDestroy() {
-    this.authSub.unsubscribe();
   }
 
 }

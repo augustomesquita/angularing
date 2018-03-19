@@ -13,6 +13,8 @@ import { SettingsService } from './../settings/settings.service';
 @Injectable()
 export class AuthenticationService {
 
+  private subscription: Subscription;
+
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -20,10 +22,12 @@ export class AuthenticationService {
 
   doLoginFacebook() {
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+    this.doLogin();
   }
 
   doLoginGoogle() {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
+    this.doLogin();
   }
 
   sendCredential(email: string, password: string): Observable<Response> {
@@ -34,21 +38,17 @@ export class AuthenticationService {
     return this.http.post(url, body, { headers });
   }
 
+  doLogin() {
+    this.subscription = this.login();
+    this.subscription.unsubscribe();
+  }
+
   login(): Subscription {
     return this.authService.authState.subscribe((socialUser) => {
-      debugger
       if (socialUser != null) {
         this.sendCredential(socialUser.email, socialUser.email).subscribe(res => {
-          debugger;
           if (res.ok) {
-            debugger;
-            let userAuth: AuthenticateUser = res.json() && res.json().data;
-            if (userAuth.token) {
-              console.log(userAuth)
-              localStorage.setItem(SettingsService.LOGGED_USER, JSON.stringify({ userAuth }));
-            }
-
-            this.router.navigate(['/home']);
+            this.userSessionValidating(res);
           }
         });
       }
@@ -56,8 +56,18 @@ export class AuthenticationService {
   }
 
   logout(): void {
-    // remove user from local storage (invalidating)
+    // Remove usuário do localStorage (invalidando)
+    // e redireciona usuário para página inicial.
     localStorage.removeItem('loggedUser');
-}
+    this.router.navigate(['/']);
+  }
+
+  userSessionValidating(res: Response) {
+    let userAuth: AuthenticateUser = res.json() && res.json().data;
+    if (userAuth.token) {
+      localStorage.setItem(SettingsService.LOGGED_USER, JSON.stringify({ userAuth }));
+    }
+    this.router.navigate(['/home']);
+  }
 
 }
