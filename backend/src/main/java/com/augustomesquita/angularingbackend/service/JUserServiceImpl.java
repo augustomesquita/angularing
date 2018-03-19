@@ -1,5 +1,6 @@
 package com.augustomesquita.angularingbackend.service;
 
+import com.augustomesquita.angularingbackend.enums.EProfile;
 import com.augustomesquita.angularingbackend.model.JUser;
 import com.augustomesquita.angularingbackend.model.JUser;
 import java.util.Optional;
@@ -26,6 +27,17 @@ public class JUserServiceImpl implements IUserService {
     @Override
     public Optional<JUser> findByEmail(String email) {
         return Optional.ofNullable(this.userRepository.findByEmail(email));
+    }
+
+    @Override
+    public JUser save(String name, String email, String password, String photoUrl) {
+        JUser user = new JUser();
+        user.setName(name);
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setPhotoUrl(photoUrl);
+        user.setProfile(EProfile.ROLE_USER);
+        return this.userRepository.save(user);
     }
 
 }

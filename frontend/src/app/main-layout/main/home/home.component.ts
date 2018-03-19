@@ -47,9 +47,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger;
     this.loggedUser = JSON.parse(localStorage.getItem(SettingsService.LOGGED_USER));
-    console.log("loogerdUser: " + this.loggedUser)
   }
 
   fazerLogout() {
