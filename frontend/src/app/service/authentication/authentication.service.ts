@@ -3,7 +3,7 @@ import { Http, Response, Headers } from '@angular/http';
 import { Router } from '@angular/router';
 import { AuthService } from 'angular4-social-login';
 import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Rx';
 import { GoogleLoginProvider } from 'angular4-social-login';
 import { FacebookLoginProvider } from 'angular4-social-login';
 import { AuthenticateUser } from './../../model/authenticate-user.model';
@@ -30,9 +30,9 @@ export class AuthenticationService {
     this.doLogin();
   }
 
-  sendCredential(email: string, password: string): Observable<Response> {
+  sendCredential(name: string, email: string, password: string, photoUrl: string): Observable<Response> {
     const url = SettingsService.API_URL + '/auth';
-    const body = { email, password }
+    const body = { name, email, password, photoUrl }
     const headers = new Headers({ 'Content-Type': 'application/json' });
 
     return this.http.post(url, body, { headers });
@@ -46,7 +46,7 @@ export class AuthenticationService {
   login(): Subscription {
     return this.authService.authState.subscribe((socialUser) => {
       if (socialUser != null) {
-        this.sendCredential(socialUser.email, socialUser.email).subscribe(res => {
+        this.sendCredential(socialUser.name, socialUser.email, socialUser.email, socialUser.photoUrl).subscribe(res => {
           if (res.ok) {
             this.userSessionValidating(res);
           }

@@ -76,21 +76,28 @@ public class JAuthenticationController {
         if (validUser.isPresent()) {
 
             // Caso as credênciais sejam de um usuário válido no sistema, 
-            // cria um usuário no formato do spring security (userDetail)
-            // passando seu username (que é nosso email no caso).
+            // gera um usuário no formato do spring security (userDetail)
+            // passando seu username (que é o email do usuário).
             UserDetails userDetails = userDetailsService.loadUserByUsername(
-                    authenticationDTO.getEmail());
+                    validUser.get().getEmail());
 
-            // Após isso, gera um token para o usuário que foi criado e
-            // retorna OK como resposta.
-            LOG.info("Gerando token JWT para o email {}.", userDetails.getUsername());
-            String token = jwtUtil.getToken(userDetails);
-            response.setData(new JUserAndTokenDTO(token, JConvertToDtoUtil.convertUser(validUser.get())));
+            // Gera um token para o usuário
+            generateToken(userDetails, validUser.get(), response);
+
             return ResponseEntity.ok(response);
 
         } else {
-            response.getErrors().add("Erro. Conta inválida.");
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+            // Caso as credênciais não sejam de um usuário válido no sistema,
+            // cria um usuário para a conta passada. Após isso 
+            // gera um usuário no formato do spring security (userDetail)
+            // passando seu username (que é o email do usuário que foi criado).
+            JUser userJustCreated = userService.save(authenticationDTO.getName(), authenticationDTO.getEmail(), authenticationDTO.getPassword(), authenticationDTO.getPhotoUrl());
+            UserDetails userDetails = userDetailsService.loadUserByUsername(userJustCreated.getEmail());
+
+            // Gera um token para o usuário
+            generateToken(userDetails, userJustCreated, response);
+
+            return ResponseEntity.ok(response);
         }
     }
 
@@ -100,7 +107,7 @@ public class JAuthenticationController {
 
         LOG.info("Gerando refresh para token JWT");
         JResponseUtil<JTokenDTO> response = new JResponseUtil<>();
-       
+
         // Pega o token vindo do header.
         String token = JJwtUtil.getTokenFromHeader(request);
 
@@ -122,6 +129,12 @@ public class JAuthenticationController {
 
         // Envia novo token atualizado como resposta do tipo OK.
         return ResponseEntity.ok(response);
+    }
+
+    private void generateToken(UserDetails userDetails, JUser validUser, JResponseUtil<JUserAndTokenDTO> response) {
+        LOG.info("Gerando token JWT para o email {}.", userDetails.getUsername());
+        String token = jwtUtil.getToken(userDetails);
+        response.setData(new JUserAndTokenDTO(token, JConvertToDtoUtil.convertUser(validUser)));
     }
 
 }

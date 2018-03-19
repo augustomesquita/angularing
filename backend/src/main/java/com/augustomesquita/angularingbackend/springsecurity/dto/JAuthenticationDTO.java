@@ -9,8 +9,10 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class JAuthenticationDTO {
     
+    private String name;
     private String email;
     private String password;
+    private String photoUrl;
 
     @NotEmpty(message = "Email não pode ser vazio.")
     @Email(message = "Email inválido.")
@@ -31,11 +33,21 @@ public class JAuthenticationDTO {
         this.password = password;
     }
 
-    @Override
-    public String toString() {
-        return "JJwtAuthenticationDTO[email=" + email 
-                + ", password=" + password + "]";
+    @NotEmpty(message = "Nome não pode ser vazio.")
+    public String getName() {
+        return name;
     }
-    
-    
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+  
 }
