@@ -4,6 +4,7 @@ import { Headers, Http, Response } from '@angular/http';
 import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angular4-social-login';
 import { Subscription } from 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
+import { NotificationsService } from 'angular2-notifications';
 import { AuthenticationService } from 'app/control/authentication/authentication.service';
 
 @Component({
@@ -13,7 +14,12 @@ import { AuthenticationService } from 'app/control/authentication/authentication
 })
 export class LoginComponent implements OnInit {
 
-  private authSub: Subscription;
+  private notificationOption = {
+    position: ['bottom', 'center'],
+    timeOut: 3000,
+    lastOnBottom: true,
+    showProgressBar: true
+  }
 
   constructor(private authenticationService: AuthenticationService) { }
 
