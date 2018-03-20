@@ -1,6 +1,6 @@
 import { Router, CanActivate } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { SettingsService } from 'app/service/settings/settings.service';
+import { SettingsService } from 'app/control/settings/settings.service';
 
 @Injectable()
 export class AuthGuardService implements CanActivate {

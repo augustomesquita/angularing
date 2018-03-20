@@ -1,24 +1,23 @@
-import { AuthenticationService } from './../../service/authentication/authentication.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Headers, Http, Response } from '@angular/http';
 import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angular4-social-login';
 import { Subscription } from 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
+import { AuthenticationService } from 'app/control/authentication/authentication.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
 
   private authSub: Subscription;
 
   constructor(private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
-    this.authSub = this.authenticationService.login();
   }
 
   loginFacebook() {
@@ -27,10 +26,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   loginGoogle() {
     this.authenticationService.doLoginGoogle();
-  }
-
-  ngOnDestroy() {
-    this.authSub.unsubscribe();
   }
 
 }

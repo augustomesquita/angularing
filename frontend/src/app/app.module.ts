@@ -19,26 +19,26 @@ import { SimpleNotificationsModule } from 'angular2-notifications';
 
 // Elementos criados para o projeto
 // Services
-import { AuthenticationService } from './service/authentication/authentication.service';
-import { AuthGuardService } from './service/auth-guard/auth-guard.service';
-import { SettingsService } from './service/settings/settings.service';
-import { MeuServicoService } from './service/meu-servico/meu-servico.service';
-import { CursoService } from './service/curso/curso.service';
+import { AuthenticationService } from './control/authentication/authentication.service';
+import { AuthGuardService } from './control/auth-guard/auth-guard.service';
+import { SettingsService } from './control/settings/settings.service';
+import { MeuServicoService } from './control/meu-servico/meu-servico.service';
+import { CursoService } from './control/curso/curso.service';
 
 // Roteamento
 import { AppRouting } from './app.routing'
 // Diretivas
-import { MouseOverHighlightDirective } from './shared/mouse-over-highlight/mouse-over-highlight.directive';
+import { MouseOverHighlightDirective } from './view/shared/mouse-over-highlight/mouse-over-highlight.directive';
 // Componentes
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login-layout/login/login.component';
-import { ComponenteReusavelComponent } from './main-layout/main/home/componente-reusavel/componente-reusavel.component';
-import { HomeComponent } from './main-layout/main/home/home.component';
-import { AboutComponent } from './main-layout/main/about/about.component';
-import { NavComponent } from './main-layout/main/nav/nav.component';
-import { LoginLayoutComponent } from './login-layout/login-layout.component';
-import { MainLayoutComponent } from './main-layout/main-layout.component';
-import { CursoComponent } from './main-layout/main/home/curso/curso.component';
+import { LoginComponent } from './view/login-layout/login/login.component';
+import { ComponenteReusavelComponent } from './view/main-layout/main/home/componente-reusavel/componente-reusavel.component';
+import { HomeComponent } from './view/main-layout/main/home/home.component';
+import { AboutComponent } from './view/main-layout/main/about/about.component';
+import { NavComponent } from './view/main-layout/main/nav/nav.component';
+import { LoginLayoutComponent } from './view/login-layout/login-layout.component';
+import { MainLayoutComponent } from './view/main-layout/main-layout.component';
+import { CursoComponent } from './view/main-layout/main/home/curso/curso.component';
 
 
 
