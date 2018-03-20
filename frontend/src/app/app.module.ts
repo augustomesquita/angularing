@@ -15,6 +15,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { SocialLoginModule, AuthServiceConfig } from 'angular4-social-login';
 import { FacebookLoginProvider, GoogleLoginProvider } from 'angular4-social-login';
+import { SimpleNotificationsModule } from 'angular2-notifications';
 
 // Elementos criados para o projeto
 // Services
@@ -72,8 +73,9 @@ export function provideConfig() {
   imports: [
     HttpModule,
     HttpClientModule,
-    SocialLoginModule,
     BrowserModule,
+    SocialLoginModule,
+    SimpleNotificationsModule,
     FormsModule,
     NgbModule.forRoot(),
     AngularSvgIconModule,

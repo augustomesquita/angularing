@@ -27,10 +27,10 @@ export class HomeComponent implements OnInit {
   private loggedUser: User;
   private loggedIn: boolean;
 
-  constructor(private meuServico: MeuServicoService, 
-    private settingsService: SettingsService, 
+  constructor(private meuServico: MeuServicoService,
+    private settingsService: SettingsService,
     private router: Router,
-    private authService: AuthenticationService 
+    private authService: AuthenticationService
   ) {
 
     this.slcColorPage = 'blue'
