@@ -1,7 +1,9 @@
+// Angular imports
+import { NgModule } from '@angular/core';
 import { ModuleWithProviders } from '@angular/core/src/metadata/ng_module';
 import { Routes, RouterModule } from '@angular/router';
 
-// Views
+// Views imports
 import { LoginComponent } from './view/login-layout/login/login.component';
 import { AboutComponent } from './view/main-layout/main/about/about.component';
 import { HomeComponent } from './view/main-layout/main/home/home.component';
@@ -9,7 +11,7 @@ import { MainLayoutComponent } from './view/main-layout/main-layout.component';
 import { LoginLayoutComponent } from './view/login-layout/login-layout.component';
 import { CursoComponent } from './view/main-layout/main/home/curso/curso.component';
 
-// Control (Segurança)
+// AuthGuard imports
 import { AuthGuardService } from './control/auth-guard/auth-guard.service';
 
 const APP_ROUTES: Routes = [
@@ -30,4 +32,8 @@ const APP_ROUTES: Routes = [
     }
 ]
 
-export const AppRouting: ModuleWithProviders = RouterModule.forRoot(APP_ROUTES)
+@NgModule({
+    imports: [RouterModule.forRoot(APP_ROUTES)],
+    exports: [RouterModule]
+})
+export class AppRoutingModule { }

@@ -6,17 +6,20 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 
-// Registra local para Brasil
-import { registerLocaleData } from '@angular/common';
-import ptBr from '@angular/common/locales/pt';
-registerLocaleData(ptBr)
-
 // Módulos de terceiros
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { SocialLoginModule, AuthServiceConfig } from 'angular4-social-login';
 import { FacebookLoginProvider, GoogleLoginProvider } from 'angular4-social-login';
 import { SimpleNotificationsModule } from 'angular2-notifications';
+
+// Módulos do projeto
+import { AppRoutingModule } from './app.routing.module';
+
+// Registra local para Brasil
+import { registerLocaleData } from '@angular/common';
+import ptBr from '@angular/common/locales/pt';
+registerLocaleData(ptBr)
 
 // Elementos criados para o projeto
 // Services
@@ -26,8 +29,6 @@ import { SettingsService } from './control/settings/settings.service';
 import { MeuServicoService } from './control/meu-servico/meu-servico.service';
 import { CursoService } from './control/curso/curso.service';
 
-// Roteamento
-import { AppRouting } from './app.routing'
 // Diretivas
 import { MouseOverHighlightDirective } from './view/shared/mouse-over-highlight/mouse-over-highlight.directive';
 // Componentes
@@ -81,7 +82,7 @@ export function provideConfig() {
     FormsModule,
     NgbModule.forRoot(),
     AngularSvgIconModule,
-    AppRouting,
+    AppRoutingModule,
   ],
   providers: [
     HttpClientModule,
