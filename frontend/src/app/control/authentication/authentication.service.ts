@@ -3,7 +3,7 @@ import { Http, Response, Headers } from '@angular/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Rx';
-import { AuthService, GoogleLoginProvider, FacebookLoginProvider } from 'angular4-social-login';
+import { SocialUser, AuthService, GoogleLoginProvider, FacebookLoginProvider } from 'angular4-social-login';
 import { SettingsService } from 'app/control/settings/settings.service';
 import { AuthenticateUser } from 'app/model/entity/authenticate-user.model';
 import { NotificationsService } from 'angular2-notifications';
@@ -14,8 +14,6 @@ const GOOGLE_STRING = 'Google'
 @Injectable()
 export class AuthenticationService {
 
-  private subscription: Subscription;
-
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -24,39 +22,27 @@ export class AuthenticationService {
 
   doLoginFacebook() {
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID)
-      .then(() => this.doLogin(), () => this.errorOnSocialProfileCredentials(FACEBOOK_STRING))
-      .catch(() => this.errorOnSocialProfileConnection(FACEBOOK_STRING));
+      .then((socialUser) => this.doLogin(socialUser), (error) => this.errorOnSocialProfileCredentials(FACEBOOK_STRING, error))
+      .catch((error) => this.errorOnSocialProfileConnection(FACEBOOK_STRING, error));
   }
 
   doLoginGoogle() {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID)
-      .then(() => this.doLogin(), () => this.errorOnSocialProfileCredentials(GOOGLE_STRING))
-      .catch(() => this.errorOnSocialProfileConnection(GOOGLE_STRING));
+      .then((socialUser) => this.doLogin(socialUser), (error) => this.errorOnSocialProfileCredentials(GOOGLE_STRING, error))
+      .catch((error) => this.errorOnSocialProfileConnection(GOOGLE_STRING, error));
   }
 
-  doLogin() {
-    this.subscription = this.login();
-    this.subscription.unsubscribe();
+  doLogin(socialUser: SocialUser) {
+    this.login(socialUser);
   }
 
-  login(): Subscription {
-    let connectionError = true;
-    return this.authService.authState.subscribe((socialUser) => {
-      if (socialUser != null) {
-        this.sendCredential(socialUser.name, socialUser.email, socialUser.email, socialUser.photoUrl).subscribe(res => {
-          if (res.ok) {
-            connectionError = false;
-            this.userSessionValidating(res);
-          }
-        });
-
-        // Envia notificação visual para usuário caso o servidor
-        // não esteja ativo.
-        if (connectionError) {
-          this.notificationService.error('Ops!', 'Servidor não respondeu...');
-        }
-      }
-    });
+  login(socialUser: SocialUser) {
+    if (socialUser != null) {
+      this.sendCredential(socialUser.name, socialUser.email, socialUser.email, socialUser.photoUrl).subscribe(
+        (response) => this.userSessionValidating(response),
+        (error) => this.notificationService.error('Ops!', 'Servidor não respondeu...')
+      );
+    }
   }
 
   sendCredential(name: string, email: string, password: string, photoUrl: string): Observable<Response> {
@@ -71,7 +57,7 @@ export class AuthenticationService {
     // Remove usuário do localStorage (invalidando)
     // e redireciona o mesmo para página inicial.
     this.authService.signOut();
-    localStorage.removeItem('loggedUser');
+    localStorage.removeItem(SettingsService.LOGGED_USER);
     this.router.navigate(['/']);
   }
 
@@ -85,11 +71,13 @@ export class AuthenticationService {
     this.router.navigate(['/home']);
   }
 
-  errorOnSocialProfileCredentials(socialPlataform: string) {
+  errorOnSocialProfileCredentials(socialPlataform: string, error: any) {
+    console.log(error);
     this.notificationService.error('Ops!', 'Sua conta de ' + socialPlataform + ' não é válida. Tente novamente.');
   }
 
-  errorOnSocialProfileConnection(socialPlataform: string) {
+  errorOnSocialProfileConnection(socialPlataform: string, error: any) {
+    console.log(error);
     this.notificationService.error('Ops!', 'Houve um erro de comunicação com o ' + socialPlataform + '. Tente mais tarde.');
   }
 
