@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Headers, Http, Response } from '@angular/http';
-import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angular4-social-login';
+import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 import { Subscription } from 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 import { NotificationsService } from 'angular2-notifications';

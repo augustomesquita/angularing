@@ -24,7 +24,7 @@
     "@ng-bootstrap/ng-bootstrap": "^1.0.0",
     "angular-svg-icon": "^5.0.0",
     "angular2-notifications": "^0.9.7",
-    "angular4-social-login": "^1.1.1",
+    "angularx-social-login": "^1.1.8",
     "bootstrap": "^4.0.0-beta.3",
     "core-js": "^2.4.1",
     "ngx-svg-icon": "^1.0.2",

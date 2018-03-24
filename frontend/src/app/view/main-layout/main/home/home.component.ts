@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
-import { AuthService, SocialUser } from 'angular4-social-login';
+import { AuthService, SocialUser } from 'angularx-social-login';
 import { User } from 'app/model/entity/user.model';
 import { MeuServicoService } from 'app/control/meu-servico/meu-servico.service';
 import { SettingsService } from 'app/control/settings/settings.service';

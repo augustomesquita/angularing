@@ -3,13 +3,14 @@ import { Http, Response, Headers } from '@angular/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Rx';
-import { SocialUser, AuthService, GoogleLoginProvider, FacebookLoginProvider } from 'angular4-social-login';
+import { LoginOpt, SocialUser, AuthService, GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
 import { SettingsService } from 'app/control/settings/settings.service';
 import { AuthenticateUser } from 'app/model/entity/authenticate-user.model';
 import { NotificationsService } from 'angular2-notifications';
 
 const FACEBOOK_STRING = 'Facebook';
 const GOOGLE_STRING = 'Google'
+
 
 @Injectable()
 export class AuthenticationService {
@@ -53,15 +54,16 @@ export class AuthenticationService {
     return this.http.post(url, body, { headers });
   }
 
+
+  // Remove usuário do localStorage (invalidando)
+  // e redireciona o mesmo para página inicial.
   logout(): void {
-    // Remove usuário do localStorage (invalidando)
-    // e redireciona o mesmo para página inicial.
     this.authService.signOut().then(
       (sucess) => {
         localStorage.removeItem(SettingsService.LOGGED_USER);
         this.router.navigate(['/'])
       },
-      (error) => console.log(error),
+      (error) => console.log(error)
     );
   }
 

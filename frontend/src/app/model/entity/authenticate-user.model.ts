@@ -8,5 +8,4 @@ export class AuthenticateUser {
         this.user = user;
         this.token = token;
     }
-
 }

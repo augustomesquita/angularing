@@ -9,8 +9,7 @@ import { HttpModule } from '@angular/http';
 // Módulos de terceiros
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularSvgIconModule } from 'angular-svg-icon';
-import { SocialLoginModule, AuthServiceConfig } from 'angular4-social-login';
-import { FacebookLoginProvider, GoogleLoginProvider } from 'angular4-social-login';
+import { LoginOpt, FacebookLoginProvider, GoogleLoginProvider, SocialLoginModule, AuthServiceConfig } from 'angularx-social-login';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 
 // Módulos do projeto
@@ -42,16 +41,24 @@ import { LoginLayoutComponent } from './view/login-layout/login-layout.component
 import { MainLayoutComponent } from './view/main-layout/main-layout.component';
 import { CursoComponent } from './view/main-layout/main/home/curso/curso.component';
 
+const fbLoginOptions: LoginOpt = {
+  scope: 'pages_messaging,pages_messaging_subscriptions,email,pages_show_list,manage_pages',
+  return_scopes: true,
+  enable_profile_selector: true
+}; // https://developers.facebook.com/docs/reference/javascript/FB.login/v2.11
 
+const googleLoginOptions: LoginOpt = {
+  scope: 'profile email'
+}; // https://developers.google.com/api-client-library/javascript/reference/referencedocs#gapiauth2clientconfig
 
 const config = new AuthServiceConfig([
   {
     id: FacebookLoginProvider.PROVIDER_ID,
-    provider: new FacebookLoginProvider('1604161956329292')
+    provider: new FacebookLoginProvider('1604161956329292', fbLoginOptions)
   },
   {
     id: GoogleLoginProvider.PROVIDER_ID,
-    provider: new GoogleLoginProvider('331487605606-uelg4mi5n56qajtsk10i9hg6nf13cbln.apps.googleusercontent.com')
+    provider: new GoogleLoginProvider('331487605606-uelg4mi5n56qajtsk10i9hg6nf13cbln.apps.googleusercontent.com', googleLoginOptions)
   }
 ]);
 
