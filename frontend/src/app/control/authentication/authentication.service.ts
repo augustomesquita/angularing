@@ -56,9 +56,13 @@ export class AuthenticationService {
   logout(): void {
     // Remove usuário do localStorage (invalidando)
     // e redireciona o mesmo para página inicial.
-    this.authService.signOut();
-    localStorage.removeItem(SettingsService.LOGGED_USER);
-    this.router.navigate(['/']);
+    this.authService.signOut().then(
+      (sucess) => {
+        localStorage.removeItem(SettingsService.LOGGED_USER);
+        this.router.navigate(['/'])
+      },
+      (error) => console.log(error),
+    );
   }
 
   userSessionValidating(res: Response) {
