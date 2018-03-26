@@ -4,28 +4,31 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 // Módulos do projeto
 import { LanguageModule } from './control/language/language.module';
 import { LoginModule } from './view/login/login.module';
 import { MainModule } from './view/main/main.module';
-import { AppRoutingModule } from './app.routing.module';
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app.routing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
-    HttpModule,
-    HttpClientModule,
     BrowserModule,
     BrowserAnimationsModule,
+    HttpModule,
+    HttpClientModule,
+    RouterModule,
     LanguageModule,
+    AppRoutingModule,
     LoginModule,
     MainModule,
-    AppRoutingModule,
   ],
+  providers: [RouterModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
