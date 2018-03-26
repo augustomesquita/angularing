@@ -26,7 +26,7 @@ import { AppRoutingModule } from './app.routing.module';
     LanguageModule,
     AppRoutingModule,
     LoginModule,
-    MainModule,
+    MainModule
   ],
   providers: [RouterModule],
   bootstrap: [AppComponent]
