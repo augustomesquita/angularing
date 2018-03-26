@@ -5,7 +5,6 @@ export class SettingsService {
 
   // Constantes
   public static LOGGED_USER = 'loggedUser';
-  public static API_URL = 'http://localhost:8080'
 
   // Variáveis
   themeColorEmitter = new EventEmitter

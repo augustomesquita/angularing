@@ -7,10 +7,10 @@ import { LoginOpt, SocialUser, AuthService, GoogleLoginProvider, FacebookLoginPr
 import { SettingsService } from 'app/control/settings/settings.service';
 import { AuthenticateUser } from 'app/model/entity/authenticate-user.model';
 import { NotificationsService } from 'angular2-notifications';
+import { UrlService } from './../url/url.service';
 
 const FACEBOOK_STRING = 'Facebook';
 const GOOGLE_STRING = 'Google'
-
 
 @Injectable()
 export class AuthenticationService {
@@ -47,7 +47,7 @@ export class AuthenticationService {
   }
 
   sendCredential(name: string, email: string, password: string, photoUrl: string): Observable<Response> {
-    const url = SettingsService.API_URL + '/auth';
+    const url = UrlService.API_URL + '/auth';
     const body = { name, email, password, photoUrl };
     const headers = new Headers({ 'Content-Type': 'application/json' });
 
@@ -61,7 +61,7 @@ export class AuthenticationService {
     this.authService.signOut().then(
       (sucess) => {
         localStorage.removeItem(SettingsService.LOGGED_USER);
-        this.router.navigate(['/'])
+        this.router.navigate([UrlService.WEB_LOGIN_URL])
       },
       (error) => console.log(error)
     );

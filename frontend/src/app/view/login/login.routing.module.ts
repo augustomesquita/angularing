@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 // Views imports
 import { LoginLayoutComponent } from './login-layout.component';
 import { LoginComponent } from './login.component';
+import { UrlService } from '../../control/url/url.service';
 
 // AuthGuard import
 import { AuthGuardService } from './../../control/auth-guard/auth-guard.service';
@@ -16,12 +17,12 @@ const loginRoutes: Routes = [
     {
         path: '', component: LoginLayoutComponent, 
         children: [
-            { path: 'login', component: LoginComponent }]
+            { path: UrlService.WEB_LOGIN_URL, component: LoginComponent }]
     }
 ]
 
 @NgModule({
     imports: [RouterModule.forChild(loginRoutes)],
-    exports: [RouterModule],
+    exports: [RouterModule]
 })
 export class LoginRoutingModule { }

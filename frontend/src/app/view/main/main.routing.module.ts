@@ -1,3 +1,4 @@
+import { UrlService } from './../../control/url/url.service';
 // Angular imports
 import { NgModule } from '@angular/core';
 import { ModuleWithProviders } from '@angular/core/src/metadata/ng_module';
@@ -16,9 +17,9 @@ const mainRoutes: Routes = [
     {
         path: '', component: MainLayoutComponent, canActivate: [AuthGuardService],
         children: [
-            { path: 'home', component: HomeComponent },
-            { path: 'curso/:id', component: CursoComponent },
-            { path: 'about', component: AboutComponent }
+            { path: UrlService.WEB_HOME_URL, component: HomeComponent },
+            { path: UrlService.WEB_COURSE_URL + '/:id', component: CursoComponent },
+            { path: UrlService.WEB_ABOUT_URL, component: AboutComponent }
         ]
     }
 ]
@@ -26,5 +27,6 @@ const mainRoutes: Routes = [
 @NgModule({
     imports: [RouterModule.forChild(mainRoutes)],
     exports: [RouterModule],
+    providers: [AuthGuardService]
 })
 export class MainRoutingModule { }
