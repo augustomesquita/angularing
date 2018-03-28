@@ -11,6 +11,16 @@ export class SettingsService {
   themeColorEmitter = new EventEmitter
   private themeColor = 'blue'
 
+  public static getHeaderOptions(): Object {
+    const user = JSON.parse(localStorage.getItem(SettingsService.LOGGED_USER));
+    const headerOptions = {
+      headers: {
+        Authorization: 'Bearer ' + user.userAuth.token
+      }
+    }
+    return headerOptions;
+  }
+
   constructor() { }
 
   public getLocale(): string {
@@ -20,16 +30,6 @@ export class SettingsService {
   public setThemeColor(themeColor: string): void {
     this.themeColor = themeColor
     this.themeColorEmitter.emit(this.themeColor)
-  }
-
-  public static getHeaderOptions(): Object {
-    const user = JSON.parse(localStorage.getItem(SettingsService.LOGGED_USER));
-    const headerOptions = {
-      headers: {
-        Authorization: 'Bearer ' + user.userAuth.token
-      }
-    }
-    return headerOptions;
   }
 
 }
