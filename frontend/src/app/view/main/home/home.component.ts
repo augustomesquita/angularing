@@ -6,6 +6,7 @@ import { User } from 'app/model/entity/user.model';
 import { MeuServicoService } from 'app/control/meu-servico/meu-servico.service';
 import { SettingsService } from 'app/control/settings/settings.service';
 import { AuthenticationService } from 'app/control/authentication/authentication.service';
+import * as EventSource from 'eventsource'
 
 @Component({
   selector: 'app-home',
@@ -44,6 +45,9 @@ export class HomeComponent implements OnInit {
       dataLancamento : 1518782264848,
       preco: 30
     }
+
+    const eventSource = new EventSource(SettingsService.API_URL + '/courses');
+    eventSource.addEventListener('course-created', (event) => console.log(event));
   }
 
   ngOnInit(): void {
