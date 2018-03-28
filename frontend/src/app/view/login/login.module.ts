@@ -11,6 +11,7 @@ import { LoginComponent } from './login.component';
 import { LoginLayoutComponent } from './login-layout.component';
 import { AuthenticationService } from '../../control/authentication/authentication.service';
 import { LoginRoutingModule } from './login.routing.module';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
 export function provideConfig() {
   return config;
@@ -43,7 +44,8 @@ const config = new AuthServiceConfig([
     FormsModule,
     CommonModule,
     LoginRoutingModule,
-    SocialLoginModule
+    SocialLoginModule,
+    AngularSvgIconModule
   ],
   declarations: [LoginComponent, LoginLayoutComponent],
   providers: [
