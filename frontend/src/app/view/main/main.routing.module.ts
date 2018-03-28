@@ -6,7 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 // Views imports
 import { AboutComponent } from './../main/about/about.component';
-import { CursoComponent } from './../main/home/curso/curso.component';
+import { CursoComponent } from './../main/curso/curso.component';
 import { HomeComponent } from './../main/home/home.component';
 import { MainLayoutComponent } from './../main/main-layout.component';
 

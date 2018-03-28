@@ -9,7 +9,7 @@ import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
 import { ComponenteReusavelComponent } from './home/componente-reusavel/componente-reusavel.component';
 import { MainLayoutComponent } from './main-layout.component';
-import { CursoComponent } from './home/curso/curso.component';
+import { CursoComponent } from './curso/curso.component';
 import { MouseOverHighlightDirective } from '../shared/mouse-over-highlight/mouse-over-highlight.directive';
 import { MeuServicoService } from '../../control/meu-servico/meu-servico.service';
 import { SettingsService } from '../../control/settings/settings.service';
