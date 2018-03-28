@@ -1,3 +1,4 @@
+import { UrlService } from './../../../control/url/url.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { SettingsService } from 'app/control/settings/settings.service';
 
@@ -8,8 +9,11 @@ import { SettingsService } from 'app/control/settings/settings.service';
 })
 export class NavComponent implements OnInit {
 
-  private slcColorPage: string
-  private isMouseOnHomeValue: boolean
+  private slcColorPage: string;
+  private isMouseOnHomeValue: boolean;
+
+  private homeUrl: string;
+  private aboutUrl: string;
 
   constructor(private settingService: SettingsService) {
     this.isMouseOnHomeValue = false
@@ -20,6 +24,9 @@ export class NavComponent implements OnInit {
       this.slcColorPage = 'blue'
       localStorage.setItem('theme', this.slcColorPage);
     }
+
+    this.homeUrl = UrlService.WEB_HOME_FULL_URL;
+    this.aboutUrl = UrlService.WEB_ABOUT_FULL_URL;
   }
 
   ngOnInit() {

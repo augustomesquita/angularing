@@ -10,6 +10,7 @@ import { LoginOpt, SocialLoginModule, AuthServiceConfig, FacebookLoginProvider, 
 import { LoginComponent } from './login.component';
 import { LoginLayoutComponent } from './login-layout.component';
 import { AuthenticationService } from '../../control/authentication/authentication.service';
+import { LoginRoutingModule } from './login.routing.module';
 
 export function provideConfig() {
   return config;
@@ -41,7 +42,7 @@ const config = new AuthServiceConfig([
     SimpleNotificationsModule.forRoot(),
     FormsModule,
     CommonModule,
-    RouterModule,
+    LoginRoutingModule,
     SocialLoginModule
   ],
   declarations: [LoginComponent, LoginLayoutComponent],

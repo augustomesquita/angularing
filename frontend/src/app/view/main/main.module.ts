@@ -14,14 +14,14 @@ import { MouseOverHighlightDirective } from '../shared/mouse-over-highlight/mous
 import { MeuServicoService } from '../../control/meu-servico/meu-servico.service';
 import { SettingsService } from '../../control/settings/settings.service';
 import { CursoService } from '../../control/curso/curso.service';
-
+import { MainRoutingModule } from './main.routing.module';
 
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule,
+    MainRoutingModule,
     AngularSvgIconModule,
   ],
   declarations: [
