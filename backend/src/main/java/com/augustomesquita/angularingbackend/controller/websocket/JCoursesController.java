@@ -15,12 +15,12 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
  *
  * @author Augusto Mesquita
  */
-@CrossOrigin(origins = "*")
 @RestController
 public class JCoursesController {
 
     private List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
 
+    @CrossOrigin
     @GetMapping("/courses")
     public SseEmitter courses() {
         SseEmitter sseEmitter = new SseEmitter();
@@ -29,6 +29,7 @@ public class JCoursesController {
         return sseEmitter;
     }
 
+    @CrossOrigin
     @PostMapping("/new-course")
     public void postCourse(String course) {
         emitters.forEach((emitter) -> {
