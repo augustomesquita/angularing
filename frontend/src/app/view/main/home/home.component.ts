@@ -6,6 +6,8 @@ import { User } from 'app/model/entity/user.model';
 import { MeuServicoService } from 'app/control/meu-servico/meu-servico.service';
 import { SettingsService } from 'app/control/settings/settings.service';
 import { AuthenticationService } from 'app/control/authentication/authentication.service';
+import * as EventSource from 'eventsource'
+import { AuthenticateUser } from 'app/model/entity/authenticate-user.model';
 
 @Component({
   selector: 'app-home',
@@ -24,7 +26,7 @@ export class HomeComponent implements OnInit {
   private stringsFromService: string[]
   private livro: LivroInterface
 
-  private loggedUser: User;
+  private loggedUser: AuthenticateUser;
   private loggedIn: boolean;
 
   constructor(private meuServico: MeuServicoService,
@@ -40,14 +42,26 @@ export class HomeComponent implements OnInit {
     this.stringsFromService = meuServico.getAllStrings()
     this.settingsService.themeColorEmitter.subscribe(res => this.slcColorPage = res)
     this.livro = {
-      titulo : 'Easy Angularing',
-      dataLancamento : 1518782264848,
+      titulo: 'Easy Angularing',
+      dataLancamento: 1518782264848,
       preco: 30
     }
+
+
+    const teste = JSON.parse(localStorage.getItem(SettingsService.LOGGED_USER));
+    const options = {
+      headers: {
+        Authorization: 'Bearer ' + teste.userAuth.token
+      }
+    }
+
+    const eventSource = new EventSource(SettingsService.API_URL + '/courses', options);
+    eventSource.addEventListener('course-created', (event) => console.log(event));
   }
 
   ngOnInit(): void {
     this.loggedUser = JSON.parse(localStorage.getItem(SettingsService.LOGGED_USER));
+    console.log(JSON.stringify(this.loggedUser))
   }
 
   fazerLogout() {
