@@ -8,6 +8,8 @@ import java.util.logging.Logger;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -15,13 +17,14 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
  *
  * @author Augusto Mesquita
  */
-@RestController
+@RestController()
+@RequestMapping("/messagings")
 public class JCoursesController {
 
     private List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
 
     @CrossOrigin
-    @GetMapping("/courses")
+    @GetMapping()
     public SseEmitter courses() {
         SseEmitter sseEmitter = new SseEmitter();
         this.emitters.add(sseEmitter);
@@ -30,11 +33,11 @@ public class JCoursesController {
     }
 
     @CrossOrigin
-    @PostMapping("/new-course")
-    public void postCourse(String course) {
+    @PostMapping(value = "new")
+    public void postCourse(@RequestBody String message) {
         emitters.forEach((emitter) -> {
             try {
-                emitter.send(SseEmitter.event().name("course-created").data(course));
+                emitter.send(SseEmitter.event().name("course-created").data(message));
             } catch (IOException ex) {
                 Logger.getLogger(JCoursesController.class.getName()).log(Level.SEVERE, null, ex);
             }

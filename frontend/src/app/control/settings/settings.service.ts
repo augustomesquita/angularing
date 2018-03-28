@@ -6,7 +6,6 @@ export class SettingsService {
   // Constantes
   public static LOGGED_USER = 'loggedUser';
   public static API_URL = 'http://localhost:8080'
-  public static API_WS = 'ws://localhost:8080'
 
   // Variáveis
   themeColorEmitter = new EventEmitter
@@ -21,6 +20,16 @@ export class SettingsService {
   public setThemeColor(themeColor: string): void {
     this.themeColor = themeColor
     this.themeColorEmitter.emit(this.themeColor)
+  }
+
+  public static getHeaderOptions(): Object {
+    const user = JSON.parse(localStorage.getItem(SettingsService.LOGGED_USER));
+    const headerOptions = {
+      headers: {
+        Authorization: 'Bearer ' + user.userAuth.token
+      }
+    }
+    return headerOptions;
   }
 
 }

@@ -61,7 +61,7 @@ public class JWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/auth/**")
+                .antMatchers("/auth/**", "/messagings/**")
                 .permitAll().anyRequest().authenticated();
 
         httpSecurity.addFilterBefore(
