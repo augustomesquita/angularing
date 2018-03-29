@@ -1,0 +1,26 @@
+<div class="main-section" [class.open-more]="menuOpened">
+  <div class="row border-chat" (click)="toggleMessagingBox()">
+    <div class="col-md-12 col-sm-12 col-xs-12 first-section">
+      <p>Angularing Chat</p>
+    </div>
+  </div>
+
+  <div class="row border-chat">
+    <div class="col-md-12 col-sm-12 col-xs-12 second-section">
+      <div class="chat-section">
+        <span *ngIf="chatOff" class="badge badge-pill badge-default text-muted">Chat inativo... Tente mais tarde.</span>
+        <ul [innerHtml]="messagesToAdd"></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row border-chat">
+    <div class="col-md-12 col-sm-12 col-xs-12" [ngStyle]="chatInputColorStyle()">
+      <div class="text-bar">
+        <input #msgInpu type="text" style="width:95%" (keydown.enter)="sendMessage(msgInpu)" [placeholder]="placeHolderText()" [disabled]="chatOff"
+          [ngStyle]="chatInputColorStyle()">
+        <svg-icon (click)="sendMessage(msgInpu)" src="/assets/send.svg" style="cursor:pointer; fill:rgb(84, 172, 255); width:16px;"></svg-icon>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,10 +1,11 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, ViewEncapsulation } from '@angular/core';
 import { Http } from '@angular/http';
 import { SettingsService } from 'app/control/settings/settings.service';
 
 @Component({
   selector: 'app-chatws',
   templateUrl: './chatws.component.html',
+  encapsulation: ViewEncapsulation.None,
   styleUrls: ['./chatws.component.scss']
 })
 export class ChatWsComponent implements OnInit {
