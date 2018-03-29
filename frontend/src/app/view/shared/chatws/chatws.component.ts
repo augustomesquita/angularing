@@ -1,22 +1,13 @@
-import { Component, OnInit, OnDestroy, Renderer, ViewChild, ElementRef, ViewEncapsulation, NgZone } from '@angular/core';
-import { Router } from '@angular/router';
-import { Headers, Http, Response } from '@angular/http';
-import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
-import { Subscription } from 'rxjs/Rx';
-import { Observable } from 'rxjs/Observable';
-import { AuthenticationService } from 'app/control/authentication/authentication.service';
+import { Component, OnInit, NgZone } from '@angular/core';
+import { Http } from '@angular/http';
 import { SettingsService } from 'app/control/settings/settings.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./login.component.scss']
+  selector: 'app-chatws',
+  templateUrl: './chatws.component.html',
+  styleUrls: ['./chatws.component.scss']
 })
-export class LoginComponent implements OnInit {
-
-  private notificationOption  = SettingsService.NOTIFICATION_OPTION_DEFAULT;
-
+export class ChatWsComponent implements OnInit {
 
   private chatOff: boolean;
   private menuOpened: boolean;
@@ -25,11 +16,10 @@ export class LoginComponent implements OnInit {
   private zone: NgZone;
   private webSocket: WebSocket;
 
-  constructor(private authenticationService: AuthenticationService, private http: Http) {
+  constructor(private http: Http) {
     this.message = '';
     this.zone = new NgZone({ enableLongStackTrace: false });
-  }
-  
+   }
 
   ngOnInit() {
     this.chatOff = true
@@ -62,19 +52,6 @@ export class LoginComponent implements OnInit {
       this.chatOff = true;
     }
   }
-
-  loginFacebook() {
-    this.authenticationService.doLoginFacebook();
-  }
-
-  loginGoogle() {
-    this.authenticationService.doLoginGoogle();
-  }
-
-
-
-
-
 
   sendMessage(iptMessage: any) {
     this.message = iptMessage.value;

@@ -1,3 +1,4 @@
+import { ChatWsComponent } from './view/shared/chatws/chatws.component';
 // Módulos do angular
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -15,7 +16,7 @@ import { AppRoutingModule } from './app.routing.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,

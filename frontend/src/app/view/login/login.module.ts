@@ -12,6 +12,7 @@ import { LoginLayoutComponent } from './login-layout.component';
 import { AuthenticationService } from '../../control/authentication/authentication.service';
 import { LoginRoutingModule } from './login.routing.module';
 import { AngularSvgIconModule } from 'angular-svg-icon';
+import { ChatWsComponent } from '../shared/chatws/chatws.component';
 
 export function provideConfig() {
   return config;
@@ -47,7 +48,7 @@ const config = new AuthServiceConfig([
     SocialLoginModule,
     AngularSvgIconModule
   ],
-  declarations: [LoginComponent, LoginLayoutComponent],
+  declarations: [LoginComponent, LoginLayoutComponent, ChatWsComponent],
   providers: [
     AuthenticationService,
     {

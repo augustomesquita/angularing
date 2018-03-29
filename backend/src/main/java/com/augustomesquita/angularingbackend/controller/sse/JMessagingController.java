@@ -18,13 +18,12 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
  * @author Augusto Mesquita
  */
 @RestController()
-@RequestMapping("/messagings-sse")
+@RequestMapping("/messagings/sse")
 @CrossOrigin
 public class JMessagingController {
 
     private List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
 
-    
     @GetMapping()
     public SseEmitter courses() {
         SseEmitter sseEmitter = new SseEmitter();
@@ -37,7 +36,7 @@ public class JMessagingController {
     public void postCourse(@RequestBody String message) {
         emitters.forEach((emitter) -> {
             try {
-                emitter.send(SseEmitter.event().name("message-created").data(message));
+                emitter.send(SseEmitter.event().name("message-created-sse").data(message));
             } catch (IOException ex) {
                 Logger.getLogger(JMessagingController.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -7,6 +7,12 @@ export class SettingsService {
   public static LOGGED_USER = 'loggedUser';
   public static API_URL = 'http://localhost:8080'
   public static API_WS = 'ws://localhost:8080'
+  public static NOTIFICATION_OPTION_DEFAULT = {
+    position: ['bottom', 'center'],
+    timeOut: 3000,
+    lastOnBottom: true,
+    showProgressBar: true
+  }
 
   // Variáveis
   themeColorEmitter = new EventEmitter
