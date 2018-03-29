@@ -19,11 +19,12 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
  */
 @RestController()
 @RequestMapping("/messagings")
+@CrossOrigin
 public class JMessagingController {
 
     private List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
 
-    @CrossOrigin
+    
     @GetMapping()
     public SseEmitter courses() {
         SseEmitter sseEmitter = new SseEmitter();
@@ -32,7 +33,6 @@ public class JMessagingController {
         return sseEmitter;
     }
 
-    @CrossOrigin
     @PostMapping(value = "new")
     public void postCourse(@RequestBody String message) {
         emitters.forEach((emitter) -> {
