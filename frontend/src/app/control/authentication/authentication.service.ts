@@ -47,7 +47,7 @@ export class AuthenticationService {
   }
 
   sendCredential(name: string, email: string, password: string, photoUrl: string): Observable<Response> {
-    const url = UrlService.API_URL + '/auth';
+    const url = SettingsService.API_URL + '/auth';
     const body = { name, email, password, photoUrl };
     const headers = new Headers({ 'Content-Type': 'application/json' });
 
@@ -74,7 +74,7 @@ export class AuthenticationService {
     if (userAuth.token) {
       localStorage.setItem(SettingsService.LOGGED_USER, JSON.stringify({ userAuth }));
     }
-    this.router.navigate(['/home']);
+    this.router.navigate([UrlService.WEB_HOME_FULL_URL]);
   }
 
   errorOnSocialProfileCredentials(socialPlataform: string, error: any) {

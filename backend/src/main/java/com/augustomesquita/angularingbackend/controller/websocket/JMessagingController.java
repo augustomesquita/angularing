@@ -19,7 +19,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
  */
 @RestController()
 @RequestMapping("/messagings")
-public class JCoursesController {
+public class JMessagingController {
 
     private List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
 
@@ -37,9 +37,9 @@ public class JCoursesController {
     public void postCourse(@RequestBody String message) {
         emitters.forEach((emitter) -> {
             try {
-                emitter.send(SseEmitter.event().name("course-created").data(message));
+                emitter.send(SseEmitter.event().name("message-created").data(message));
             } catch (IOException ex) {
-                Logger.getLogger(JCoursesController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(JMessagingController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
     }

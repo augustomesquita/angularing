@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
 
     // Para rotas com acesso liberado:
     const eventSource = new EventSource(SettingsService.API_URL + '/messagings');
-    eventSource.addEventListener('course-created', (event) => this.messageReceivedFromWebSocket(event.data));
+    eventSource.addEventListener('message-created', (event) => this.messageReceivedFromWebSocket(event.data));
   }
 
   ngOnInit() {
@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
   sendMessage(iptMessage: any) {
     this.message = iptMessage.value;
 
-    const url = UrlService.API_URL + '/messagings/new';
+    const url = SettingsService.API_URL + '/messagings/new';
     const headers = new Headers({ 'Content-Type': 'text/plain' });
 
     if (this.message !== null && this.message.length > 0) {
@@ -77,7 +77,6 @@ export class LoginComponent implements OnInit {
 
   messageReceivedFromWebSocket(message: string) {
     this.zone.run(() => {
-      console.log('chegou mensagem')
       if (this.message != message) {
         this.messagesToAdd += '<li><div class="left-chat"><img src="assets/yoshi_chat.png"><p>' + message + '</p></div></li>'
       } else {

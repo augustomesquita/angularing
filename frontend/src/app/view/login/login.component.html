@@ -55,7 +55,7 @@
       <div class="col-md-12 col-sm-12 col-xs-12 third-section">
         <div class="text-bar">
           <input #msgInpu type="text" (keydown.enter)="sendMessage(msgInpu)" placeholder="Write messege">
-          <svg-icon src="/assets/send.svg" style="fill:rgb(84, 172, 255); width:16px"></svg-icon>
+          <svg-icon (click)="sendMessage(msgInpu)" src="/assets/send.svg" style="fill:rgb(84, 172, 255); width:16px"></svg-icon>
         </div>
       </div>
     </div>
