@@ -1,4 +1,4 @@
-package com.augustomesquita.angularingbackend.controller.websocket;
+package com.augustomesquita.angularingbackend.controller.sse;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,7 +18,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
  * @author Augusto Mesquita
  */
 @RestController()
-@RequestMapping("/messagings")
+@RequestMapping("/messagings-sse")
 @CrossOrigin
 public class JMessagingController {
 

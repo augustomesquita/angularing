@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
   private messagesToAdd: string;
   private message: string;
   private zone: NgZone;
+  private webSocket: WebSocket;
 
   private notificationOption = {
     position: ['bottom', 'center'],
@@ -34,19 +35,29 @@ export class LoginComponent implements OnInit {
   constructor(private authenticationService: AuthenticationService, private http: Http, private renderer: Renderer) {
     this.menuOpened = false
     this.message = '';
-    this.zone = new NgZone({enableLongStackTrace: false});
+    this.zone = new NgZone({ enableLongStackTrace: false });
 
-    // Para rotas protegidas por token:
-    // const eventSource = new EventSource(SettingsService.API_URL + '/courses', SettingsService.getHeaderOptions());
+    // Para rotas protegidas por token (SSE - SERVER SIDE EVENTS)
+    // const eventSource = new EventSource(SettingsService.API_URL + '/messagings', SettingsService.getHeaderOptions());
 
-    // Para rotas com acesso liberado:
-    const eventSource = new EventSource(SettingsService.API_URL + '/messagings');
-    eventSource.addEventListener('message-created', (event) => this.messageReceivedFromWebSocket(event.data));
+    // Para rotas com acesso liberado (SSE - SERVER SIDE EVENTS)
+    // const eventSource = new EventSource(SettingsService.API_URL + '/messagings');
+    // eventSource.addEventListener('message-created', (event) => this.messageReceivedFromWebSocket(event.data));
+
+
+
+    // Configura ação a ser tomada quando recebe uma mensagem.
+
   }
 
   ngOnInit() {
     this.menuOpened = false;
     this.messagesToAdd = '';
+
+    // Realiza handshake (websocket)
+    this.webSocket = new WebSocket(SettingsService.API_WS + '/messagings');
+    this.webSocket.onmessage = (message) => this.messageReceivedFromWebSocket(message.data);
+    this.webSocket.onopen = () => console.log('CONEXÃO REALIZADA!')
   }
 
   loginFacebook() {
@@ -64,18 +75,13 @@ export class LoginComponent implements OnInit {
   sendMessage(iptMessage: any) {
     this.message = iptMessage.value;
 
-    const url = SettingsService.API_URL + '/messagings/new';
-    const headers = new Headers({ 'Content-Type': 'text/plain' });
-
     if (this.message !== null && this.message.length > 0) {
-      this.http.post(url, this.message, { headers }).subscribe(
-        (response) => iptMessage.value = '',
-        (error) => console.log('Erro... Servidor não respondeu.' + error)
-      );
+      this.webSocket.send(this.message);
+      iptMessage.value = '';
     }
   }
 
-  messageReceivedFromWebSocket(message: string) {
+  messageReceivedFromWebSocket(message: any) {
     this.zone.run(() => {
       if (this.message != message) {
         this.messagesToAdd += '<li><div class="left-chat"><img src="assets/yoshi_chat.png"><p>' + message + '</p></div></li>'

@@ -57,12 +57,11 @@ public class JWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable().exceptionHandling()
                 .authenticationEntryPoint(unauthorizedHandler)
                 .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/auth/**", "/messagings/**")
-                .permitAll().anyRequest().authenticated();
+                .antMatchers("/auth/**", "/messagings/**").permitAll()
+                .anyRequest().authenticated();
 
         httpSecurity.addFilterBefore(
                 authenticationTokenFilterBean(),
