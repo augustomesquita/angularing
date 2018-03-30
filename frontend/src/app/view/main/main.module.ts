@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { AngularSvgIconModule } from 'angular-svg-icon';
-import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -15,14 +14,15 @@ import { MeuServicoService } from '../../control/meu-servico/meu-servico.service
 import { SettingsService } from '../../control/settings/settings.service';
 import { CursoService } from '../../control/curso/curso.service';
 import { MainRoutingModule } from './main.routing.module';
-
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    SharedModule,
     MainRoutingModule,
-    AngularSvgIconModule,
+    AngularSvgIconModule
   ],
   declarations: [
     NavComponent,

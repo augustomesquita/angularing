@@ -37,7 +37,7 @@ export class ChatWsComponent implements OnInit {
     // Realiza handshake (websocket) e configura o mesmo
     this.webSocket = new WebSocket(SettingsService.API_WS + '/messagings');
     this.webSocket.onmessage = (message) => this.messageReceivedFromWebSocket(message.data);
-    
+
     this.webSocket.onopen = () => {
       console.log('Conexão realizada! O Chat está apto a ser usado.')
       this.chatOff = false;
@@ -47,7 +47,7 @@ export class ChatWsComponent implements OnInit {
       console.log('Conexão finalizada! O Chat ficará inativo.')
       this.chatOff = true;
     }
-    
+
     this.webSocket.onerror = () => {
       console.log('Erro de conexão! O Chat ficará inativo.')
       this.chatOff = true;

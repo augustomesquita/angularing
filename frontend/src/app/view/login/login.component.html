@@ -1,25 +1,25 @@
-<div class="row justify-content-center">
-
-  <div class="col-10 col-sm-8 col-md-6 col-lg-4 mt-3">
-    <form class="form-signin">
-      <div class="col-12 h-75" class="text-center">
-        <h2 class="form-signin-heading">ANGULARING</h2>
-        <img src="assets/mario.ico" />
-      </div>
-      <div class="col-12">
-        <div class="mt-3">
-          <button class="btn btn-lg btn-outline-primary btn-block" (click)="loginFacebook()">LOGIN COM FACEBOOK</button>
-          <button class="btn btn-lg btn-outline-danger btn-block" (click)="loginGoogle()">LOGIN COM GOOGLE</button>
+<div class="col-12">
+  <div class="row justify-content-center">
+    <div class="col-10 col-sm-8 col-md-6 col-lg-4 mt-3">
+      <form class="form-signin">
+        <div class="col-12 h-75" class="text-center">
+          <h2 class="form-signin-heading">ANGULARING</h2>
+          <img src="assets/mario.ico" />
         </div>
-      </div>
-      <div class="col-12 text-right mt-2">
-        <span class="text-secondary">
-          <i>by Augusto Mesquita</i>
-        </span>
-      </div>
-    </form>
-    <simple-notifications [options]="notificationOption"></simple-notifications>
-    <app-chatws></app-chatws>
+        <div class="col-12">
+          <div class="mt-3">
+            <button class="btn btn-lg btn-outline-primary btn-block" (click)="loginFacebook()">LOGIN COM FACEBOOK</button>
+            <button class="btn btn-lg btn-outline-danger btn-block" (click)="loginGoogle()">LOGIN COM GOOGLE</button>
+          </div>
+        </div>
+        <div class="col-12 text-right mt-2">
+          <span class="text-secondary">
+            <i>by Augusto Mesquita</i>
+          </span>
+        </div>
+      </form>
+      <simple-notifications [options]="notificationOption"></simple-notifications>
+    </div>
   </div>
-
 </div>
+<app-chatws></app-chatws>

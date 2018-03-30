@@ -15,7 +15,7 @@ import { AuthGuardService } from './../../control/auth-guard/auth-guard.service'
 // deve ser o mesmo valor do path.
 const loginRoutes: Routes = [
     {
-        path: '', component: LoginLayoutComponent, 
+        path: '', component: LoginLayoutComponent,
         children: [
             { path: UrlService.WEB_LOGIN_URL, component: LoginComponent }]
     }

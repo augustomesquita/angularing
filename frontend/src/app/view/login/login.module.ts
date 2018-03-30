@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-
 
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { LoginOpt, SocialLoginModule, AuthServiceConfig, FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
@@ -12,7 +10,7 @@ import { LoginLayoutComponent } from './login-layout.component';
 import { AuthenticationService } from '../../control/authentication/authentication.service';
 import { LoginRoutingModule } from './login.routing.module';
 import { AngularSvgIconModule } from 'angular-svg-icon';
-import { ChatWsComponent } from '../shared/chatws/chatws.component';
+import { SharedModule } from '../shared/shared.module';
 
 export function provideConfig() {
   return config;
@@ -41,14 +39,15 @@ const config = new AuthServiceConfig([
 
 @NgModule({
   imports: [
-    SimpleNotificationsModule.forRoot(),
-    FormsModule,
     CommonModule,
+    FormsModule,
+    SharedModule,
+    SimpleNotificationsModule.forRoot(),
     LoginRoutingModule,
     SocialLoginModule,
     AngularSvgIconModule
   ],
-  declarations: [LoginComponent, LoginLayoutComponent, ChatWsComponent],
+  declarations: [LoginComponent, LoginLayoutComponent],
   providers: [
     AuthenticationService,
     {
