@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, NgZone, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { Http } from '@angular/http';
 import { SettingsService } from 'app/control/settings/settings.service';
 import { StompService } from '@stomp/ng2-stompjs';
@@ -11,7 +11,7 @@ import { Subscription, Observable } from 'rxjs';
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./chatws.component.scss']
 })
-export class ChatWsComponent implements OnInit {
+export class ChatWsComponent implements OnInit, OnDestroy {
 
   private chatOff: boolean;
   private menuOpened: boolean;
@@ -47,6 +47,10 @@ export class ChatWsComponent implements OnInit {
     // Realiza handshake sem options (SSE - Server Side Event)
     // const eventSource = new EventSource(SettingsService.API_URL + '/messagings');
     // eventSource.addEventListener('message-created', (event) => this.messageReceivedFromWebSocket(event.data));
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
 
@@ -119,10 +123,5 @@ export class ChatWsComponent implements OnInit {
       iptMessage.value = '';
     }
   }
-
-  // response
-  public response = (data) => {
-    console.log('received:' + data)
-  }
-
+  
 }
