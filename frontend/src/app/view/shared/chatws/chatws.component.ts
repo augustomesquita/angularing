@@ -95,13 +95,13 @@ export class ChatWsComponent implements OnInit {
     this.messages = this._stompService.subscribe('/topic/questions');
 
     // Subscribe a function to be run on_next message
-    this.subscription = this.messages.subscribe(this.on_next);
+    this.subscription = this.messages.subscribe(this.messageReceived);
 
     this.subscribed = true;
     this.chatOff = false;
   }
 
-  public on_next = (message: Message) => {
+  public messageReceived = (message: Message) => {
     this.zone.run(() => {
       if (this.message != message.body.toLowerCase()) {
         this.messagesToAdd += '<li><div class="left-chat"><img src="assets/yoshi_chat.png"><p>' + message.body + '</p></div></li>'
