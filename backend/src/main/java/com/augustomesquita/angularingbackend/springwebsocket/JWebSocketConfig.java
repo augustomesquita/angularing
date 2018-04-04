@@ -5,23 +5,29 @@
  */
 package com.augustomesquita.angularingbackend.springwebsocket;
 
-import com.augustomesquita.angularingbackend.springwebsocket.handlers.JMessagingHandler;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.socket.config.annotation.EnableWebSocket;
-import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
-import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 
 /**
  *
  * @author augusto
  */
 @Configuration
-@EnableWebSocket
-public class JWebSocketConfig implements WebSocketConfigurer {
+@EnableWebSocketMessageBroker 
+public class JWebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer  {
 
     @Override
-    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(new JMessagingHandler(), "messagings").setAllowedOrigins("*");
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        registry.addEndpoint("/questions").setAllowedOrigins("*").withSockJS();;
+    }
+
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry registry) {
+        registry.setApplicationDestinationPrefixes("/app")
+                .enableSimpleBroker("/topic", "/queue");
     }
 
 }

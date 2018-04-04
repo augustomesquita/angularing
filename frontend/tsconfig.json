@@ -17,5 +17,9 @@
       "dom"
     ],
   },
-  "include": ["src", "./node_modules/ngx-svg-icon/index.ts"]
+  "include": [
+    "src", 
+    "./node_modules/ngx-svg-icon/index.ts",
+    "./node_modules/ng2-stomp-service/dist/stomp.service.ts"
+  ]
 }

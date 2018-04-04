@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 // Módulos do projeto
+import { StompService } from 'ng2-stomp-service';
 import { LanguageModule } from './control/language/language.module';
 import { LoginModule } from './view/login/login.module';
 import { MainModule } from './view/main/main.module';
@@ -28,7 +29,7 @@ import { AppRoutingModule } from './app.routing.module';
   declarations: [
     AppComponent
   ],
-  providers: [RouterModule],
+  providers: [RouterModule, StompService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
