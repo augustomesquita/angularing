@@ -102,8 +102,13 @@ export class ChatWsComponent implements OnInit {
   }
 
   public on_next = (message: Message) => {
-    // Log it to the console
-    console.log(message);
+    this.zone.run(() => {
+      if (this.message != message.body.toLowerCase()) {
+        this.messagesToAdd += '<li><div class="left-chat"><img src="assets/yoshi_chat.png"><p>' + message.body + '</p></div></li>'
+      } else {
+        this.messagesToAdd += '<li><div class="right-chat"><img src="assets/mario_chat.png"><p>' + message.body + '</p></div></li>'
+      }
+    });
   }
 
   sendMessage(iptMessage: any) {
