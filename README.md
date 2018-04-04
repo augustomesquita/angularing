@@ -7,6 +7,8 @@ Ambos os projetos visam as melhores práticas para o uso de cada tecnologia. Ent
 - Spring Boot Framework
 - Spring Security (segurança da aplicação)
 - Spring Data (Java Persistence API através do Spring)
+- Spring SSE (Server Send Event)
+- Spring WebSocket (STOMP com Message Broker)
 - Autenticação para uso da aplicação com as seguintes características:
   * Utilização de token
   * Stateless como forma de autenticação
@@ -21,5 +23,6 @@ Ambos os projetos visam as melhores práticas para o uso de cada tecnologia. Ent
 - Angular 5 Framework 
 - Geração de projeto com [Angular CLI](https://github.com/angular/angular-cli) versão 1.6.5
 - Bootstrap 4
+- WebSocket (com @stomp/ng2-stompjs adapatado para funcionamento em Angular4+)
 - Integração com login do Facebook para autenticação com backend
 - Integração com login do Google para autenticação com backend
