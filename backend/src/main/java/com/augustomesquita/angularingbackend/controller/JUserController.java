@@ -4,7 +4,7 @@ import com.augustomesquita.angularingbackend.model.JUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import com.augustomesquita.angularingbackend.repository.IUserRepository;
@@ -27,7 +27,7 @@ public class JUserController {
     }
 
     @GetMapping(value = "/apenas-admins")
-    @PreAuthorize("hasAnyRole('ADMIN')")
+//    @PreAuthorize("hasAnyRole('ADMIN')")
     public String adminRolePath() {
         return "Olá você é um admin no sistema!";
     }

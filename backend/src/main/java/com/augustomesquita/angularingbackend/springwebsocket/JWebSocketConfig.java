@@ -21,7 +21,7 @@ public class JWebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer  
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/questions").setAllowedOrigins("*").withSockJS();;
+        registry.addEndpoint("/questions").setAllowedOrigins("*");
     }
 
     @Override

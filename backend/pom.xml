@@ -48,7 +48,7 @@
             <groupId>commons-dbcp</groupId>
             <artifactId>commons-dbcp</artifactId>
         </dependency>
-        <!--Dependências de segurança--> 
+        <!--Dependências de segurança (api e websocket messaging)--> 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>

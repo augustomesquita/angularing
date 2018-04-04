@@ -3,6 +3,7 @@ import { Http } from '@angular/http';
 import { SettingsService } from 'app/control/settings/settings.service';
 import { StompService } from '@stomp/ng2-stompjs';
 import { Message } from '@stomp/stompjs';
+import { Subscription, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-chatws',
@@ -18,11 +19,19 @@ export class ChatWsComponent implements OnInit {
   private message: string;
   private zone: NgZone;
 
+
+  // Stream of messages
+  private subscription: Subscription;
+  public messages: Observable<Message>;
+
+  // Subscription status
+  public subscribed: boolean;
+
+
   constructor(private http: Http, private _stompService: StompService) {
     this.message = '';
     this.zone = new NgZone({ enableLongStackTrace: false });
     this.chatOff = true;
-
   }
 
   ngOnInit() {
@@ -38,45 +47,8 @@ export class ChatWsComponent implements OnInit {
     // Realiza handshake sem options (SSE - Server Side Event)
     // const eventSource = new EventSource(SettingsService.API_URL + '/messagings');
     // eventSource.addEventListener('message-created', (event) => this.messageReceivedFromWebSocket(event.data));
-
-    // Realiza handshake (websocket) e configura o mesmo
-    // this.webSocket = new WebSocket(SettingsService.API_WS + '/messagings');
-    // this.webSocket.onmessage = (message) => this.messageReceivedFromWebSocket(message.data);
-
-    // this.webSocket.onopen = () => {
-    //   console.log('Conexão realizada! O Chat está apto a ser usado.')
-    //   this.chatOff = false;
-    // }
-
-    // this.webSocket.onclose = () => {
-    //   console.log('Conexão finalizada! O Chat ficará inativo.')
-    //   this.chatOff = true;
-    // }
-
-    // this.webSocket.onerror = () => {
-    //   console.log('Erro de conexão! O Chat ficará inativo.')
-    //   this.chatOff = true;
-    // }
   }
 
-  // sendMessage(iptMessage: any) {
-  //   this.message = iptMessage.value;
-
-  //   if (this.message !== null && this.message.length > 0) {
-  //     this.webSocket.send(this.message);
-  //     iptMessage.value = '';
-  //   }
-  // }
-
-  // messageReceivedFromWebSocket(message: any) {
-  //   this.zone.run(() => {
-  //     if (this.message != message) {
-  //       this.messagesToAdd += '<li><div class="left-chat"><img src="assets/yoshi_chat.png"><p>' + message + '</p></div></li>'
-  //     } else {
-  //       this.messagesToAdd += '<li><div class="right-chat"><img src="assets/mario_chat.png"><p>' + message + '</p></div></li>'
-  //     }
-  //   });
-  // }
 
   toggleMessagingBox() {
     this.menuOpened = !this.menuOpened;
@@ -98,14 +70,40 @@ export class ChatWsComponent implements OnInit {
     this.chatOff = false;
   }
 
+  
+  
+  
+  
+  
+  
+  
+  
   connect() {
-    const stomp_subscription = this._stompService.subscribe('/topic/questions', {});
+    this.subscribed = false;
 
-    stomp_subscription.map((message: Message) => {
-      return message.body;
-    }).subscribe((msg_body: string) => {
-      console.log(`Received: ${msg_body}`);
-    });
+    // Store local reference to Observable
+    // for use with template ( | async )
+    this.subscribe();
+  }
+
+  public subscribe() {
+    if (this.subscribed) {
+      return;
+    }
+
+    // Stream of messages
+    this.messages = this._stompService.subscribe('/topic/questions');
+
+    // Subscribe a function to be run on_next message
+    this.subscription = this.messages.subscribe(this.on_next);
+
+    this.subscribed = true;
+    this.chatOff = false;
+  }
+
+  public on_next = (message: Message) => {
+    // Log it to the console
+    console.log(message);
   }
 
   sendMessage(iptMessage: any) {
