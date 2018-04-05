@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class JWebSocketContoller {
     
-    @MessageMapping("/questions")
+    @MessageMapping("/chat")
     public String processQuestion(String message) {
         return message.toUpperCase();
     }

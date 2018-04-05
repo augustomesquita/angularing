@@ -27,7 +27,7 @@ public class JWebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer  
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes("/app")
-                .enableSimpleBroker("/all");
+                .enableSimpleBroker("/topic", "/queue");
     }
 
 }

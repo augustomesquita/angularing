@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 import { SettingsService } from 'app/control/settings/settings.service';
 import { StompService } from '@stomp/ng2-stompjs';
 import { Message } from '@stomp/stompjs';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription, Observable } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-chatws',
@@ -84,7 +84,7 @@ export class ChatWsComponent implements OnInit, OnDestroy {
     }
 
     // Stream de mensagens que irá receber mensagens vindas do canal '/all/chat'
-    this.messages = this._stompService.subscribe('/all/chat');
+    this.messages = this._stompService.subscribe('/topic/chat');
 
     // Da Subscribe na função que é chamada ao receber mensagem.
     // Essa função por sua fez chama a função
