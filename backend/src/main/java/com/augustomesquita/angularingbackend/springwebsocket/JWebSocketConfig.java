@@ -21,13 +21,13 @@ public class JWebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer  
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/questions").setAllowedOrigins("*");
+        registry.addEndpoint("/chat").setAllowedOrigins("*");
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes("/app")
-                .enableSimpleBroker("/topic", "/queue");
+                .enableSimpleBroker("/all");
     }
 
 }

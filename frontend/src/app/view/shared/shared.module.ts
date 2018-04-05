@@ -6,7 +6,7 @@ import { StompConfig, StompService } from '@stomp/ng2-stompjs';
 
 const stompConfig: StompConfig = {
   // Which server?
-  url: 'ws://localhost:8080/questions',
+  url: 'ws://localhost:8080/chat',
 
   // Headers
   // Typical keys: login, passcode, host

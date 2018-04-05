@@ -69,19 +69,7 @@ export class ChatWsComponent implements OnInit, OnDestroy {
     return this.chatOff ? 'Chat inativo...' : 'Escreva algo...'
   }
 
-  setConnection() {
-    console.log('chatOff inside: ' + this.chatOff);
-    this.chatOff = false;
-  }
-
-  
-  
-  
-  
-  
-  
-  
-  
+  // Websocket rotinas
   connect() {
     this.subscribed = false;
 
@@ -95,16 +83,18 @@ export class ChatWsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // Stream of messages
-    this.messages = this._stompService.subscribe('/topic/questions');
+    // Stream de mensagens que irá receber mensagens vindas do canal '/all/chat'
+    this.messages = this._stompService.subscribe('/all/chat');
 
-    // Subscribe a function to be run on_next message
+    // Da Subscribe na função que é chamada ao receber mensagem.
+    // Essa função por sua fez chama a função
     this.subscription = this.messages.subscribe(this.messageReceived);
 
     this.subscribed = true;
     this.chatOff = false;
   }
 
+  // Função chamada ao receber mensagens
   public messageReceived = (message: Message) => {
     this.zone.run(() => {
       if (this.message != message.body.toLowerCase()) {
@@ -115,13 +105,16 @@ export class ChatWsComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Função responsável por envia mensagens para o websocket
+  // passando pelo filtro '/app/chat', o qual transforma
+  // a string em upperCase antes de enviar para todos
+  // que estão cadastrados no websocket.
   sendMessage(iptMessage: any) {
     this.message = iptMessage.value;
-
     if (this.message !== null && this.message.length > 0) {
-      this._stompService.publish('/app/questions', this.message, {});
+      this._stompService.publish('/app/chat', this.message, {});
       iptMessage.value = '';
     }
   }
-  
+
 }
