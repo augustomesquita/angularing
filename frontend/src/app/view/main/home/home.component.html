@@ -14,10 +14,10 @@
 </div>
 
 <div class="card col-12 mt-3 p-3" style="width: 20rem;" [ngClass]="borderClass()">
-  <img class="card-img-top" src="{{ loggedUser?.userAuth?.user?.photoUrl }}" alt="Card image cap">
+  <img class="card-img-top" src="{{ loggedUser?.user?.photoUrl }}" alt="Card image cap">
   <div class="card-block">
-    <h4 class="card-title">{{ loggedUser?.userAuth?.user?.name }}</h4>
-    <p class="card-text">{{ loggedUser?.userAuth?.user?.email }}</p>
+    <h4 class="card-title">{{ loggedUser?.user?.name }}</h4>
+    <p class="card-text">{{ loggedUser?.user?.email }}</p>
     <button (click)="fazerLogout()" class="btn btn-primary">LOGOUT</button>
   </div>
 </div>

@@ -21,43 +21,21 @@ export class AuthenticationService {
     private http: Http,
     private notificationService: NotificationsService) { }
 
-  doLoginFacebook() {
+  public doLoginFacebook() {
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID)
-      .then((socialUser) => this.doLogin(socialUser), (error) => this.errorOnSocialProfileCredentials(FACEBOOK_STRING, error))
+      .then((socialUser) => this.login(socialUser), (error) => this.errorOnSocialProfileCredentials(FACEBOOK_STRING, error))
       .catch((error) => this.errorOnSocialProfileConnection(FACEBOOK_STRING, error));
   }
 
-  doLoginGoogle() {
+  public doLoginGoogle() {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID)
-      .then((socialUser) => this.doLogin(socialUser), (error) => this.errorOnSocialProfileCredentials(GOOGLE_STRING, error))
+      .then((socialUser) => this.login(socialUser), (error) => this.errorOnSocialProfileCredentials(GOOGLE_STRING, error))
       .catch((error) => this.errorOnSocialProfileConnection(GOOGLE_STRING, error));
   }
 
-  doLogin(socialUser: SocialUser) {
-    this.login(socialUser);
-  }
-
-  login(socialUser: SocialUser) {
-    if (socialUser != null) {
-      this.sendCredential(socialUser.name, socialUser.email, socialUser.email, socialUser.photoUrl).subscribe(
-        (response) => this.userSessionValidating(response),
-        (error) => this.notificationService.error('Ops!', 'Servidor não respondeu...')
-      );
-    }
-  }
-
-  sendCredential(name: string, email: string, password: string, photoUrl: string): Observable<Response> {
-    const url = SettingsService.API_URL + '/auth';
-    const body = { name, email, password, photoUrl };
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-
-    return this.http.post(url, body, { headers });
-  }
-
-
   // Remove usuário do localStorage (invalidando)
   // e redireciona o mesmo para página inicial.
-  logout(): void {
+  public logout(): void {
     this.authService.signOut().then(
       (sucess) => {
         localStorage.removeItem(SettingsService.LOGGED_USER);
@@ -67,22 +45,48 @@ export class AuthenticationService {
     );
   }
 
-  userSessionValidating(res: Response) {
-    // Adiciona usuário no localStorage (validando)
-    // e redireciona o mesmo para home.
-    const userAuth: AuthenticateUser = res.json() && res.json().data;
-    if (userAuth.token) {
-      localStorage.setItem(SettingsService.LOGGED_USER, JSON.stringify({ userAuth }));
-    }
-    this.router.navigate([UrlService.WEB_HOME_FULL_URL]);
+  public getValidUserAtLocalStorage(): AuthenticateUser {
+    return JSON.parse(localStorage.getItem(SettingsService.LOGGED_USER)) as AuthenticateUser;
   }
 
-  errorOnSocialProfileCredentials(socialPlataform: string, error: any) {
+  private login(socialUser: SocialUser) {
+    if (socialUser != null) {
+      this.sendCredential(socialUser.name, socialUser.email, socialUser.email, socialUser.photoUrl).subscribe(
+        (response) => this.setValidUserAtLocalStorage(response),
+        (error) => this.notificationService.error('Ops!', 'Servidor não respondeu...')
+      );
+    }
+  }
+
+  private sendCredential(name: string, email: string, password: string, photoUrl: string): Observable<Response> {
+    const url = SettingsService.API_URL + '/auth';
+    const body = { name, email, password, photoUrl };
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+
+    return this.http.post(url, body, { headers });
+  }
+
+  private setValidUserAtLocalStorage(res: Response) {
+    // Adiciona usuário no localStorage (validando)
+    // e redireciona o mesmo para home.
+    let userAuth: AuthenticateUser = null;
+    if (res.json() && res.json().data) {
+      userAuth = res.json().data;
+      if (res.json().data.token) {
+        localStorage.setItem(SettingsService.LOGGED_USER, JSON.stringify(userAuth));
+        this.router.navigate([UrlService.WEB_HOME_FULL_URL]);
+      } else {
+        this.notificationService.error('Ops!', 'Usuário inválido no sistema.');
+      }
+    }
+  }
+
+  private errorOnSocialProfileCredentials(socialPlataform: string, error: any) {
     console.log(error);
     this.notificationService.error('Ops!', 'Sua conta de ' + socialPlataform + ' não é válida. Tente novamente.');
   }
 
-  errorOnSocialProfileConnection(socialPlataform: string, error: any) {
+  private errorOnSocialProfileConnection(socialPlataform: string, error: any) {
     console.log(error);
     this.notificationService.error('Ops!', 'Houve um erro de comunicação com o ' + socialPlataform + '. Tente mais tarde.');
   }
