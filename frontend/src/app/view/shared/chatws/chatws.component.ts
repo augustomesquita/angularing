@@ -28,7 +28,7 @@ export class ChatWsComponent implements OnInit, OnDestroy {
   public subscribed: boolean;
 
 
-  constructor(private http: Http, private _stompService: StompService) {
+  constructor(private http: Http, private stompService: StompService) {
     this.message = '';
     this.zone = new NgZone({ enableLongStackTrace: false });
     this.chatOff = true;
@@ -39,12 +39,26 @@ export class ChatWsComponent implements OnInit, OnDestroy {
     this.menuOpened = false;
     this.messagesToAdd = '';
 
+    // Realiza conexão
     this.connect();
 
-    // Realiza handshake com options (SSE - Server Side Event)
+    // Se inscreve em um Behavior Subject responsável por indiciar o stado da conexão.
+    // Por se tratar de um Behavio Subject, qualquer alteração que este objeto sofrer
+    // nosso código será notificado, pelo fato de estarmos inscritos nele (para receber
+    // o valor de forma assíncrona) caso queira receber o valor de forma síncrona, basta
+    // chamar o método 'getValue()' ao invéz de 'subscribe'.
+    this.stompService.state.subscribe((state) => {
+      if (state > 0) {
+        this.chatOff = false;
+      } else {
+        this.chatOff = true;
+      }
+    });
+
+    // Realiza handshake com options (SSE - Server Side Event) | Não está sendo usado no momento pela aplicação
     // const eventSource = new EventSource(SettingsService.API_URL + '/messagings', SettingsService.getHeaderOptions());
 
-    // Realiza handshake sem options (SSE - Server Side Event)
+    // Realiza handshake sem options (SSE - Server Side Event) | Não está sendo usado no momento pela aplicação
     // const eventSource = new EventSource(SettingsService.API_URL + '/messagings');
     // eventSource.addEventListener('message-created', (event) => this.messageReceivedFromWebSocket(event.data));
   }
@@ -71,6 +85,7 @@ export class ChatWsComponent implements OnInit, OnDestroy {
 
   // Websocket rotinas
   connect() {
+    // Passa inscrição como falsa
     this.subscribed = false;
 
     // Store local reference to Observable
@@ -83,11 +98,11 @@ export class ChatWsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // Stream de mensagens que irá receber mensagens vindas do canal '/all/chat'
-    this.messages = this._stompService.subscribe('/topic/chat');
+    // Stream de mensagens que irá receber mensagens vindas do canal '/topic/chat'
+    this.messages = this.stompService.subscribe('/topic/chat');
 
     // Da Subscribe na função que é chamada ao receber mensagem.
-    // Essa função por sua fez chama a função
+    // Essa função por sua vez chama a função 'messageReceived'
     this.subscription = this.messages.subscribe(this.messageReceived);
 
     this.subscribed = true;
@@ -112,7 +127,7 @@ export class ChatWsComponent implements OnInit, OnDestroy {
   sendMessage(iptMessage: any) {
     this.message = iptMessage.value;
     if (this.message !== null && this.message.length > 0) {
-      this._stompService.publish('/app/chat', this.message, {});
+      this.stompService.publish('/app/chat', this.message, {});
       iptMessage.value = '';
     }
   }
