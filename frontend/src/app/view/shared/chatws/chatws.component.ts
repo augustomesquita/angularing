@@ -112,7 +112,21 @@ export class ChatWsComponent implements OnInit, OnDestroy {
   // Função chamada ao receber mensagens
   public messageReceived = (message: Message) => {
     this.zone.run(() => {
-      if (this.message != message.body.toLowerCase()) {
+
+      // Separa a mensagem recebida através do caracter ':',
+      // gerando um array de 2 posições. Retira o valor da última array
+      // gerada pelo split (porém o fato de remover da array o último valor,
+      // não nos gera problema, uma vez que esta array foi criada pelo split).
+      // Uma vez trabalhando com o valor removido da array, utilizamos o trim
+      // para removermos os espaços em brancos encontrados no início e fim
+      // da string. Por fim passamos tudo para minúsculo e armazenamos na
+      // variável 'messageFormatted' para compararmos a mensagem recebida no mesmo
+      // padrão da mensagem enviada, identificando assim se a mensagem que o usuário
+      // recebeu é a mesma mensagem que ele enviou para modificar o avatar e posição
+      // da conversa no chat.
+      const messageFormatted = message.body.split(':').pop().trim().toLowerCase();
+
+      if (this.message != messageFormatted) {
         this.messagesToAdd += '<li><div class="left-chat"><img src="assets/yoshi_chat.png"><p>' + message.body + '</p></div></li>'
       } else {
         this.messagesToAdd += '<li><div class="right-chat"><img src="assets/mario_chat.png"><p>' + message.body + '</p></div></li>'
