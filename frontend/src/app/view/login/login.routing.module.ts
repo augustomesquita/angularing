@@ -17,7 +17,7 @@ const loginRoutes: Routes = [
     {
         path: '', component: LoginLayoutComponent,
         children: [
-            { path: UrlService.WEB_LOGIN_URL, component: LoginComponent }]
+            { path: '', component: LoginComponent }]
     }
 ]
 

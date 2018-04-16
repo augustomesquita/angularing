@@ -25,8 +25,8 @@ export class NavComponent implements OnInit {
       localStorage.setItem('theme', this.slcColorPage);
     }
 
-    this.homeUrl = UrlService.WEB_HOME_FULL_URL;
-    this.aboutUrl = UrlService.WEB_ABOUT_FULL_URL;
+    this.homeUrl = UrlService.WEB_HOME_URL;
+    this.aboutUrl = UrlService.WEB_ABOUT_URL;
   }
 
   ngOnInit() {
