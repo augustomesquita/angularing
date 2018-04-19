@@ -1,5 +1,5 @@
 ﻿# Angularing
-O objetivo do projeto é explorar a criação e funcionamento de uma SPA (Single Page Application) utilizando framework frontend(Angular 5) e backend (Spring Boot). 
+O objetivo do projeto é explorar a criação e funcionamento de uma SPA (Single Page Application) utilizando framework frontend (Angular 5) e backend (Spring Boot). 
 Ambos os projetos visam as melhores práticas para o uso de cada tecnologia. Entre as características de cada plataforma temos:
 
 ## Backend
