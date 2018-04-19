@@ -11,11 +11,11 @@ import { HomeComponent } from './../main/home/home.component';
 import { MainLayoutComponent } from './../main/main-layout.component';
 
 // AuthGuard import
-import { AuthGuardService } from './../../control/auth-guard/auth-guard.service';
+import { AuthGuard } from './../../control/auth-guard/auth.guard';
 
 const mainRoutes: Routes = [
     {
-        path: '', component: MainLayoutComponent, canActivate: [AuthGuardService],
+        path: '', component: MainLayoutComponent, canActivate: [AuthGuard],
         children: [
             { path: UrlService.WEB_HOME_URL, component: HomeComponent },
             { path: UrlService.WEB_COURSE_URL + '/:id', component: CursoComponent },
@@ -27,6 +27,6 @@ const mainRoutes: Routes = [
 @NgModule({
     imports: [RouterModule.forChild(mainRoutes)],
     exports: [RouterModule],
-    providers: [AuthGuardService]
+    providers: [AuthGuard]
 })
 export class MainRoutingModule { }

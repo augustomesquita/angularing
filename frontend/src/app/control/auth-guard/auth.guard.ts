@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { SettingsService } from 'app/control/settings/settings.service';
 
 @Injectable()
-export class AuthGuardService implements CanActivate {
+export class AuthGuard implements CanActivate {
 
   canActivate() {
     // Verifica se existe usuário no localStorage.
