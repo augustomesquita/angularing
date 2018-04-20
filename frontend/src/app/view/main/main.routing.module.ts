@@ -1,4 +1,3 @@
-import { UrlService } from './../../control/url/url.service';
 // Angular imports
 import { NgModule } from '@angular/core';
 import { ModuleWithProviders } from '@angular/core/src/metadata/ng_module';
@@ -12,6 +11,8 @@ import { MainLayoutComponent } from './../main/main-layout.component';
 
 // AuthGuard import
 import { AuthGuard } from './../../control/auth-guard/auth.guard';
+import { UrlService } from './../../control/url/url.service';
+import { CustomDeactivateGuard } from '../../control/auth-guard/custom-deactivate.guard';
 
 const mainRoutes: Routes = [
     {
@@ -19,7 +20,7 @@ const mainRoutes: Routes = [
         children: [
             { path: UrlService.WEB_HOME_URL, component: HomeComponent },
             { path: UrlService.WEB_COURSE_URL + '/:id', component: CursoComponent },
-            { path: UrlService.WEB_ABOUT_URL, component: AboutComponent }
+            { path: UrlService.WEB_ABOUT_URL, component: AboutComponent, canDeactivate: [CustomDeactivateGuard] }
         ]
     }
 ]

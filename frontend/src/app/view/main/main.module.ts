@@ -15,6 +15,7 @@ import { SettingsService } from '../../control/settings/settings.service';
 import { CursoService } from '../../control/curso/curso.service';
 import { MainRoutingModule } from './main.routing.module';
 import { SharedModule } from '../shared/shared.module';
+import { CustomDeactivateGuard } from '../../control/auth-guard/custom-deactivate.guard';
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import { SharedModule } from '../shared/shared.module';
     MouseOverHighlightDirective
   ],
   providers: [
+    CustomDeactivateGuard,
     MeuServicoService,
     CursoService
   ]
