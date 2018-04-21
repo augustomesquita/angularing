@@ -16,7 +16,7 @@ import { CustomDeactivateGuard } from '../../control/auth-guard/custom-deactivat
 
 const mainRoutes: Routes = [
     {
-        path: '', component: MainLayoutComponent, canActivate: [AuthGuard],
+        path: '', component: MainLayoutComponent,
         children: [
             { path: UrlService.WEB_HOME_URL, component: HomeComponent },
             { path: UrlService.WEB_COURSE_URL + '/:id', component: CursoComponent },

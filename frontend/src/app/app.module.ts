@@ -21,6 +21,7 @@ import { FacebookLoginProvider } from 'angularx-social-login';
 import { GoogleLoginProvider } from 'angularx-social-login';
 import { NotificationsService } from 'angular2-notifications';
 import { SimpleNotificationsModule } from 'angular2-notifications';
+import { AuthGuard } from './control/auth-guard/auth.guard';
 
 export function providerConfig() {
   return config;
@@ -62,6 +63,7 @@ const config = new AuthServiceConfig([
   ],
   providers: [
     NotificationsService,
+    AuthGuard,
     AuthService,
     RouterModule,
     StompService,
