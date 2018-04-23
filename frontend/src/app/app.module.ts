@@ -21,6 +21,9 @@ import { FacebookLoginProvider } from 'angularx-social-login';
 import { GoogleLoginProvider } from 'angularx-social-login';
 import { NotificationsService } from 'angular2-notifications';
 import { SimpleNotificationsModule } from 'angular2-notifications';
+import { AuthGuard } from './control/auth-guard/auth.guard';
+import { PageNotFoundComponent } from './view/page-not-found/page-not-found.component';
+
 
 export function providerConfig() {
   return config;
@@ -58,10 +61,12 @@ const config = new AuthServiceConfig([
     AppRoutingModule
   ],
   declarations: [
-    AppComponent
+    AppComponent,
+    PageNotFoundComponent
   ],
   providers: [
     NotificationsService,
+    AuthGuard,
     AuthService,
     RouterModule,
     StompService,
