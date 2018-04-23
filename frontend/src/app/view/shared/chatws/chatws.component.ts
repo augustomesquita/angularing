@@ -133,11 +133,16 @@ export class ChatWsComponent implements OnInit, OnDestroy {
       }
     });
   }
-
-  // Função responsável por envia mensagens para o websocket
-  // passando pelo filtro '/app/chat', o qual transforma
-  // a string em upperCase antes de enviar para todos
-  // que estão cadastrados no websocket.
+  
+/**
+ * Função responsável por envia mensagens para o websocket
+ * passando pelo filtro '/app/chat', o qual transforma
+ * a string em upperCase antes de enviar para todos
+ * que estão cadastrados no websocket.
+ * Caso você não queira enviar a mensagem para ser tratada pelo 
+ * @MessageMapping (prefixo da aplicação) basta mudar
+ * o endereço de envio de '/app/chat' para '/topic/chat'.
+ */
   sendMessage(iptMessage: any) {
     this.message = iptMessage.value;
     if (this.message !== null && this.message.length > 0) {

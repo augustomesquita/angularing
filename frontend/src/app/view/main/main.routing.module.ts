@@ -27,7 +27,6 @@ const mainRoutes: Routes = [
 
 @NgModule({
     imports: [RouterModule.forChild(mainRoutes)],
-    exports: [RouterModule],
-    providers: [AuthGuard]
+    exports: [RouterModule]
 })
 export class MainRoutingModule { }

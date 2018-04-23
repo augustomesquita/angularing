@@ -1,3 +1,4 @@
+import { AuthGuard } from './../../control/auth-guard/auth.guard';
 import { NgModule } from '@angular/core';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { CommonModule } from '@angular/common';
@@ -35,6 +36,7 @@ import { CustomDeactivateGuard } from '../../control/auth-guard/custom-deactivat
     MouseOverHighlightDirective
   ],
   providers: [
+    AuthGuard,
     CustomDeactivateGuard,
     MeuServicoService,
     CursoService
