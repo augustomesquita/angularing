@@ -10,9 +10,9 @@ import { PageNotFoundComponent } from './view/page-not-found/page-not-found.comp
 // módulos do projeto que possuem outros módulos de roteamento,
 // para que sua configuração de redirecionamento seja chamada antes das demais.
 const appRoutes: Routes = [
-    { path: '', redirectTo: UrlService.WEB_LOGIN_FULL_URL, pathMatch: 'full' },
-    { path: UrlService.WEB_LOGIN_URL, loadChildren: 'app/view/login/login.module#LoginModule' },
     { path: UrlService.WEB_MAIN_URL, loadChildren: 'app/view/main/main.module#MainModule', canActivate: [AuthGuard], canLoad: [AuthGuard] },
+    { path: UrlService.WEB_LOGIN_URL, loadChildren: 'app/view/login/login.module#LoginModule' },
+    { path: '', redirectTo: UrlService.WEB_LOGIN_FULL_URL, pathMatch: 'full' },
     { path: '**', component: PageNotFoundComponent }
 ]
 
