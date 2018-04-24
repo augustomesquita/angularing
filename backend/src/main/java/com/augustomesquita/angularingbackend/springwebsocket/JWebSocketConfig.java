@@ -23,8 +23,8 @@ import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
  * @author augusto
  */
 @Configuration
-@EnableWebSocketMessageBroker 
-public class JWebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer  {
+@EnableWebSocketMessageBroker
+public class JWebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
@@ -36,14 +36,14 @@ public class JWebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer  
         registry.setApplicationDestinationPrefixes("/app")
                 .enableSimpleBroker("/topic", "/queue");
     }
-    
-    private class RandomUsernameHandshakeHandler extends DefaultHandshakeHandler { 
+
+    private class RandomUsernameHandshakeHandler extends DefaultHandshakeHandler {
 
         @Override
         protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
             return new UsernamePasswordAuthenticationToken("angularing-user-" + ThreadLocalRandom.current().nextInt(1, 9999 + 1), null);
         }
-        
+
     }
 
 }
