@@ -7,7 +7,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 // Módulos do projeto
-import { StompService } from 'ng2-stomp-service';
 import { LanguageModule } from './control/language/language.module';
 import { LoginModule } from './view/login/login.module';
 import { MainModule } from './view/main/main.module';
@@ -69,7 +68,6 @@ const config = new AuthServiceConfig([
     AuthGuard,
     AuthService,
     RouterModule,
-    StompService,
     SettingsService,
     AuthenticationService,
     {

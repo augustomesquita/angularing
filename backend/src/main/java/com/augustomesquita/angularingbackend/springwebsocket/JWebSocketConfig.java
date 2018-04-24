@@ -5,8 +5,6 @@
  */
 package com.augustomesquita.angularingbackend.springwebsocket;
 
-import static java.lang.Long.max;
-import static java.lang.Long.min;
 import java.security.Principal;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
@@ -30,7 +28,7 @@ public class JWebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer  
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/chat").setHandshakeHandler(new RandomUsernameHandshakeHandler()).setAllowedOrigins("*");
+        registry.addEndpoint("/chat").setHandshakeHandler(new RandomUsernameHandshakeHandler()).setAllowedOrigins("*").withSockJS();
     }
 
     @Override

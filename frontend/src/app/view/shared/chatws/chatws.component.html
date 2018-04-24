@@ -13,13 +13,23 @@
       </div>
     </div>
   </div>
-  
+
   <div class="row border-chat">
     <div class="col-md-12 col-sm-12 col-xs-12" [ngStyle]="chatInputColorStyle()">
       <div class="text-bar">
-        <input #msgInpu type="text" style="width:95%" (keydown.enter)="sendMessage(msgInpu)" [placeholder]="placeHolderText()" [disabled]="chatOff"
+        <input #iptUser type="text" style="width:95%" (keydown.enter)="sendMessageToUser(iptUser)" [placeholder]="placeHolderTextPrivate()"
+          [disabled]="chatOff" [ngStyle]="chatInputColorStyle()">
+        <svg-icon (click)="sendMessageToUser(iptUser)" src="/assets/send.svg" style="cursor:pointer; fill:rgb(84, 172, 255); width:16px;"></svg-icon>
+      </div>
+    </div>
+  </div>
+
+  <div class="row border-chat">
+    <div class="col-md-12 col-sm-12 col-xs-12" [ngStyle]="chatInputColorStyle()">
+      <div class="text-bar">
+        <input #iptMsg type="text" style="width:95%" (keydown.enter)="sendMessageToAll(iptMsg)" [placeholder]="placeHolderTextAll()" [disabled]="chatOff"
           [ngStyle]="chatInputColorStyle()">
-        <svg-icon (click)="sendMessage(msgInpu)" src="/assets/send.svg" style="cursor:pointer; fill:rgb(84, 172, 255); width:16px;"></svg-icon>
+        <svg-icon (click)="sendMessageToAll(iptMsg)" src="/assets/send.svg" style="cursor:pointer; fill:rgb(84, 172, 255); width:16px;"></svg-icon>
       </div>
     </div>
   </div>

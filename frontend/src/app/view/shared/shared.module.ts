@@ -3,16 +3,22 @@ import { CommonModule } from '@angular/common';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { ChatWsComponent } from '../shared/chatws/chatws.component';
 import { StompConfig, StompService } from '@stomp/ng2-stompjs';
+import * as SockJS from 'sockjs-client';
+
+
+export function socketProvider() {
+  return new SockJS('http://localhost:8080/chat?teste=teste');
+}
 
 const stompConfig: StompConfig = {
   // Which server?
-  url: 'ws://localhost:8080/chat',
+  url: socketProvider,
 
   // Headers
   // Typical keys: login, passcode, host
   headers: {
-   // login: 'guest',
-   // passcode: 'guest'
+   login: 'guest',
+   passcode: 'guest'
   },
 
   // How often to heartbeat?
