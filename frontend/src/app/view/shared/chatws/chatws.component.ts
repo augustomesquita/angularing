@@ -126,8 +126,7 @@ export class ChatWsComponent implements OnInit, OnDestroy {
   }
 
   public privateMessageReceived = (message: Message) => {
-    console.log("MENSAGEM PRIVADA RECEBIDA: " + message.body)
-    this.notificationService.error("MENSAGEM PRIVADA RECEBIDA: " + message.body)
+    this.notificationService.error("Notificação privada recebida: " + message.body)
   }
 
   // Função chamada ao receber mensagens
@@ -175,7 +174,7 @@ export class ChatWsComponent implements OnInit, OnDestroy {
   sendMessageToUser(iptUser: any) {
     const user: string = iptUser.value;
     if (user !== undefined && user !== null && user.length > 0) {
-      this.stompService.publish('/user/' + iptUser.value + '/queue/private', 'opaaaa', {});
+      this.stompService.publish('/user/' + iptUser.value + '/queue/private', 'Opaaa!!!', {});
       iptUser.value = '';
     }
   }
