@@ -18,7 +18,6 @@ import { MainRoutingModule } from './main.routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { CustomDeactivateGuard } from '../../control/auth-guard/custom-deactivate.guard';
 import { AuthenticateUser } from '../../model/entity/authenticate-user.model';
-import { CustomStompConfig } from '../../model/entity/custom-stomp-config.mode';
 
 function getValidUserAtLocalStorage(): AuthenticateUser {
   return JSON.parse(localStorage.getItem(SettingsService.LOGGED_USER)) as AuthenticateUser;
@@ -28,7 +27,7 @@ function getValidUserAtLocalStorage(): AuthenticateUser {
   imports: [
     CommonModule,
     FormsModule,
-    SharedModule.forChild(CustomStompConfig.stompConfig()),
+    SharedModule.forChild(),
     MainRoutingModule,
     AngularSvgIconModule
   ],

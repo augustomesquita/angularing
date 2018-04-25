@@ -11,13 +11,12 @@ import { AuthenticationService } from '../../control/authentication/authenticati
 import { LoginRoutingModule } from './login.routing.module';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { SharedModule } from '../shared/shared.module';
-import { CustomStompConfig } from '../../model/entity/custom-stomp-config.mode';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    SharedModule.forChild(CustomStompConfig.stompConfig()),
+    SharedModule.forChild(),
     LoginRoutingModule,
     AngularSvgIconModule,
     SocialLoginModule,

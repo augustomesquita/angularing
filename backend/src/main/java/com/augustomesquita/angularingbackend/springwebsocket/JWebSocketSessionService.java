@@ -5,11 +5,13 @@
  */
 package com.augustomesquita.angularingbackend.springwebsocket;
 
+import com.augustomesquita.angularingbackend.model.JUser;
+import com.augustomesquita.angularingbackend.repository.IUserRepository;
 import java.security.Principal;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
+import java.util.Optional;
+import java.util.concurrent.CopyOnWriteArrayList;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,31 +21,30 @@ import org.springframework.stereotype.Service;
 @Service
 public class JWebSocketSessionService {
 
-    private final Map<Principal, String> sessions;
-
+    @Autowired
+    private IUserRepository userRepository;
+    
+    private final List<JWSUser> sessions;
+    
     public JWebSocketSessionService() {
-        sessions = new ConcurrentHashMap<>();
+        sessions = new CopyOnWriteArrayList<>();
     }
 
-    public List<JWSSession> getSessions() {
-        return sessions.entrySet().stream().map(entry -> {
-            final JWSSession s = new JWSSession();
-            s.setUserNick(entry.getValue());
-            s.setUser(entry.getKey());
-            return s;
-        }).collect(Collectors.toList());
+    public List<JWSUser> getSessions() {
+        return sessions;
     }
 
-    public void register(Principal user, String userNick) {
-        sessions.put(user, userNick);
+    public void register(Principal userIdentification, String email) {
+        JUser user = userRepository.findByEmail(email);
+        sessions.add(new JWSUser(userIdentification, user));
     }
 
     public void removeSession(Principal user) {
         sessions.remove(user);
     }
 
-    public String getNickNameFromSession(Principal user) {
-        return sessions.get(user);
+    public JWSUser getWSUserFromSession(Principal user) {
+        return sessions.stream().filter((session) -> session.getUserIdentification().getName().contentEquals(user.getName())).findFirst().orElse(null);
     }
 
     public boolean hasOpenSessions() {

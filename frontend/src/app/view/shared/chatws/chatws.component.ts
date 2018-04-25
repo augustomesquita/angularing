@@ -146,7 +146,7 @@ export class ChatWsComponent implements OnInit, OnDestroy {
       // da conversa no chat.
       const messageFormatted = message.body.split(':').pop().trim().toLowerCase();
 
-      if (this.message != messageFormatted) {
+      if (this.message.toLowerCase() != messageFormatted) {
         this.messagesToAdd += '<li><div class="left-chat"><img src="assets/yoshi_chat.png"><p>' + message.body + '</p></div></li>'
       } else {
         this.messagesToAdd += '<li><div class="right-chat"><img src="assets/mario_chat.png"><p>' + message.body + '</p></div></li>'
