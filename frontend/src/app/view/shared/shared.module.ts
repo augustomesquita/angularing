@@ -15,8 +15,8 @@ import { StompConfig, StompService } from '@stomp/ng2-stompjs';
   providers: [StompService]
 })
 
-export class SharedModule { 
-  static forChild(stompConfig: StompConfig) : ModuleWithProviders {
+export class SharedModule {
+  static forChild(stompConfig: StompConfig): ModuleWithProviders {
     return {
       ngModule: SharedModule,
       providers: [{provide: StompConfig, useValue: stompConfig}]

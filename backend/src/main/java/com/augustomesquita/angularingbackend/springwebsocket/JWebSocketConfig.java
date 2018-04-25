@@ -28,7 +28,7 @@ public class JWebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/chat").setHandshakeHandler(new RandomUsernameHandshakeHandler()).setAllowedOrigins("*").withSockJS();
+        registry.addEndpoint("/chat").setHandshakeHandler(new RandomUsernameHandshakeHandler()).setAllowedOrigins("*");
     }
 
     @Override
