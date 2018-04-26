@@ -5,6 +5,7 @@ import { StompService } from '@stomp/ng2-stompjs';
 import { Message } from '@stomp/stompjs';
 import { Subscription, Observable } from 'rxjs/Rx';
 import { NotificationsService } from 'angular2-notifications';
+import { MessageModel } from './../../../model/entity/message.model';
 
 @Component({
   selector: 'app-chatws',
@@ -126,32 +127,47 @@ export class ChatWsComponent implements OnInit, OnDestroy {
   }
 
   public privateMessageReceived = (message: Message) => {
-    this.notificationService.error("Notificação privada recebida: " + message.body)
+    this.notificationService.error('Notificação privada recebida: ' + message.body)
   }
 
   // Função chamada ao receber mensagens
   public messageReceived = (message: Message) => {
     this.zone.run(() => {
-
-      // Separa a mensagem recebida através do caracter ':',
-      // gerando um array de 2 posições. Retira o valor da última array
-      // gerada pelo split (porém o fato de remover da array o último valor,
-      // não nos gera problema, uma vez que esta array foi criada pelo split).
-      // Uma vez trabalhando com o valor removido da array, utilizamos o trim
-      // para removermos os espaços em brancos encontrados no início e fim
-      // da string. Por fim passamos tudo para minúsculo e armazenamos na
-      // variável 'messageFormatted' para compararmos a mensagem recebida no mesmo
-      // padrão da mensagem enviada, identificando assim se a mensagem que o usuário
-      // recebeu é a mesma mensagem que ele enviou para modificar o avatar e posição
-      // da conversa no chat.
-      const messageFormatted = message.body.split(':').pop().trim().toLowerCase();
-
-      if (this.message.toLowerCase() != messageFormatted) {
-        this.messagesToAdd += '<li><div class="left-chat"><img src="assets/yoshi_chat.png"><p>' + message.body + '</p></div></li>'
-      } else {
-        this.messagesToAdd += '<li><div class="right-chat"><img src="assets/mario_chat.png"><p>' + message.body + '</p></div></li>'
+      const messageModel: MessageModel = JSON.parse(message.body) as MessageModel;
+      if (messageModel != null) {
+        let isFromOtherUser = false;
+        if (this.message.toLowerCase() != messageModel.message.toLowerCase()) {
+          isFromOtherUser = true;
+        }
+        this.createMessageToShow(messageModel, isFromOtherUser)
       }
     });
+  }
+
+  /**
+   * Cria os elementos HTML para apresentar os dados do chat.
+   * @param messageModel
+   * @param isFromOtherUser
+   */
+  private createMessageToShow(messageModel: MessageModel, isFromOtherUser: boolean) {
+    let userUrlPicture = messageModel.userUrlPicture;
+    let position: string;
+    if (isFromOtherUser) {
+      position = 'left-chat';
+      if (!userUrlPicture) {
+        userUrlPicture = 'assets/default_chat_picture_2.jpg';
+      }
+    } else {
+      position = 'right-chat';
+      if (!userUrlPicture) {
+        userUrlPicture = 'assets/default_chat_picture_1.jpg';
+      }
+    }
+
+    this.messagesToAdd += '<li><div class="' + position + '">'
+      + '<img src="' + userUrlPicture + '"><p><b>'
+      + messageModel.userName + '</b>: ' + messageModel.message
+      + '</p></div></li>';
   }
 
   /**
@@ -159,7 +175,7 @@ export class ChatWsComponent implements OnInit, OnDestroy {
    * passando pelo filtro '/app/chat', o qual transforma
    * a string em upperCase antes de enviar para todos
    * que estão cadastrados no websocket.
-   * Caso você não queira enviar a mensagem para ser tratada pelo 
+   * Caso você não queira enviar a mensagem para ser tratada pelo
    * @MessageMapping (prefixo da aplicação) basta mudar
    * o endereço de envio de '/app/chat' para '/topic/chat'.
    */

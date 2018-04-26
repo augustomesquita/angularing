@@ -5,7 +5,6 @@
  */
 package com.augustomesquita.angularingbackend.springwebsocket;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
@@ -33,8 +32,8 @@ public class JWebSocketEvents {
     @EventListener
     public void onSessionConnectEvent(SessionConnectEvent sessionConnectEvent) {
         StompHeaderAccessor stompHeaderAccessor = StompHeaderAccessor.wrap(sessionConnectEvent.getMessage());
-        List<String> nativeHeader = stompHeaderAccessor.getNativeHeader("login");
-        sessionService.register(sessionConnectEvent.getUser(), nativeHeader.get(0));
+        String userEmail = stompHeaderAccessor.getNativeHeader("login").stream().findFirst().orElse(null);
+        sessionService.register(sessionConnectEvent.getUser(), userEmail);
     }
 
     /**

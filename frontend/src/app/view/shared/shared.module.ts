@@ -39,7 +39,7 @@ export class SharedModule {
 
     const stompConfig: StompConfig = {
       // Which server?
-      url: 'ws://192.168.9.100:8080/chat',
+      url: 'ws://localhost:8080/chat',
 
       // Headers
       // Typical keys: login, passcode, host

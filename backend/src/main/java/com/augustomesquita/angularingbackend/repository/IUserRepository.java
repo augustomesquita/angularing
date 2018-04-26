@@ -1,7 +1,6 @@
 package com.augustomesquita.angularingbackend.repository;
 
 import com.augustomesquita.angularingbackend.model.JUser;
-import com.augustomesquita.angularingbackend.model.JUser;
 import org.springframework.data.repository.CrudRepository;
 
 /**

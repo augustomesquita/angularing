@@ -9,7 +9,6 @@ import com.augustomesquita.angularingbackend.model.JUser;
 import com.augustomesquita.angularingbackend.repository.IUserRepository;
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,7 +39,8 @@ public class JWebSocketSessionService {
     }
 
     public void removeSession(Principal user) {
-        sessions.remove(user);
+        JWSUser wsUserToRemove = sessions.stream().filter((wsUser) -> wsUser.getUserIdentification().getName().contentEquals(user.getName())).findFirst().orElse(null);
+        sessions.remove(wsUserToRemove);
     }
 
     public JWSUser getWSUserFromSession(Principal user) {

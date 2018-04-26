@@ -1,5 +1,6 @@
 package com.augustomesquita.angularingbackend.springwebsocket;
 
+import com.augustomesquita.angularingbackend.springwebsocket.response.JChatResponse;
 import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -16,16 +17,18 @@ public class JWebSocketContoller {
     private JWebSocketSessionService sessionService;
     
     @MessageMapping("/chat")
-    public String processQuestion(String message, Principal principal) {
+    public JChatResponse processQuestion(String message, Principal principal) {
         
         String userName = principal.getName();
+        String userUrlPicture = null;
         
         JWSUser wsUserFromSession = sessionService.getWSUserFromSession(principal);
         if (wsUserFromSession != null && wsUserFromSession.getUser() != null) {
             userName = wsUserFromSession.getUser().getName();
+            userUrlPicture = wsUserFromSession.getUser().getPhotoUrl();
         }
         
-        return userName + ": " + message.toUpperCase();
+        return new JChatResponse(message, userName, userUrlPicture);
     }
     
 }
