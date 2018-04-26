@@ -39,7 +39,7 @@ export class SharedModule {
 
     const stompConfig: StompConfig = {
       // Which server?
-      url: 'ws://localhost:8080/chat',
+      url: 'ws://localhost:8080/angularing-ws',
 
       // Headers
       // Typical keys: login, passcode, host

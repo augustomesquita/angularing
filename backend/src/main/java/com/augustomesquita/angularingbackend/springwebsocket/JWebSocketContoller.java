@@ -26,7 +26,7 @@ public class JWebSocketContoller {
      * @param principal
      * @return 
      */
-    @MessageMapping("/chat")
+    @MessageMapping("/public-message")
     public JChatResponse processQuestion(String message, Principal principal) {
         
         String userName = principal.getName();

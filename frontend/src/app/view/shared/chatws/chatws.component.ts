@@ -108,10 +108,10 @@ export class ChatWsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // Stream de mensagens que irá receber mensagens vindas do canal '/topic/chat'
-    this.messages = this.stompService.subscribe('/topic/chat');
+    // Stream de mensagens que irá receber mensagens vindas do canal '/topic/ws'
+    this.messages = this.stompService.subscribe('/topic/angularing-ws');
 
-    // Stream de mensagens que irá receber mensagens vindas do canal '/topic/chat'
+    // Stream de mensagens que irá receber mensagens vindas do canal privado '/user/queue/ws'
     this.privateMessages = this.stompService.subscribe('/user/queue/private');
 
     // Da Subscribe na função que é chamada ao receber mensagem.
@@ -175,7 +175,7 @@ export class ChatWsComponent implements OnInit, OnDestroy {
 
   /**
    * Função responsável por envia mensagens para o websocket
-   * passando pelo filtro '/app/chat', o qual transforma
+   * passando pelo filtro '/app/public-message', o qual transforma
    * a string em upperCase antes de enviar para todos
    * que estão cadastrados no websocket.
    * Caso você não queira enviar a mensagem para ser tratada pelo
@@ -185,7 +185,7 @@ export class ChatWsComponent implements OnInit, OnDestroy {
   sendMessageToAll(iptMsg: any) {
     this.message = iptMsg.value;
     if (this.message !== undefined && this.message !== null && this.message.length > 0) {
-      this.stompService.publish('/app/chat', this.message, {});
+      this.stompService.publish('/app/public-message', this.message, {});
       iptMsg.value = '';
     }
   }
