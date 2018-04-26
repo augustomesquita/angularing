@@ -43,8 +43,12 @@ public class JWebSocketSessionService {
         sessions.remove(wsUserToRemove);
     }
 
-    public JWSUser getWSUserFromSession(Principal user) {
+    public JWSUser getSessionFromPrincipal(Principal user) {
         return sessions.stream().filter((session) -> session.getUserIdentification().getName().contentEquals(user.getName())).findFirst().orElse(null);
+    }
+    
+    public JWSUser getSessionFromEmail(String email) {
+        return sessions.stream().filter((session) -> session.getUser().getEmail().contentEquals(email)).findFirst().orElse(null);
     }
 
     public boolean hasOpenSessions() {

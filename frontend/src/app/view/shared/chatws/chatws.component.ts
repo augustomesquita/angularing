@@ -130,8 +130,11 @@ export class ChatWsComponent implements OnInit, OnDestroy {
     this.notificationService.error('Notificação privada recebida: ' + message.body)
   }
 
-  // Função chamada ao receber mensagens
-  public messageReceived = (message: Message) => {
+  /**
+   * messageReceived é uma variável que recebe uma função como valor.
+   * Esssa função é responsável por 
+   */
+  private messageReceived = (message: Message) => {
     this.zone.run(() => {
       const messageModel: MessageModel = JSON.parse(message.body) as MessageModel;
       if (messageModel != null) {
