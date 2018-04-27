@@ -126,13 +126,17 @@ export class ChatWsComponent implements OnInit, OnDestroy {
     this.chatOff = false;
   }
 
+  /**
+   * privateMessageReceived é uma variável que recebe uma função como valor.
+   * Essa função é responsável por receber a mensagem privada vinda do websocket.
+   */
   public privateMessageReceived = (message: Message) => {
     this.notificationService.error('Notificação privada recebida: ' + message.body)
   }
 
   /**
    * messageReceived é uma variável que recebe uma função como valor.
-   * Esssa função é responsável por 
+   * Essa função é responsável por receber a mensagem pública do websocket.
    */
   private messageReceived = (message: Message) => {
     this.zone.run(() => {
@@ -193,7 +197,7 @@ export class ChatWsComponent implements OnInit, OnDestroy {
   sendMessageToUser(iptUser: any) {
     const user: string = iptUser.value;
     if (user !== undefined && user !== null && user.length > 0) {
-      this.stompService.publish('/user/' + iptUser.value + '/queue/private', 'Opaaa!!!', {});
+      this.stompService.publish('/app/private-message/' + user, 'Opaaa!!!', {});
       iptUser.value = '';
     }
   }
