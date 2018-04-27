@@ -1,6 +1,10 @@
 package com.augustomesquita.angularingbackend.springwebsocket;
 
-import com.augustomesquita.angularingbackend.springwebsocket.response.JChatResponse;
+import com.augustomesquita.angularingbackend.springwebsocket.constants.JEvent;
+import com.augustomesquita.angularingbackend.springwebsocket.request.JMessageRequest;
+import com.augustomesquita.angularingbackend.springwebsocket.response.AResponse;
+import com.augustomesquita.angularingbackend.springwebsocket.response.JResponseChat;
+import com.augustomesquita.angularingbackend.springwebsocket.response.JResponseTyping;
 import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -16,35 +20,59 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 public class JWebSocketContoller {
-    
+
     @Autowired
     private JWebSocketSessionService sessionService;
-    
+
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
-    
+
     /**
      * Endpoint que redireciona mensagem para /topic
+     *
      * @param message
      * @param principal
-     * @return 
+     * @return
      */
     @MessageMapping("/public-message")
     @SendTo("/topic/angularing-ws")
-    public JChatResponse publicMessage(String message, Principal principal) {
-        
+    public AResponse publicMessage(JMessageRequest messageRequest, Principal principal) {
+        if (messageRequest != null) {
+            switch (messageRequest.getEvent()) {
+                case (JEvent.CHAT):
+                    return chatResponse(principal, messageRequest);
+
+                default:
+                    return typingResponse(principal, messageRequest);
+            }
+        } else {
+            return typingResponse(principal, messageRequest);
+        }
+    }
+
+    private JResponseTyping typingResponse(Principal principal, JMessageRequest messageRequest) {
+        String userName = principal.getName();
+
+        JWSUser wsUserFromSession = sessionService.getSessionFromPrincipal(principal);
+        if (wsUserFromSession != null && wsUserFromSession.getUser() != null) {
+            userName = wsUserFromSession.getUser().getName();
+        }
+        return new JResponseTyping(userName + " " + messageRequest.getMessage());
+    }
+
+    private JResponseChat chatResponse(Principal principal, JMessageRequest messageRequest) {
         String userName = principal.getName();
         String userUrlPicture = null;
-        
+
         JWSUser wsUserFromSession = sessionService.getSessionFromPrincipal(principal);
         if (wsUserFromSession != null && wsUserFromSession.getUser() != null) {
             userName = wsUserFromSession.getUser().getName();
             userUrlPicture = wsUserFromSession.getUser().getPhotoUrl();
         }
-        
-        return new JChatResponse(message, userName, userUrlPicture);
+
+        return new JResponseChat(messageRequest.getMessage(), userName, userUrlPicture);
     }
-    
+
     // -------------  EXPLICAÇÃO SOBRE A ANOTAÇÃO @SendToUser() --------------
     //
     // Quando eu uso a anotação @SendToUser, significa que o usuário está
@@ -56,14 +84,13 @@ public class JWebSocketContoller {
     // Somente se algum SimpMessagingTemplate esteja sendo utilizando dentro
     // do método alvo que será possível enviar essa informação para outras
     // sessões além da corrente.
-    
-    
     /**
-     * Endpoint responsável por enviar mensagem para um usuário específico
-     * e para o próprio usuário que está realizando o envio.
+     * Endpoint responsável por enviar mensagem para um usuário específico e
+     * para o próprio usuário que está realizando o envio.
+     *
      * @param principal
      * @param emailUserDestination
-     * @param message 
+     * @param message
      */
     @MessageMapping("/private-message/{emailUserDestination}")
     @SendToUser("/queue/private")
@@ -74,16 +101,17 @@ public class JWebSocketContoller {
 //        if (wsUser != null) {
 //            userDestination = wsUser.getUserIdentification().getName();
 //        } else {
-            userDestination = emailUserDestination;
+        userDestination = emailUserDestination;
 //        }
-        
+
         simpMessagingTemplate.convertAndSendToUser(userDestination, "/queue/private", message);
         return message;
     }
-    
+
     /**
-     * Endpoint responsável por retornar dados apenas para o próprio usuário
-     * que está realizando a ação.
+     * Endpoint responsável por retornar dados apenas para o próprio usuário que
+     * está realizando a ação.
+     *
      * @param principal
      * @param message
      * @param to
@@ -95,5 +123,5 @@ public class JWebSocketContoller {
         simpMessagingTemplate.convertAndSendToUser(to, "/queue/private", message);
         return "minha propria msg " + message;
     }
-    
+
 }

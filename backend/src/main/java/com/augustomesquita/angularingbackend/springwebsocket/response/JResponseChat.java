@@ -1,26 +1,24 @@
 package com.augustomesquita.angularingbackend.springwebsocket.response;
 
+import com.augustomesquita.angularingbackend.springwebsocket.constants.JEvent;
+
 /**
  *
  * @author Augusto Mesquita
  */
-public class JChatResponse {
-    private String message;
+public class JResponseChat extends AResponse {
+
     private String userName;
     private String userUrlPicture;
 
-    public JChatResponse(String message, String userName, String userUrlPicture) {
+    public JResponseChat(String message, String userName, String userUrlPicture) {
         this.message = message;
         this.userName = userName;
         this.userUrlPicture = userUrlPicture;
+        this.event =  JEvent.CHAT;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    public JResponseChat() {
     }
 
     public String getUserName() {
@@ -38,5 +36,4 @@ public class JChatResponse {
     public void setUserUrlPicture(String userUrlPicture) {
         this.userUrlPicture = userUrlPicture;
     }
-    
 }

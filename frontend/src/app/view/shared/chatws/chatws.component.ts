@@ -1,3 +1,5 @@
+import { EventConstant } from './../../../model/constant/event.constant';
+import { TypingResponseModel } from './../../../model/entity/typing-response.model.1';
 import { Component, OnInit, NgZone, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { Http } from '@angular/http';
 import { SettingsService } from 'app/control/settings/settings.service';
@@ -5,7 +7,8 @@ import { StompService } from '@stomp/ng2-stompjs';
 import { Message } from '@stomp/stompjs';
 import { Subscription, Observable } from 'rxjs/Rx';
 import { NotificationsService } from 'angular2-notifications';
-import { MessageModel } from './../../../model/entity/message.model';
+import { ChatResponseModel } from './../../../model/entity/chat-response.model';
+import { ResponseModel } from './../../../model/entity/response.model';
 
 @Component({
   selector: 'app-chatws',
@@ -31,7 +34,6 @@ export class ChatWsComponent implements OnInit, OnDestroy {
 
   // Subscription status
   public subscribed: boolean;
-
 
   constructor(private http: Http, private stompService: StompService, private notificationService: NotificationsService) {
     this.message = '';
@@ -140,13 +142,22 @@ export class ChatWsComponent implements OnInit, OnDestroy {
    */
   private messageReceived = (message: Message) => {
     this.zone.run(() => {
-      const messageModel: MessageModel = JSON.parse(message.body) as MessageModel;
-      if (messageModel != null) {
-        let isFromOtherUser = false;
-        if (this.message.toLowerCase() != messageModel.message.toLowerCase()) {
-          isFromOtherUser = true;
+
+      const responseModel: ResponseModel = JSON.parse(message.body) as ResponseModel;
+
+      if (responseModel.event == EventConstant.CHAT) {
+        const messageModel: ChatResponseModel = JSON.parse(message.body) as ChatResponseModel;
+
+        if (messageModel != null) {
+          let isFromOtherUser = false;
+          if (this.message.toLowerCase() != messageModel.message.toLowerCase()) {
+            isFromOtherUser = true;
+          }
+          this.createMessageToShow(messageModel, isFromOtherUser);
         }
-        this.createMessageToShow(messageModel, isFromOtherUser)
+      } else {
+        const typingModel: TypingResponseModel = JSON.parse(message.body) as TypingResponseModel;
+        console.log(typingModel);
       }
     });
   }
@@ -156,7 +167,7 @@ export class ChatWsComponent implements OnInit, OnDestroy {
    * @param messageModel
    * @param isFromOtherUser
    */
-  private createMessageToShow(messageModel: MessageModel, isFromOtherUser: boolean) {
+  private createMessageToShow(messageModel: ChatResponseModel, isFromOtherUser: boolean) {
     let userUrlPicture = messageModel.userUrlPicture;
     let position: string;
     if (isFromOtherUser) {
@@ -178,23 +189,41 @@ export class ChatWsComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Envia notificação de que está digitando
+   * para todos os usuários presentes no chat.
+   */
+  sendTypingToAll() {
+    this.stompService.publish('/app/public-message', JSON.stringify({message: ' está digitando...', event: 'typing'}), {});
+  }
+
+  /**
    * Função responsável por envia mensagens para o websocket
    * passando pelo filtro '/app/public-message', o qual transforma
    * a string em upperCase antes de enviar para todos
-   * que estão cadastrados no websocket.
+   * que estão cadastrados no websocket e concatena a identificação do usuário.
    * Caso você não queira enviar a mensagem para ser tratada pelo
    * @MessageMapping (prefixo da aplicação) basta mudar
-   * o endereço de envio de '/app/chat' para '/topic/chat'.
+   * o endereço de envio de '/app/public-message' para '/topic/angularing-ws'.
+   *
+   * @param iptMsg // input to tipo texto vindo do html
    */
-  sendMessageToAll(iptMsg: any) {
+  private sendMessageToAll(iptMsg: any) {
     this.message = iptMsg.value;
     if (this.message !== undefined && this.message !== null && this.message.length > 0) {
-      this.stompService.publish('/app/public-message', this.message, {});
+      this.stompService.publish('/app/public-message', JSON.stringify({message: this.message, event: 'message'}), {});
       iptMsg.value = '';
     }
   }
 
-  sendMessageToUser(iptUser: any) {
+  /**
+   * Função responsável por envia uma notificação para o websocket
+   * passando pelo filtro '/app/private-message', que concatena
+   * a identificação do responsável por enviar a notificação e redireciona
+   * a notificação apenas para o destinatário e para o próprio usuário que
+   * está realizando o envio.
+   * @param iptUser // input to tipo texto vindo do html
+   */
+  private sendAlertToUser(iptUser: any) {
     const user: string = iptUser.value;
     if (user !== undefined && user !== null && user.length > 0) {
       this.stompService.publish('/app/private-message/' + user, 'Opaaa!!!', {});
