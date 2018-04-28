@@ -1,5 +1,5 @@
-<div class="main-section" [class.open-more]="menuOpened">
-  <div class="row border-chat" (click)="toggleMessagingBox()">
+<div class="main-section" [class.open-more]="chatBoxOpened">
+  <div class="row border-chat" (click)="toggleChatBox()">
     <div class="col-md-12 col-sm-12 col-xs-12 first-section">
       <p>Angularing Chat</p>
     </div>
@@ -9,7 +9,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12 second-section">
       <div class="chat-section">
         <span *ngIf="chatOff" class="badge badge-pill badge-default text-muted">Chat inativo... Tente mais tarde.</span>
-        <ul [innerHtml]="messagesToAdd"></ul>
+        <ul [innerHtml]="allMessagesForChatHTML"></ul>
       </div>
     </div>
   </div>
@@ -19,7 +19,7 @@
       <div class="text-bar">
         <input #iptUser type="text" style="width:95%" (keydown.enter)="sendMessageToUser(iptUser)" [placeholder]="placeHolderTextPrivate()"
           [disabled]="chatOff" [ngStyle]="chatInputColorStyle()">
-        <svg-icon (click)="sendMessageToUser(iptUser)" src="/assets/send.svg" style="cursor:pointer; fill:rgb(84, 172, 255); width:16px;"></svg-icon>
+        <svg-icon (click)="sendAlertToUser(iptUser)" src="/assets/send.svg" style="cursor:pointer; fill:rgb(84, 172, 255); width:16px;"></svg-icon>
       </div>
     </div>
   </div>

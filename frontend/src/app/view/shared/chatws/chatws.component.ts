@@ -1,5 +1,5 @@
 import { EventConstant } from './../../../model/constant/event.constant';
-import { TypingResponseModel } from './../../../model/entity/typing-response.model.1';
+import { TypingResponseModel } from './../../../model/entity/typing-response.model';
 import { Component, OnInit, NgZone, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { Http } from '@angular/http';
 import { SettingsService } from 'app/control/settings/settings.service';
@@ -8,7 +8,7 @@ import { Message } from '@stomp/stompjs';
 import { Subscription, Observable } from 'rxjs/Rx';
 import { NotificationsService } from 'angular2-notifications';
 import { ChatResponseModel } from './../../../model/entity/chat-response.model';
-import { ResponseModel } from './../../../model/entity/response.model';
+import { BaseMessageModel } from './../../../model/entity/base-message.model';
 
 @Component({
   selector: 'app-chatws',
@@ -19,40 +19,43 @@ import { ResponseModel } from './../../../model/entity/response.model';
 export class ChatWsComponent implements OnInit, OnDestroy {
 
   private chatOff: boolean;
-  private menuOpened: boolean;
-  private messagesToAdd: string;
-  private message: string;
+  private chatBoxOpened: boolean;
+  private allMessagesForChatHTML: string;
+  private lastMessageOfLoggedUser: string;
   private zone: NgZone;
 
 
-  // Stream of messages
+  // Subscriptions
   private subscriptionMessages: Subscription;
   private subscriptionPrivateMessages: Subscription;
 
+  // Observables
   public messages: Observable<Message>;
   public privateMessages: Observable<Message>;
 
-  // Subscription status
-  public subscribed: boolean;
+  // Status de inscrição
+  public subscribedStatus: boolean;
 
   constructor(private http: Http, private stompService: StompService, private notificationService: NotificationsService) {
-    this.message = '';
+    this.lastMessageOfLoggedUser = '';
     this.zone = new NgZone({ enableLongStackTrace: false });
     this.chatOff = true;
   }
 
   ngOnInit() {
+    // Define que o chat inicia fechado.
+    this.chatBoxOpened = false;
 
-    this.menuOpened = false;
-    this.messagesToAdd = '';
+    // Define que as conversas iniciam vazias.
+    this.allMessagesForChatHTML = '';
 
-    // Realiza conexão
+    // Realiza conexão websocket
     this.connect();
 
-    // Se inscreve em um Behavior Subject responsável por indiciar o stado da conexão.
-    // Por se tratar de um Behavio Subject, qualquer alteração que este objeto sofrer
+    // Se inscreve em um Behavior Subject responsável por indicar o stado da conexão.
+    // Por se tratar de um Behavior Subject, qualquer alteração que este objeto sofrer
     // nosso código será notificado, pelo fato de estarmos inscritos nele (para receber
-    // o valor de forma assíncrona) caso queira receber o valor de forma síncrona, basta
+    // o valor de forma assíncrona). Caso queira receber o valor de forma síncrona, basta
     // chamar o método 'getValue()' ao invéz de 'subscribe'.
     this.stompService.state.subscribe((state) => {
       if (state > 0) {
@@ -61,25 +64,25 @@ export class ChatWsComponent implements OnInit, OnDestroy {
         this.chatOff = true;
       }
     });
-
-    // Realiza handshake com options (SSE - Server Side Event) | Não está sendo usado no momento pela aplicação
-    // const eventSource = new EventSource(SettingsService.API_URL + '/messagings', SettingsService.getHeaderOptions());
-
-    // Realiza handshake sem options (SSE - Server Side Event) | Não está sendo usado no momento pela aplicação
-    // const eventSource = new EventSource(SettingsService.API_URL + '/messagings');
-    // eventSource.addEventListener('message-created', (event) => this.messageReceivedFromWebSocket(event.data));
   }
 
+  // Anula as inscrições realizadas
   ngOnDestroy(): void {
     this.subscriptionMessages.unsubscribe();
     this.subscriptionPrivateMessages.unsubscribe();
   }
 
-
-  toggleMessagingBox() {
-    this.menuOpened = !this.menuOpened;
+  /**
+   * Abre / fecha chat.
+   */
+  toggleChatBox() {
+    this.chatBoxOpened = !this.chatBoxOpened;
   }
 
+  /**
+   * Desfine estilos para inputs de texto do chat
+   * para quando o mesmo está ativado / desativado.
+   */
   chatInputColorStyle() {
     return {
       'background-color': this.chatOff ? '#EBEBE4' : '#FFF',
@@ -87,33 +90,41 @@ export class ChatWsComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Define placeholders para inputs de texto para todos do chat
+   * para quando o mesmo está ativado / desativado.
+   */
   placeHolderTextAll(): string {
     return this.chatOff ? 'Chat inativo...' : 'Escreva algo para todos...'
   }
 
+  /**
+   * Define placeholders para inputs de texto de notificação privada do chat
+   * para quando mesmo está ativado / desativado.
+   */
   placeHolderTextPrivate(): string {
     return this.chatOff ? 'Chat inativo...' : 'Chame a atenção de um usuário...'
   }
 
-  // Websocket rotinas
+  /**
+   * Realiza conexão websocket caso ainda não tenha sido feita.
+   */
   connect() {
     // Passa inscrição como falsa
-    this.subscribed = false;
-
-    // Store local reference to Observable
-    // for use with template ( | async )
+    this.subscribedStatus = false;
     this.subscribe();
   }
 
   public subscribe() {
-    if (this.subscribed) {
+    // Caso websocket socket já esteja aberto, retorna.
+    if (this.subscribedStatus) {
       return;
     }
 
-    // Stream de mensagens que irá receber mensagens vindas do canal '/topic/ws'
+    // Stream de mensagens que irá receber dados vindo do canal '/topic/ws'
     this.messages = this.stompService.subscribe('/topic/angularing-ws');
 
-    // Stream de mensagens que irá receber mensagens vindas do canal privado '/user/queue/ws'
+    // Stream de mensagens que irá receber dados vindo do canal privado '/user/queue/ws'
     this.privateMessages = this.stompService.subscribe('/user/queue/private');
 
     // Da Subscribe na função que é chamada ao receber mensagem.
@@ -124,7 +135,7 @@ export class ChatWsComponent implements OnInit, OnDestroy {
     // Essa função por sua vez chama a função 'messageReceived'
     this.subscriptionPrivateMessages = this.privateMessages.subscribe(this.privateMessageReceived);
 
-    this.subscribed = true;
+    this.subscribedStatus = true;
     this.chatOff = false;
   }
 
@@ -143,17 +154,17 @@ export class ChatWsComponent implements OnInit, OnDestroy {
   private messageReceived = (message: Message) => {
     this.zone.run(() => {
 
-      const responseModel: ResponseModel = JSON.parse(message.body) as ResponseModel;
+      const responseModel: BaseMessageModel = JSON.parse(message.body) as BaseMessageModel;
 
       if (responseModel.event == EventConstant.CHAT) {
         const messageModel: ChatResponseModel = JSON.parse(message.body) as ChatResponseModel;
 
         if (messageModel != null) {
           let isFromOtherUser = false;
-          if (this.message.toLowerCase() != messageModel.message.toLowerCase()) {
+          if (this.lastMessageOfLoggedUser.toLowerCase() != messageModel.message.toLowerCase()) {
             isFromOtherUser = true;
           }
-          this.createMessageToShow(messageModel, isFromOtherUser);
+          this.allMessagesForChatHTML += this.createHtmlChatMessage(messageModel, isFromOtherUser);
         }
       } else {
         const typingModel: TypingResponseModel = JSON.parse(message.body) as TypingResponseModel;
@@ -163,13 +174,15 @@ export class ChatWsComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Cria os elementos HTML para apresentar os dados do chat.
+   * Cria os elementos HTML necessários para apresentar a mensagem no chat.
    * @param messageModel
    * @param isFromOtherUser
+   * @returns // mensagem html formatada para ser usada no chat.
    */
-  private createMessageToShow(messageModel: ChatResponseModel, isFromOtherUser: boolean) {
+  private createHtmlChatMessage(messageModel: ChatResponseModel, isFromOtherUser: boolean): string {
     let userUrlPicture = messageModel.userUrlPicture;
     let position: string;
+
     if (isFromOtherUser) {
       position = 'left-chat';
       if (!userUrlPicture) {
@@ -182,18 +195,18 @@ export class ChatWsComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.messagesToAdd += '<li><div class="' + position + '">'
+    return '<li><div class="' + position + '">'
       + '<img src="' + userUrlPicture + '"><p><b>'
       + messageModel.userName + '</b>: ' + messageModel.message
       + '</p></div></li>';
   }
 
   /**
-   * Envia notificação de que está digitando
+   * Envia notificação de que usuário está digitando
    * para todos os usuários presentes no chat.
    */
-  sendTypingToAll() {
-    this.stompService.publish('/app/public-message', JSON.stringify({message: ' está digitando...', event: 'typing'}), {});
+  private sendTypingToAll() {
+    this.stompService.publish('/app/public-message', JSON.stringify(new BaseMessageModel(' está digitando...', EventConstant.TYPING)), {});
   }
 
   /**
@@ -208,9 +221,10 @@ export class ChatWsComponent implements OnInit, OnDestroy {
    * @param iptMsg // input to tipo texto vindo do html
    */
   private sendMessageToAll(iptMsg: any) {
-    this.message = iptMsg.value;
-    if (this.message !== undefined && this.message !== null && this.message.length > 0) {
-      this.stompService.publish('/app/public-message', JSON.stringify({message: this.message, event: 'message'}), {});
+    this.lastMessageOfLoggedUser = iptMsg.value;
+    if (this.lastMessageOfLoggedUser !== undefined && this.lastMessageOfLoggedUser !== null && this.lastMessageOfLoggedUser.length > 0) {
+      this.stompService.publish('/app/public-message', JSON.stringify(new BaseMessageModel
+        (this.lastMessageOfLoggedUser, EventConstant.CHAT)), {});
       iptMsg.value = '';
     }
   }
