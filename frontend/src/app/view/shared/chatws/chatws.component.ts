@@ -1,6 +1,4 @@
-import { EventConstant } from './../../../model/constant/event.constant';
-import { TypingResponseModel } from './../../../model/entity/typing-response.model';
-import { Component, OnInit, NgZone, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, OnInit, NgZone, ViewEncapsulation, OnDestroy, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Http } from '@angular/http';
 import { SettingsService } from 'app/control/settings/settings.service';
 import { StompService } from '@stomp/ng2-stompjs';
@@ -9,6 +7,8 @@ import { Subscription, Observable } from 'rxjs/Rx';
 import { NotificationsService } from 'angular2-notifications';
 import { ChatResponseModel } from './../../../model/entity/chat-response.model';
 import { BaseMessageModel } from './../../../model/entity/base-message.model';
+import { EventConstant } from './../../../model/constant/event.constant';
+import { TypingResponseModel } from './../../../model/entity/typing-response.model';
 
 @Component({
   selector: 'app-chatws',
@@ -18,8 +18,12 @@ import { BaseMessageModel } from './../../../model/entity/base-message.model';
 })
 export class ChatWsComponent implements OnInit, OnDestroy {
 
+  @ViewChild('chatContainer') private chatContainer: ElementRef;
   private chatOff: boolean;
   private chatBoxOpened: boolean;
+  private chatHeadTextInfo: string;
+  private chatHeadTextInfoTyping: boolean;
+
   private allMessagesForChatHTML: string;
   private lastMessageOfLoggedUser: string;
   private zone: NgZone;
@@ -36,10 +40,14 @@ export class ChatWsComponent implements OnInit, OnDestroy {
   // Status de inscrição
   public subscribedStatus: boolean;
 
-  constructor(private http: Http, private stompService: StompService, private notificationService: NotificationsService) {
+  constructor(
+    private http: Http, private stompService: StompService,
+    private notificationService: NotificationsService, private cd: ChangeDetectorRef
+  ) {
     this.lastMessageOfLoggedUser = '';
     this.zone = new NgZone({ enableLongStackTrace: false });
     this.chatOff = true;
+    this.chatHeadTextInfoTyping = true;
   }
 
   ngOnInit() {
@@ -56,12 +64,13 @@ export class ChatWsComponent implements OnInit, OnDestroy {
     // Por se tratar de um Behavior Subject, qualquer alteração que este objeto sofrer
     // nosso código será notificado, pelo fato de estarmos inscritos nele (para receber
     // o valor de forma assíncrona). Caso queira receber o valor de forma síncrona, basta
-    // chamar o método 'getValue()' ao invéz de 'subscribe'.
+    // chamar o método 'getValue()' ao invéz de 'subscribe'. state == 0 (off) state == 1 (on)
     this.stompService.state.subscribe((state) => {
       if (state > 0) {
         this.chatOff = false;
       } else {
         this.chatOff = true;
+        this.chatHeadTextInfo = 'Chat inativo... Tente mais tarde.'
       }
     });
   }
@@ -153,7 +162,6 @@ export class ChatWsComponent implements OnInit, OnDestroy {
    */
   private messageReceived = (message: Message) => {
     this.zone.run(() => {
-
       const responseModel: BaseMessageModel = JSON.parse(message.body) as BaseMessageModel;
 
       if (responseModel.event == EventConstant.CHAT) {
@@ -165,10 +173,19 @@ export class ChatWsComponent implements OnInit, OnDestroy {
             isFromOtherUser = true;
           }
           this.allMessagesForChatHTML += this.createHtmlChatMessage(messageModel, isFromOtherUser);
+          this.cd.detectChanges();
+          this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
         }
       } else {
         const typingModel: TypingResponseModel = JSON.parse(message.body) as TypingResponseModel;
-        console.log(typingModel);
+
+        if (this.chatHeadTextInfoTyping) {
+          if (this.chatHeadTextInfo != typingModel.message) {
+            this.chatHeadTextInfo = typingModel.message;
+          }
+          setTimeout(() => { this.chatHeadTextInfo = ''; this.chatHeadTextInfoTyping = true }, 3000);
+        }
+        this.chatHeadTextInfoTyping = false;
       }
     });
   }
