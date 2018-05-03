@@ -21,7 +21,7 @@ export class SharedModule {
 
 
 
-  static forChild(): ModuleWithProviders {
+  public static forChild(): ModuleWithProviders {
 
     let userIdentification: string;
     userIdentification = 'guest';
