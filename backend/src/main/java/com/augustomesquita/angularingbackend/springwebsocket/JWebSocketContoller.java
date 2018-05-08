@@ -89,20 +89,20 @@ public class JWebSocketContoller {
      * para o próprio usuário que está realizando o envio.
      *
      * @param principal
-     * @param emailUserDestination
+     * @param userIdentification
      * @param message
      */
-    @MessageMapping("/private-message/{emailUserDestination}")
+    @MessageMapping("/private-message/{userIdentification}")
     @SendToUser("/queue/private")
-    public String privateMessage(Principal principal, @DestinationVariable String emailUserDestination, String message) {
+    public String privateMessage(Principal principal, @DestinationVariable String userIdentification, String message) {
         String userDestination;
-//        JWSUser wsUser = sessionService.getSessionFromEmail(emailUserDestination);
-//        
-//        if (wsUser != null) {
-//            userDestination = wsUser.getUserIdentification().getName();
-//        } else {
-        userDestination = emailUserDestination;
-//        }
+        JWSUser wsUser = sessionService.getSessionFromEmail(userIdentification);
+
+        if (wsUser != null) {
+            userDestination = wsUser.getUserIdentification().getName();
+        } else {
+            userDestination = userIdentification;
+        }
 
         simpMessagingTemplate.convertAndSendToUser(userDestination, "/queue/private", message);
         return message;

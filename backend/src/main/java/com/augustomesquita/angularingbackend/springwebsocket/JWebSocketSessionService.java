@@ -22,9 +22,9 @@ public class JWebSocketSessionService {
 
     @Autowired
     private IUserRepository userRepository;
-    
+
     private final List<JWSUser> sessions;
-    
+
     public JWebSocketSessionService() {
         sessions = new CopyOnWriteArrayList<>();
     }
@@ -46,9 +46,15 @@ public class JWebSocketSessionService {
     public JWSUser getSessionFromPrincipal(Principal user) {
         return sessions.stream().filter((session) -> session.getUserIdentification().getName().contentEquals(user.getName())).findFirst().orElse(null);
     }
-    
+
     public JWSUser getSessionFromEmail(String email) {
-        return sessions.stream().filter((session) -> session.getUser().getEmail().contentEquals(email)).findFirst().orElse(null);
+        return sessions.stream().filter((JWSUser session) -> {
+            boolean result = false;
+            if (session.getUser() != null) {
+                result = session.getUser().getEmail().contentEquals(email);
+            }
+            return result;
+        }).findFirst().orElse(null);
     }
 
     public boolean hasOpenSessions() {
