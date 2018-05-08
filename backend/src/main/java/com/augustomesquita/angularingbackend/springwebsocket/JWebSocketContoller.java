@@ -114,14 +114,12 @@ public class JWebSocketContoller {
      *
      * @param principal
      * @param message
-     * @param to
      * @return message
      */
     @MessageMapping("/to-myself")
     @SendToUser("/queue/private")
-    public String toMyself(Principal principal, String message, @DestinationVariable String to) {
-        simpMessagingTemplate.convertAndSendToUser(to, "/queue/private", message);
-        return "minha propria msg " + message;
+    public String toMyself(Principal principal, String message) {
+        return "minha msg para mim mesmo " + message;
     }
 
 }
