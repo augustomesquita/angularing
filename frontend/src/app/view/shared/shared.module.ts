@@ -13,14 +13,10 @@ import { SettingsService } from '../../control/settings/settings.service';
     AngularSvgIconModule
   ],
   declarations: [ChatWsComponent],
-  exports: [ChatWsComponent],
   providers: [StompService]
 })
 
 export class SharedModule {
-
-
-
   public static forChild(): ModuleWithProviders {
 
     let userIdentification: string;
