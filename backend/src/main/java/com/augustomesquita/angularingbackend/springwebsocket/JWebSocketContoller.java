@@ -114,13 +114,12 @@ public class JWebSocketContoller {
      *
      * @param principal
      * @param message
-     * @param to
      * @return message
      */
-    @MessageMapping("/to-myself")
+    @MessageMapping("/myself-message")
     @SendToUser("/queue/private")
-    public String toMyself(Principal principal, String message) {
-        return "minha propria msg " + message;
+    public String myselfMessage(Principal principal, String message) {
+        return "minha msg para mim mesmo " + message;
     }
 
 }
