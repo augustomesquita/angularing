@@ -1,9 +1,9 @@
-import { NgModule, LOCALE_ID } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { registerLocaleData } from '@angular/common';
+import { LOCALE_ID, NgModule } from '@angular/core';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
 
-import { SettingsService } from 'app/control/settings/settings.service';
+import { SettingsService } from '../settings/settings.service';
+
 registerLocaleData(ptBr)
 
 const configLanguage = {

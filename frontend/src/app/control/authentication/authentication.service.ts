@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers } from '@angular/http';
+import { Headers, Http, Response } from '@angular/http';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Rx';
-import { LoginOpt, SocialUser, AuthService, GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
-import { SettingsService } from 'app/control/settings/settings.service';
-import { AuthenticateUser } from 'app/model/entity/authenticate-user.model';
+
 import { NotificationsService } from 'angular2-notifications';
+import { Observable } from 'rxjs/Observable';
+import { AuthService, FacebookLoginProvider, GoogleLoginProvider, SocialUser } from 'angularx-social-login';
+
+import { AuthenticateUser } from '../../model/entity/authenticate-user.model';
+import { SettingsService } from '../settings/settings.service';
 import { UrlService } from './../url/url.service';
 
 const FACEBOOK_STRING = 'Facebook';

@@ -1,28 +1,19 @@
-// Módulos do angular
-import { NgModule, LOCALE_ID } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpModule } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { NotificationsService } from 'angular2-notifications';
+import { AuthService, AuthServiceConfig, FacebookLoginProvider, GoogleLoginProvider, LoginOpt } from 'angularx-social-login';
 
-// Módulos do projeto
-import { LanguageModule } from './control/language/language.module';
-import { LoginModule } from './view/login/login.module';
-import { MainModule } from './view/main/main.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing.module';
-import { SettingsService } from './control/settings/settings.service';
-import { AuthenticationService } from './control/authentication/authentication.service';
-import { AuthServiceConfig, AuthService } from 'angularx-social-login';
-import { LoginOpt } from 'angularx-social-login';
-import { FacebookLoginProvider } from 'angularx-social-login';
-import { GoogleLoginProvider } from 'angularx-social-login';
-import { NotificationsService } from 'angular2-notifications';
-import { SimpleNotificationsModule } from 'angular2-notifications';
 import { AuthGuard } from './control/auth-guard/auth.guard';
+import { AuthenticationService } from './control/authentication/authentication.service';
+import { LanguageModule } from './control/language/language.module';
+import { SettingsService } from './control/settings/settings.service';
 import { PageNotFoundComponent } from './view/page-not-found/page-not-found.component';
-
 
 export function providerConfig() {
   return config;

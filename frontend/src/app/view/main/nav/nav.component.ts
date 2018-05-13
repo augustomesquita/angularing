@@ -1,6 +1,7 @@
-import { UrlService } from './../../../control/url/url.service';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SettingsService } from 'app/control/settings/settings.service';
+
+import { UrlService } from './../../../control/url/url.service';
 
 @Component({
   selector: 'app-nav',

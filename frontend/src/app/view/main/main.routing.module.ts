@@ -1,18 +1,12 @@
-// Angular imports
 import { NgModule } from '@angular/core';
-import { ModuleWithProviders } from '@angular/core/src/metadata/ng_module';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
-// Views imports
+import { CustomDeactivateGuard } from '../../control/auth-guard/custom-deactivate.guard';
+import { UrlService } from './../../control/url/url.service';
 import { AboutComponent } from './../main/about/about.component';
 import { CursoComponent } from './../main/curso/curso.component';
 import { HomeComponent } from './../main/home/home.component';
 import { MainLayoutComponent } from './../main/main-layout.component';
-
-// AuthGuard import
-import { AuthGuard } from './../../control/auth-guard/auth.guard';
-import { UrlService } from './../../control/url/url.service';
-import { CustomDeactivateGuard } from '../../control/auth-guard/custom-deactivate.guard';
 
 const mainRoutes: Routes = [
     {

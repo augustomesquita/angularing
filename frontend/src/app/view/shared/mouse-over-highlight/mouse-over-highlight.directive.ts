@@ -1,4 +1,4 @@
-import { Directive, Input, OnInit, HostListener, HostBinding } from '@angular/core';
+import { Directive, HostBinding, HostListener, Input, OnInit } from '@angular/core';
 
 @Directive({
   selector: '[appMouseOverHighlight]'

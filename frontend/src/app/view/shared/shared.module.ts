@@ -13,6 +13,7 @@ import { SettingsService } from '../../control/settings/settings.service';
     AngularSvgIconModule
   ],
   declarations: [ChatWsComponent],
+  exports: [ChatWsComponent],
   providers: [StompService]
 })
 

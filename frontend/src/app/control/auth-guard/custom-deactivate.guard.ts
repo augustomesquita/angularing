@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+
 import { IGenericCustomDeactivate } from '../../model/interface/igeneric-custom-deactivate.interface';
 
 @Injectable()

@@ -1,13 +1,22 @@
-import { Component, OnInit, NgZone, ViewEncapsulation, OnDestroy, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  NgZone,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { Http } from '@angular/http';
-import { SettingsService } from 'app/control/settings/settings.service';
 import { StompService } from '@stomp/ng2-stompjs';
 import { Message } from '@stomp/stompjs';
-import { Subscription, Observable } from 'rxjs/Rx';
 import { NotificationsService } from 'angular2-notifications';
-import { ChatResponseModel } from './../../../model/entity/chat-response.model';
-import { BaseMessageModel } from './../../../model/entity/base-message.model';
+import { Observable, Subscription } from 'rxjs/Rx';
+
 import { EventConstant } from './../../../model/constant/event.constant';
+import { BaseMessageModel } from './../../../model/entity/base-message.model';
+import { ChatResponseModel } from './../../../model/entity/chat-response.model';
 import { TypingResponseModel } from './../../../model/entity/typing-response.model';
 
 @Component({

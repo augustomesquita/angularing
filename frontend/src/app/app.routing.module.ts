@@ -1,9 +1,9 @@
 // Angular imports
 import { NgModule } from '@angular/core';
-import { ModuleWithProviders } from '@angular/core/src/metadata/ng_module';
-import { Routes, RouterModule } from '@angular/router';
-import { UrlService } from './control/url/url.service';
+import { RouterModule, Routes } from '@angular/router';
+
 import { AuthGuard } from './control/auth-guard/auth.guard';
+import { UrlService } from './control/url/url.service';
 import { PageNotFoundComponent } from './view/page-not-found/page-not-found.component';
 
 // ** Importante que esse módulo seja importado antes dos demais

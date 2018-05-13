@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { IGenericCustomDeactivate } from './../../../model/interface/igeneric-custom-deactivate.interface';
 
 @Component({

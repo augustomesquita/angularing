@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ICurso } from 'app/model/interface/curso.interface';
+
+import { ICurso } from '../../model/interface/curso.interface';
 
 @Injectable()
 export class CursoService {
