@@ -8,12 +8,27 @@ import { SettingsService } from '../../control/settings/settings.service';
 
 
 @NgModule({
+  // imports:
+  // Importa declarações  que foram 'exports' (exportadas) de outros módulos tornando-os disponíveis
+  // no módulo atual.
   imports: [
     CommonModule,
     AngularSvgIconModule
   ],
-  declarations: [ChatWsComponent],
+
+  // exports:
+  // Faz com componentes, diretivas ou pipes fiquem disponíveis em outros módulos que importem ESTE módulo.
+  // Também é geralmente usado para 're-exportar' módulos como CommonModule e FormsModule através do módulo shared.
+  // Isso facilita pois assim não precisamos ter que importar o módulo CommonModule e FormsModule sempre, apenas o SharedModule.
   exports: [ChatWsComponent],
+
+  // declarations:
+  // Usado para fazer com que diretivas do módulo atual fiquem disponíveis para outras diretivas dentro deste mesmo módulo.
+  // Simplificando: É usado para declarar componentes, diretivas ou pipes que pertencem a ESTE módulo.
+  // Todos os elements dentro do array de declarations conhecem um ao outro.
+  declarations: [ChatWsComponent],
+
+  // Permite realização de injeção de dependência deste serviço dentro dos components e de serviços presentes no módulo.
   providers: [StompService]
 })
 
