@@ -17,6 +17,8 @@
 /frontend/.c9/
 /frontend/*.launch
 /frontend/.settings/
+/frontend/.angulardoc.json
+frontend/nbproject/private/
 
 # misc
 /frontend/.sass-cache
@@ -37,5 +39,4 @@
 
 # ----- API -----
 /backend/target/
-/frontend/nbproject/private/
 /backend/nbproject/
