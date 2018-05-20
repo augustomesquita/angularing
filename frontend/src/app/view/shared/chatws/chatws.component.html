@@ -8,8 +8,10 @@
   <div class="row border-chat">
     <div class="col-md-12 col-sm-12 col-xs-12 second-section">
       <span class="badge badge-pill badge-default text-muted">{{ chatHeadTextInfo }}</span>
-      <div #chatContainer class="chat-section">
-        <ul [innerHtml]="allMessagesForChatHTML"></ul>
+      <div #scrollContainer class="chat-section">
+        <ul>
+          <div #chatContainer></div>
+        </ul>
       </div>
     </div>
   </div>

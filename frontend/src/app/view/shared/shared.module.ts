@@ -1,10 +1,12 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AngularSvgIconModule } from 'angular-svg-icon';
-import { ChatWsComponent } from '../shared/chatws/chatws.component';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { StompConfig, StompService } from '@stomp/ng2-stompjs';
-import { AuthenticateUser } from '../../model/entity/authenticate-user.model';
+import { AngularSvgIconModule } from 'angular-svg-icon';
+
 import { SettingsService } from '../../control/settings/settings.service';
+import { AuthenticateUser } from '../../model/entity/authenticate-user.model';
+import { ChatWsComponent } from '../shared/chatws/chatws.component';
+import { ChatwsTextComponent } from './chatws/chatws-text/chatws-text.component';
 
 
 @NgModule({
@@ -20,16 +22,17 @@ import { SettingsService } from '../../control/settings/settings.service';
   // Faz com componentes, diretivas ou pipes fiquem disponíveis em outros módulos que importem ESTE módulo.
   // Também é geralmente usado para 're-exportar' módulos como CommonModule e FormsModule através do módulo shared.
   // Isso facilita pois assim não precisamos ter que importar o módulo CommonModule e FormsModule sempre, apenas o SharedModule.
-  exports: [ChatWsComponent],
+  exports: [ChatWsComponent, ChatwsTextComponent],
 
   // declarations:
   // Usado para fazer com que diretivas do módulo atual fiquem disponíveis para outras diretivas dentro deste mesmo módulo.
   // Simplificando: É usado para declarar componentes, diretivas ou pipes que pertencem a ESTE módulo.
   // Todos os elements dentro do array de declarations conhecem um ao outro.
-  declarations: [ChatWsComponent],
+  declarations: [ChatWsComponent, ChatwsTextComponent],
 
   // Permite realização de injeção de dependência deste serviço dentro dos components e de serviços presentes no módulo.
-  providers: [StompService]
+  providers: [StompService],
+  entryComponents: [ ChatwsTextComponent ],
 })
 
 export class SharedModule {

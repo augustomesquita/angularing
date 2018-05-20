@@ -1,12 +1,16 @@
 import {
   ChangeDetectorRef,
   Component,
-  ElementRef,
+  ComponentFactoryResolver,
   NgZone,
   OnDestroy,
   OnInit,
   ViewChild,
+  ViewContainerRef,
   ViewEncapsulation,
+  ComponentFactory,
+  ComponentRef,
+  ElementRef,
 } from '@angular/core';
 import { Http } from '@angular/http';
 import { StompService } from '@stomp/ng2-stompjs';
@@ -18,6 +22,7 @@ import { EventConstant } from './../../../model/constant/event.constant';
 import { BaseMessageModel } from './../../../model/entity/base-message.model';
 import { ChatResponseModel } from './../../../model/entity/chat-response.model';
 import { TypingResponseModel } from './../../../model/entity/typing-response.model';
+import { ChatwsTextComponent } from './chatws-text/chatws-text.component';
 
 @Component({
   selector: 'app-chatws',
@@ -27,23 +32,26 @@ import { TypingResponseModel } from './../../../model/entity/typing-response.mod
 })
 export class ChatWsComponent implements OnInit, OnDestroy {
 
-  @ViewChild('chatContainer') private chatContainer: ElementRef;
+  [x: string]: any;
+  @ViewChild('scrollContainer') private scrollContainer: ElementRef;
+  @ViewChild('chatContainer', { read: ViewContainerRef }) chatContainer: ViewContainerRef;
   private chatOff: boolean;
   private chatBoxOpened: boolean;
   private chatHeadTextInfo: string;
   private chatHeadTextInfoTyping: boolean;
 
-  private allMessagesForChatHTML: string;
+  private chatMessages: string;
   private lastMessageOfLoggedUser: string;
   private zone: NgZone;
+  private componentRef: ComponentRef<ChatwsTextComponent>
 
 
   // Subscriptions
-  private subscriptionMessages: Subscription;
+  private subscriptionPublicMessages: Subscription;
   private subscriptionPrivateMessages: Subscription;
 
   // Observables
-  public messages: Observable<Message>;
+  public publicMessages: Observable<Message>;
   public privateMessages: Observable<Message>;
 
   // Status de inscrição
@@ -51,7 +59,9 @@ export class ChatWsComponent implements OnInit, OnDestroy {
 
   constructor(
     private http: Http, private stompService: StompService,
-    private notificationService: NotificationsService, private cd: ChangeDetectorRef
+    private notificationService: NotificationsService,
+    private cd: ChangeDetectorRef,
+    private resolver: ComponentFactoryResolver
   ) {
     this.lastMessageOfLoggedUser = '';
     this.zone = new NgZone({ enableLongStackTrace: false });
@@ -59,12 +69,15 @@ export class ChatWsComponent implements OnInit, OnDestroy {
     this.chatHeadTextInfoTyping = true;
   }
 
+  /**
+   * Método chamado ao iniciar componente
+   */
   ngOnInit() {
     // Define que o chat inicia fechado.
     this.chatBoxOpened = false;
 
     // Define que as conversas iniciam vazias.
-    this.allMessagesForChatHTML = '';
+    this.chatMessages = '';
 
     // Realiza conexão websocket
     this.connect();
@@ -84,11 +97,15 @@ export class ChatWsComponent implements OnInit, OnDestroy {
     });
   }
 
-  // Anula as inscrições realizadas
+  /**
+   * Método chamado ao destruir componente.
+   */
   ngOnDestroy(): void {
-    this.subscriptionMessages.unsubscribe();
-    this.subscriptionPrivateMessages.unsubscribe();
+    this.subscriptionPublicMessages.unsubscribe();  // Anula as inscrições realizadas
+    this.subscriptionPrivateMessages.unsubscribe();  // Anula as inscrições realizadas
+    this.componentRef.destroy();
   }
+
 
   /**
    * Abre / fecha chat.
@@ -96,6 +113,7 @@ export class ChatWsComponent implements OnInit, OnDestroy {
   toggleChatBox() {
     this.chatBoxOpened = !this.chatBoxOpened;
   }
+
 
   /**
    * Desfine estilos para inputs de texto do chat
@@ -116,6 +134,7 @@ export class ChatWsComponent implements OnInit, OnDestroy {
     return this.chatOff ? 'Chat inativo...' : 'Escreva algo para todos...'
   }
 
+
   /**
    * Define placeholders para inputs de texto de notificação privada do chat
    * para quando mesmo está ativado / desativado.
@@ -124,15 +143,18 @@ export class ChatWsComponent implements OnInit, OnDestroy {
     return this.chatOff ? 'Chat inativo...' : 'Chame a atenção de um usuário...'
   }
 
+
   /**
    * Realiza conexão websocket caso ainda não tenha sido feita.
    */
   connect() {
-    // Passa inscrição como falsa
     this.subscribedStatus = false;
     this.subscribe();
   }
 
+  /**
+   * Realiza subscribes no websocket.
+   */
   public subscribe() {
     // Caso websocket socket já esteja aberto, retorna.
     if (this.subscribedStatus) {
@@ -140,22 +162,25 @@ export class ChatWsComponent implements OnInit, OnDestroy {
     }
 
     // Stream de mensagens que irá receber dados vindo do canal '/topic/ws'
-    this.messages = this.stompService.subscribe('/topic/angularing-ws');
+    this.publicMessages = this.stompService.subscribe('/topic/angularing-ws');
 
     // Stream de mensagens que irá receber dados vindo do canal privado '/user/queue/ws'
     this.privateMessages = this.stompService.subscribe('/user/queue/private');
 
-    // Da Subscribe na função que é chamada ao receber mensagem.
-    // Essa função por sua vez chama a função 'messageReceived'
-    this.subscriptionMessages = this.messages.subscribe(this.messageReceived);
+    // Da Subscribe em messages para ficar escutando mensagens recebidas.
+    // Ao receber uma mensagem, envia a mesma (no caso abaixo de forma explicita)
+    // para o método publicMessageReceived.
+    this.subscriptionPublicMessages = this.publicMessages.subscribe((message) => this.publicMessageReceived(message));
 
-    // Da Subscribe na função que é chamada ao receber mensagem.
-    // Essa função por sua vez chama a função 'messageReceived'
+    // Da Subscribe em messages para ficar escutando mensagens recebidas.
+    // Ao receber uma mensagem, envia a mesma (no caso abaixo de forma implicita)
+    // para o método privateMessageReceived.
     this.subscriptionPrivateMessages = this.privateMessages.subscribe(this.privateMessageReceived);
 
     this.subscribedStatus = true;
     this.chatOff = false;
   }
+
 
   /**
    * privateMessageReceived é uma variável que recebe uma função como valor.
@@ -165,29 +190,20 @@ export class ChatWsComponent implements OnInit, OnDestroy {
     this.notificationService.error('Notificação privada recebida: ' + message.body)
   }
 
+
   /**
-   * messageReceived é uma variável que recebe uma função como valor.
+   * publicMessageReceived é uma variável que recebe uma função como valor (function expression).
    * Essa função é responsável por receber a mensagem pública do websocket.
    */
-  private messageReceived = (message: Message) => {
-    this.zone.run(() => {
-      const responseModel: BaseMessageModel = JSON.parse(message.body) as BaseMessageModel;
+  private publicMessageReceived = (message: Message) => {
+
+    const responseModel: BaseMessageModel = JSON.parse(message.body) as BaseMessageModel;
 
       if (responseModel.event == EventConstant.CHAT) {
         const messageModel: ChatResponseModel = JSON.parse(message.body) as ChatResponseModel;
-
-        if (messageModel != null) {
-          let isFromOtherUser = false;
-          if (this.lastMessageOfLoggedUser.toLowerCase() != messageModel.message.toLowerCase()) {
-            isFromOtherUser = true;
-          }
-          this.allMessagesForChatHTML += this.createHtmlChatMessage(messageModel, isFromOtherUser);
-          this.cd.detectChanges();
-          this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
-        }
+        this.addMessageOnChat(messageModel);
       } else {
         const typingModel: TypingResponseModel = JSON.parse(message.body) as TypingResponseModel;
-
         if (this.chatHeadTextInfoTyping) {
           if (this.chatHeadTextInfo != typingModel.message) {
             this.chatHeadTextInfo = typingModel.message;
@@ -195,37 +211,61 @@ export class ChatWsComponent implements OnInit, OnDestroy {
           setTimeout(() => { this.chatHeadTextInfo = ''; this.chatHeadTextInfoTyping = true }, 3000);
         }
         this.chatHeadTextInfoTyping = false;
-      }
-    });
+    }
+  }
+
+
+  /**
+   * Adiciona mensagens de textos que sejam truthy (contexto boolean)
+   * ao chat. Após isso realiza a detecção de modificam no DOM e faz
+   * scroll para o fim do chat.
+   * @param textMessage
+   */
+  private addMessageOnChat(textMessage: ChatResponseModel) {
+    if (textMessage) {
+      const isFromOtherUser = this.messageIsFromOtherUser(textMessage);
+      this.createChatwsTextComponent(textMessage, isFromOtherUser);
+    }
   }
 
   /**
-   * Cria os elementos HTML necessários para apresentar a mensagem no chat.
+   * Identifica se mensagem vem de outro usuário do sistema.
+   * @param textMessage
+   */
+  private messageIsFromOtherUser(textMessage: ChatResponseModel) {
+    let isFromOtherUser = false;
+    if (this.lastMessageOfLoggedUser.toLowerCase() != textMessage.message.toLowerCase()) {
+      isFromOtherUser = true;
+    }
+    return isFromOtherUser;
+  }
+
+  /**
+   * Cria um componente de texto e da um 'append'do mesmo
+   * (da maneira Angular) em nosso DOM.
+   *
    * @param messageModel
    * @param isFromOtherUser
-   * @returns // mensagem html formatada para ser usada no chat.
    */
-  private createHtmlChatMessage(messageModel: ChatResponseModel, isFromOtherUser: boolean): string {
-    let userUrlPicture = messageModel.userUrlPicture;
-    let position: string;
+  private createChatwsTextComponent(messageModel: ChatResponseModel, isFromOtherUser: boolean): void {
 
-    if (isFromOtherUser) {
-      position = 'left-chat';
-      if (!userUrlPicture) {
-        userUrlPicture = 'assets/default_chat_picture_2.jpg';
-      }
-    } else {
-      position = 'right-chat';
-      if (!userUrlPicture) {
-        userUrlPicture = 'assets/default_chat_picture_1.jpg';
-      }
-    }
+    // factory é uma espécie de objeto que sabe como fazer receitas para criação de componentes.
+    const factory: ComponentFactory<ChatwsTextComponent> = this.resolver.resolveComponentFactory(ChatwsTextComponent);
 
-    return '<li><div class="' + position + '">'
-      + '<img src="' + userUrlPicture + '"><p><b>'
-      + messageModel.userName + '</b>: ' + messageModel.message
-      + '</p></div></li>';
+    // Instancía compoente aqui através da 'receita' criado pelo factory.
+    this.componentRef = this.chatContainer.createComponent(factory);
+
+    // Passa os inputs para o componente recém criado.
+    this.componentRef.instance.isFromOtherUser = isFromOtherUser;
+    this.componentRef.instance.userUrlPicture = messageModel.userUrlPicture;
+    this.componentRef.instance.userName = messageModel.userName;
+    this.componentRef.instance.message = messageModel.message;
+
+    // Detecta mudanças na view e rola scroll para fim do chat.
+    this.cd.detectChanges();
+    this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
   }
+
 
   /**
    * Envia notificação de que usuário está digitando
@@ -234,6 +274,7 @@ export class ChatWsComponent implements OnInit, OnDestroy {
   private sendTypingToAll() {
     this.stompService.publish('/app/public-message', JSON.stringify(new BaseMessageModel(' está digitando...', EventConstant.TYPING)), {});
   }
+
 
   /**
    * Função responsável por envia mensagens para o websocket
@@ -254,6 +295,7 @@ export class ChatWsComponent implements OnInit, OnDestroy {
       iptMsg.value = '';
     }
   }
+
 
   /**
    * Função responsável por envia uma notificação para o websocket
