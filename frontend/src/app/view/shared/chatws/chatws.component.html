@@ -1,13 +1,15 @@
 <div class="main-section" [class.open-more]="chatBoxOpened">
   <div class="row border-chat" (click)="toggleChatBox()">
     <div class="col-md-12 col-sm-12 col-xs-12 first-section">
-      <p>Angularing Chat</p>
+      <p><span class="dot" [ngStyle]="{'background-color': chatOff ? 'rgb(189, 95, 95)' : 'rgb(78, 214, 151)'}"></span> Angularing Chat</p>
     </div>
   </div>
 
   <div class="row border-chat">
     <div class="col-md-12 col-sm-12 col-xs-12 second-section">
-      <span class="badge badge-pill badge-default text-muted">{{ chatHeadTextInfo }}</span>
+      <div class="col-md-12 col-sm-12 col-xs-12 chat-head-text-info">
+        {{ chatHeadTextInfo }}
+      </div>
       <div #scrollContainer class="chat-section">
         <ul>
           <div #chatContainer></div>

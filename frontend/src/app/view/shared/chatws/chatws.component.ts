@@ -64,7 +64,6 @@ export class ChatWsComponent implements OnInit, OnDestroy {
     private resolver: ComponentFactoryResolver
   ) {
     this.lastMessageOfLoggedUser = '';
-    this.zone = new NgZone({ enableLongStackTrace: false });
     this.chatOff = true;
     this.chatHeadTextInfoTyping = true;
   }
@@ -73,14 +72,9 @@ export class ChatWsComponent implements OnInit, OnDestroy {
    * Método chamado ao iniciar componente
    */
   ngOnInit() {
-    // Define que o chat inicia fechado.
-    this.chatBoxOpened = false;
-
-    // Define que as conversas iniciam vazias.
-    this.chatMessages = '';
-
-    // Realiza conexão websocket
-    this.connect();
+    this.chatBoxOpened = false; // Define que o chat inicia fechado.
+    this.chatMessages = ''; // Define que as conversas iniciam vazias.
+    this.connect(); // Realiza conexão websocket
 
     // Se inscreve em um Behavior Subject responsável por indicar o stado da conexão.
     // Por se tratar de um Behavior Subject, qualquer alteração que este objeto sofrer
@@ -90,6 +84,7 @@ export class ChatWsComponent implements OnInit, OnDestroy {
     this.stompService.state.subscribe((state) => {
       if (state > 0) {
         this.chatOff = false;
+        this.chatHeadTextInfo = 'Sala Pública'
       } else {
         this.chatOff = true;
         this.chatHeadTextInfo = 'Chat inativo... Tente mais tarde.'
@@ -208,7 +203,7 @@ export class ChatWsComponent implements OnInit, OnDestroy {
           if (this.chatHeadTextInfo != typingModel.message) {
             this.chatHeadTextInfo = typingModel.message;
           }
-          setTimeout(() => { this.chatHeadTextInfo = ''; this.chatHeadTextInfoTyping = true }, 3000);
+          setTimeout(() => { this.chatHeadTextInfo = 'Sala Pública'; this.chatHeadTextInfoTyping = true }, 3000);
         }
         this.chatHeadTextInfoTyping = false;
     }
