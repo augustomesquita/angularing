@@ -16,7 +16,7 @@ import { Http } from '@angular/http';
 import { StompService } from '@stomp/ng2-stompjs';
 import { Message } from '@stomp/stompjs';
 import { NotificationsService } from 'angular2-notifications';
-import { Observable, Subscription } from 'rxjs/Rx';
+import { Observable, Subscription, Subject } from 'rxjs/Rx';
 
 import { EventConstant } from './../../../model/constant/event.constant';
 import { BaseMessageModel } from './../../../model/entity/base-message.model';
@@ -32,19 +32,21 @@ import { ChatwsTextComponent } from './chatws-text/chatws-text.component';
 })
 export class ChatWsComponent implements OnInit, OnDestroy {
 
-  [x: string]: any;
   @ViewChild('scrollContainer') private scrollContainer: ElementRef;
   @ViewChild('chatContainer', { read: ViewContainerRef }) chatContainer: ViewContainerRef;
+
   private chatOff: boolean;
   private chatBoxOpened: boolean;
   private chatHeadTextInfo: string;
-  private chatHeadTextInfoTyping: boolean;
 
   private chatMessages: string;
   private lastMessageOfLoggedUser: string;
   private zone: NgZone;
   private componentRef: ComponentRef<ChatwsTextComponent>
 
+  // Subjects (para utilização de debounceTime)
+  private subjectSendTypingEvent: Subject<void>;
+  private subjectReceiveTypingEvent: Subject<void>;
 
   // Subscriptions
   private subscriptionPublicMessages: Subscription;
@@ -65,7 +67,6 @@ export class ChatWsComponent implements OnInit, OnDestroy {
   ) {
     this.lastMessageOfLoggedUser = '';
     this.chatOff = true;
-    this.chatHeadTextInfoTyping = true;
   }
 
   /**
@@ -75,6 +76,14 @@ export class ChatWsComponent implements OnInit, OnDestroy {
     this.chatBoxOpened = false; // Define que o chat inicia fechado.
     this.chatMessages = ''; // Define que as conversas iniciam vazias.
     this.connect(); // Realiza conexão websocket
+
+    // Inicia Subject para controle de envio de evento 'typing' para API.
+    // Através do Subject conseguimos configurar o debouceTime que nos permite
+    // pegar apenas o último evento de uma ação em um determinado período de tempo
+    // e trabalhar com ela.
+    this.subjectSendTypingEvent = new Subject<void>();
+    this.subjectReceiveTypingEvent = new Subject<void>();
+    this.configureSubjects();
 
     // Se inscreve em um Behavior Subject responsável por indicar o stado da conexão.
     // Por se tratar de um Behavior Subject, qualquer alteração que este objeto sofrer
@@ -199,13 +208,10 @@ export class ChatWsComponent implements OnInit, OnDestroy {
         this.addMessageOnChat(messageModel);
       } else {
         const typingModel: TypingResponseModel = JSON.parse(message.body) as TypingResponseModel;
-        if (this.chatHeadTextInfoTyping) {
-          if (this.chatHeadTextInfo != typingModel.message) {
-            this.chatHeadTextInfo = typingModel.message;
-          }
-          setTimeout(() => { this.chatHeadTextInfo = 'Sala Pública'; this.chatHeadTextInfoTyping = true }, 3000);
+        if (this.chatHeadTextInfo != typingModel.message) {
+          this.chatHeadTextInfo = typingModel.message;
         }
-        this.chatHeadTextInfoTyping = false;
+        this.subjectReceiveTypingEvent.next();
     }
   }
 
@@ -263,12 +269,29 @@ export class ChatWsComponent implements OnInit, OnDestroy {
 
 
   /**
+   * Função responsável por configurar os subjects do componente.
+   */
+  private configureSubjects() {
+    // Configura subject que envia evento 'typing'.
+    this.subjectSendTypingEvent.debounceTime(200).subscribe(() => {
+      this.stompService.publish('/app/public-message',
+      JSON.stringify(new BaseMessageModel(' está digitando...', EventConstant.TYPING)), {});
+    });
+
+    // Configura subject que recebe evento 'typing'.
+    this.subjectReceiveTypingEvent.debounceTime(5000).subscribe(() => {
+      this.chatHeadTextInfo = 'Sala Pública';
+    });
+  }
+
+
+  /**
    * Envia notificação de que usuário está digitando
    * para todos os usuários presentes no chat.
    */
   private sendTypingToAll() {
-    this.stompService.publish('/app/public-message', JSON.stringify(new BaseMessageModel(' está digitando...', EventConstant.TYPING)), {});
-  }
+    this.subjectSendTypingEvent.next();
+ }
 
 
   /**
