@@ -242,7 +242,8 @@ export class ChatWsComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Cria um componente de texto e da um 'append'do mesmo
+   * Cria um componente referente a mensagem do usuário
+   * através do createComponent. Realiza uma espécie de 'append'
    * (da maneira Angular) em nosso DOM.
    *
    * @param messageModel
@@ -253,7 +254,7 @@ export class ChatWsComponent implements OnInit, OnDestroy {
     // factory é uma espécie de objeto que sabe como fazer receitas para criação de componentes.
     const factory: ComponentFactory<ChatwsTextComponent> = this.resolver.resolveComponentFactory(ChatwsTextComponent);
 
-    // Instancía compoente aqui através da 'receita' criado pelo factory.
+    // Instancía componente através da 'receita' criado pelo factory.
     this.componentRef = this.chatContainer.createComponent(factory);
 
     // Passa os inputs para o componente recém criado.

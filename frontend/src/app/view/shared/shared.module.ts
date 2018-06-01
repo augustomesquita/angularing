@@ -39,16 +39,13 @@ export class SharedModule {
   public static forChild(): ModuleWithProviders {
 
     let userIdentification: string;
-    userIdentification = 'guest';
 
     if (this.getValidUserAtLocalStorage() != null && this.getValidUserAtLocalStorage().user != null) {
-      userIdentification = this.getValidUserAtLocalStorage().user.email;
+      userIdentification = this.getValidUserAtLocalStorage().user.email; // Resgata email do usuário logado.
     }
 
-    if (userIdentification === null
-      || userIdentification === undefined
-      || userIdentification.length == 0) {
-      userIdentification = 'guest';
+    if (!userIdentification) {
+      userIdentification = 'guest'; // Caso email resgatado seja falsy, identificação do usuário se torna 'guest'.
     }
 
 
@@ -60,7 +57,7 @@ export class SharedModule {
       // Typical keys: login, passcode, host
       headers: {
         login: userIdentification,
-        passcode: userIdentification
+        // passcode: userIdentification
       },
 
       // How often to heartbeat?
