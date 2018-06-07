@@ -35,7 +35,7 @@ public class JWebSocketContoller {
      * @return
      */
     @MessageMapping("/public-message")
-    @SendTo("/topic/angularing-ws")
+    @SendTo("/topic")
     public AResponse publicMessage(JMessageRequest messageRequest, Principal principal) {
         if (messageRequest != null) {
             switch (messageRequest.getEvent()) {
@@ -88,13 +88,12 @@ public class JWebSocketContoller {
      * Endpoint responsável por enviar mensagem para um usuário específico e
      * para o próprio usuário que está realizando o envio.
      *
-     * @param principal
      * @param userIdentification
      * @param message
      */
     @MessageMapping("/private-message/{userIdentification}")
-    @SendToUser("/queue/private")
-    public String privateMessage(Principal principal, @DestinationVariable String userIdentification, String message) {
+    @SendToUser("/queue")
+    public String privateMessage(@DestinationVariable String userIdentification, String message) {
         String userDestination;
         JWSUser wsUser = sessionService.getSessionFromEmail(userIdentification);
 
@@ -104,7 +103,7 @@ public class JWebSocketContoller {
             userDestination = userIdentification;
         }
 
-        simpMessagingTemplate.convertAndSendToUser(userDestination, "/queue/private", message);
+        simpMessagingTemplate.convertAndSendToUser(userDestination, "/queue", message);
         return message;
     }
 
@@ -112,13 +111,12 @@ public class JWebSocketContoller {
      * Endpoint responsável por retornar dados apenas para o próprio usuário que
      * está realizando a ação.
      *
-     * @param principal
      * @param message
      * @return message
      */
     @MessageMapping("/myself-message")
-    @SendToUser("/queue/private")
-    public String myselfMessage(Principal principal, String message) {
+    @SendToUser("/queue")
+    public String myselfMessage(String message) {
         return "minha msg para mim mesmo " + message;
     }
 

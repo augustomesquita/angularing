@@ -166,10 +166,10 @@ export class ChatWsComponent implements OnInit, OnDestroy {
     }
 
     // Stream de mensagens que irá receber dados vindo do canal '/topic/ws'
-    this.publicMessages = this.stompService.subscribe('/topic/angularing-ws');
+    this.publicMessages = this.stompService.subscribe('/topic');
 
     // Stream de mensagens que irá receber dados vindo do canal privado '/user/queue/ws'
-    this.privateMessages = this.stompService.subscribe('/user/queue/private');
+    this.privateMessages = this.stompService.subscribe('/user/queue');
 
     // Da Subscribe em messages para ficar escutando mensagens recebidas.
     // Ao receber uma mensagem, envia a mesma (no caso abaixo de forma explicita)
