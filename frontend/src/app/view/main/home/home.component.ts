@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from '../../../control/authentication/authentication.service';
 import { MeuServicoService } from '../../../control/meu-servico/meu-servico.service';
 import { SettingsService } from '../../../control/settings/settings.service';
-import { AuthenticateUser } from '../../../model/entity/authenticate-user.model';
+import { AuthUser } from '../../../model/entity/authentication.model';
 
 
 @Component({
@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
   private stringsFromService: string[]
   private livro: LivroInterface
 
-  private loggedUser: AuthenticateUser;
+  private loggedUser: AuthUser;
   private loggedIn: boolean;
 
   constructor(private meuServico: MeuServicoService,

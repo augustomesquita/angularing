@@ -1,6 +1,6 @@
 import { User } from './user.model';
 
-export class AuthenticateUser {
+export class AuthUser {
     user: User;
     token: string;
 
@@ -8,4 +8,14 @@ export class AuthenticateUser {
         this.user = user;
         this.token = token;
     }
+}
+
+export class AuthData {
+  token: string;
+  user: User;
+}
+
+export class AuthResponse {
+  data: AuthData;
+  errors: any[];
 }

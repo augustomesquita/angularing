@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, Response } from '@angular/http';
+import { Response } from '@angular/http';
+import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http'
 import { Router } from '@angular/router';
 
 import { NotificationsService } from 'angular2-notifications';
 import { Observable } from 'rxjs/Observable';
 import { AuthService, FacebookLoginProvider, GoogleLoginProvider, SocialUser } from 'angularx-social-login';
 
-import { AuthenticateUser } from '../../model/entity/authenticate-user.model';
+import { AuthUser, AuthResponse } from '../../model/entity/authentication.model';
 import { SettingsService } from '../settings/settings.service';
 import { UrlService } from './../url/url.service';
 
@@ -19,7 +20,7 @@ export class AuthenticationService {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private http: Http,
+    private http: HttpClient,
     private notificationService: NotificationsService) { }
 
   public doLoginFacebook() {
@@ -46,8 +47,8 @@ export class AuthenticationService {
     );
   }
 
-  public getValidUserAtLocalStorage(): AuthenticateUser {
-    return JSON.parse(localStorage.getItem(SettingsService.LOGGED_USER)) as AuthenticateUser;
+  public getValidUserAtLocalStorage(): AuthUser {
+    return JSON.parse(localStorage.getItem(SettingsService.LOGGED_USER)) as AuthUser;
   }
 
   private login(socialUser: SocialUser) {
@@ -59,22 +60,20 @@ export class AuthenticationService {
     }
   }
 
-  private sendCredential(name: string, email: string, password: string, photoUrl: string): Observable<Response> {
+  private sendCredential(name: string, email: string, password: string, photoUrl: string): Observable<AuthResponse> {
     const url = SettingsService.API_URL + '/auth';
     const body = { name, email, password, photoUrl };
-    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http.post(url, body, { headers });
+    return this.http.post<AuthResponse>(url, body, { headers });
   }
 
-  private setValidUserAtLocalStorage(res: Response) {
-    // Adiciona usuário no localStorage (validando)
-    // e redireciona o mesmo para home.
-    let userAuth: AuthenticateUser = null;
-    if (res.json() && res.json().data) {
-      userAuth = res.json().data;
-      if (res.json().data.token) {
-        localStorage.setItem(SettingsService.LOGGED_USER, JSON.stringify(userAuth));
+  private setValidUserAtLocalStorage(res: AuthResponse) {
+    if (res) {
+      if (res.data.token) {
+         // Adiciona usuário no localStorage (validando)
+        // e redireciona o mesmo para home.
+        localStorage.setItem(SettingsService.LOGGED_USER, JSON.stringify(res.data));
         this.router.navigate([UrlService.WEB_HOME_FULL_URL]);
       } else {
         this.notificationService.error('Ops!', 'Usuário inválido no sistema.');

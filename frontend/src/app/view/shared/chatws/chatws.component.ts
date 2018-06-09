@@ -12,7 +12,6 @@ import {
   ComponentRef,
   ElementRef,
 } from '@angular/core';
-import { Http } from '@angular/http';
 import { StompService } from '@stomp/ng2-stompjs';
 import { Message } from '@stomp/stompjs';
 import { NotificationsService } from 'angular2-notifications';
@@ -60,7 +59,7 @@ export class ChatWsComponent implements OnInit, OnDestroy {
   public subscribedStatus: boolean;
 
   constructor(
-    private http: Http, private stompService: StompService,
+    private stompService: StompService,
     private notificationService: NotificationsService,
     private cd: ChangeDetectorRef,
     private resolver: ComponentFactoryResolver
@@ -107,7 +106,6 @@ export class ChatWsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscriptionPublicMessages.unsubscribe();  // Anula as inscrições realizadas
     this.subscriptionPrivateMessages.unsubscribe();  // Anula as inscrições realizadas
-    this.componentRef.destroy();
   }
 
 

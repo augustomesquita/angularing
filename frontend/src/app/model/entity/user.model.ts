@@ -1,11 +1,13 @@
 export class User {
-    name: string;
-    email: string;
-    photoUrl: string;
+    constructor(public name: string, public email: string, public photoUrl) { }
+}
 
-    constructor(name: string, email: string) {
-        this.name = name;
-        this.email = email;
-    }
+export class Data {
+  token: string;
+  user: User;
+}
 
+export class ResponseUtil {
+  data: Data;
+  errors: any[];
 }

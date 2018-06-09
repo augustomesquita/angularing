@@ -1,6 +1,5 @@
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -44,7 +43,6 @@ const config = new AuthServiceConfig([
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    HttpModule,
     HttpClientModule,
     RouterModule,
     LanguageModule,

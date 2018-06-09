@@ -4,7 +4,7 @@ import { StompConfig, StompService } from '@stomp/ng2-stompjs';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 
 import { SettingsService } from '../../control/settings/settings.service';
-import { AuthenticateUser } from '../../model/entity/authenticate-user.model';
+import { AuthUser } from '../../model/entity/authentication.model';
 import { ChatWsComponent } from '../shared/chatws/chatws.component';
 import { ChatwsTextComponent } from './chatws/chatws-text/chatws-text.component';
 
@@ -79,9 +79,9 @@ export class SharedModule {
       providers: [{ provide: StompConfig, useValue: stompConfig }]
     }
   }
-
-  private static getValidUserAtLocalStorage(): AuthenticateUser {
-    return JSON.parse(localStorage.getItem(SettingsService.LOGGED_USER)) as AuthenticateUser;
+AuthUser
+  private static getValidUserAtLocalStorage(): AuthUser {
+    return JSON.parse(localStorage.getItem(SettingsService.LOGGED_USER)) as AuthUser;
   }
 
 }

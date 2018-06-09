@@ -17,11 +17,11 @@ import { CursoService } from '../../control/curso/curso.service';
 import { MainRoutingModule } from './main.routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { CustomDeactivateGuard } from '../../control/auth-guard/custom-deactivate.guard';
-import { AuthenticateUser } from '../../model/entity/authenticate-user.model';
+import { AuthUser } from '../../model/entity/authentication.model';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 
-function getValidUserAtLocalStorage(): AuthenticateUser {
-  return JSON.parse(localStorage.getItem(SettingsService.LOGGED_USER)) as AuthenticateUser;
+function getValidUserAtLocalStorage(): AuthUser {
+  return JSON.parse(localStorage.getItem(SettingsService.LOGGED_USER)) as AuthUser;
 }
 
 @NgModule({
