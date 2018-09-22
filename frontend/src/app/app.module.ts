@@ -1,3 +1,5 @@
+import { AngularSvgIconModule } from 'angular-svg-icon';
+import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -13,6 +15,13 @@ import { AuthenticationService } from './control/authentication/authentication.s
 import { LanguageModule } from './control/language/language.module';
 import { SettingsService } from './control/settings/settings.service';
 import { PageNotFoundComponent } from './view/page-not-found/page-not-found.component';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from './view/shared/shared.module';
+import { LoginRoutingModule } from './view/login/login.routing.module';
+import { SocialLoginModule } from 'angularx-social-login';
+import { SimpleNotificationsModule } from 'angular2-notifications';
+import { LoginLayoutComponent } from './view/login/login-layout.component';
+import { LoginComponent } from './view/login/login.component';
 
 export function providerConfig() {
   return config;
@@ -41,6 +50,14 @@ const config = new AuthServiceConfig([
 
 @NgModule({
   imports: [
+    HttpClientModule,
+    CommonModule,
+    FormsModule,
+    SharedModule.forChild(),
+    LoginRoutingModule,
+    AngularSvgIconModule,
+    SocialLoginModule,
+    SimpleNotificationsModule.forRoot(),
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
@@ -50,7 +67,8 @@ const config = new AuthServiceConfig([
   ],
   declarations: [
     AppComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    LoginComponent, LoginLayoutComponent
   ],
   providers: [
     NotificationsService,

@@ -36,6 +36,7 @@ import { ChatwsTextComponent } from './chatws/chatws-text/chatws-text.component'
 })
 
 export class SharedModule {
+AuthUser
   public static forChild(): ModuleWithProviders {
 
     let userIdentification: string;
@@ -79,7 +80,6 @@ export class SharedModule {
       providers: [{ provide: StompConfig, useValue: stompConfig }]
     }
   }
-AuthUser
   private static getValidUserAtLocalStorage(): AuthUser {
     return JSON.parse(localStorage.getItem(SettingsService.LOGGED_USER)) as AuthUser;
   }

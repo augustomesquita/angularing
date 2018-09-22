@@ -16,9 +16,10 @@
       "es2016",
       "dom"
     ],
+    "module": "es2015"
   },
   "include": [
-    "src", 
+    "src",
     "./node_modules/ngx-svg-icon/index.ts",
     "./node_modules/ng2-stomp-service/dist/stomp.service.ts"
   ]

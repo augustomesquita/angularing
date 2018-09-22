@@ -15,7 +15,8 @@ import {
 import { StompService } from '@stomp/ng2-stompjs';
 import { Message } from '@stomp/stompjs';
 import { NotificationsService } from 'angular2-notifications';
-import { Observable, Subscription, Subject } from 'rxjs/Rx';
+import { Observable, Subscription, Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 import { EventConstant } from './../../../model/constant/event.constant';
 import { BaseMessageModel } from './../../../model/entity/base-message.model';
@@ -272,13 +273,13 @@ export class ChatWsComponent implements OnInit, OnDestroy {
    */
   private configureSubjects() {
     // Configura subject que envia evento 'typing'.
-    this.subjectSendTypingEvent.debounceTime(200).subscribe(() => {
+    this.subjectSendTypingEvent.pipe(debounceTime(200)).subscribe(() => {
       this.stompService.publish('/app/public-message',
       JSON.stringify(new BaseMessageModel(' está digitando...', EventConstant.TYPING)), {});
     });
 
     // Configura subject que recebe evento 'typing'.
-    this.subjectReceiveTypingEvent.debounceTime(5000).subscribe(() => {
+    this.subjectReceiveTypingEvent.pipe(debounceTime(5000)).subscribe(() => {
       this.chatHeadTextInfo = 'Sala Pública';
     });
   }
